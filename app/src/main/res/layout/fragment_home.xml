@@ -6,16 +6,38 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".schedule.HomeFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="SCHEDULE"
-        android:textSize="48sp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        />
+ <TextView
+     android:id="@+id/header_txt"
+     android:layout_width="match_parent"
+     android:layout_height="wrap_content"
+     android:textSize="24sp"
+     android:gravity="center"
+     app:layout_constraintTop_toTopOf="parent"
+     android:background="@color/light_blue"
+     android:textColor="@color/white"
+     android:text="@string/weekly_food_schedule"
+     android:padding="8dp"
+     />
+
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    app:layout_constraintTop_toBottomOf="@id/header_txt"
+    app:layout_constraintBottom_toBottomOf="parent"
+    >
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/schedule_days_rv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
