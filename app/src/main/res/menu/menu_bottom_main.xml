@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/singleFragment2"
+        android:icon="@drawable/egg_icon"
+        android:title="@string/title_singleBird" />
+
+
+    <item
+        android:id="@+id/homeFragment2"
+        android:icon="@drawable/schedule_icon"
+        android:title="@string/title_schedule" />
+
+    <item
+        android:id="@+id/multiBirdFragment2"
+        android:icon="@drawable/eye_icon"
+        android:title="@string/title_birdsFamily" />
+
+
+
+</menu>

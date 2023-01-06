@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/home_navigation.xml"
+    app:startDestination="@id/homeFragment2">
+    <fragment
+        android:id="@+id/homeFragment2"
+        android:name="com.example.android.birdsdaycounter.schedule.HomeFragment"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home" />
+    <fragment
+        android:id="@+id/singleFragment2"
+        android:name="com.example.android.birdsdaycounter.singleBirds.SingleFragment"
+        android:label="fragment_single"
+        tools:layout="@layout/fragment_single" />
+    <fragment
+        android:id="@+id/multiBirdFragment2"
+        android:name="com.example.android.birdsdaycounter.multiBirds.MultiBirdFragment"
+        android:label="fragment_multi_bird"
+        tools:layout="@layout/fragment_multi_bird" />
+</navigation>
