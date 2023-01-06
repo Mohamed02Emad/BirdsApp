@@ -10,6 +10,7 @@ data class SingleBird(
     //if user wants to count days for something
     val startDate : String?,
     val daysFromStartDate : Int?,
+    val endDate:Int?,
     var countDays : Boolean,  // set default to false
 
     val note:String?,
