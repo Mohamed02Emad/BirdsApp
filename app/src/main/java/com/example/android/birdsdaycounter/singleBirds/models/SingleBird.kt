@@ -13,6 +13,4 @@ data class SingleBird(
     var countDays : Boolean,  // set default to false
 
     val note:String?,
-
-
 )
