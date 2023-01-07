@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:text="@string/know_your_birds"
         android:gravity="center"
-        android:textSize="24sp"
+        android:textSize="20sp"
         android:padding="8dp"
         android:textColor="@color/white"
         android:background="@color/light_blue"
@@ -21,6 +21,7 @@
 
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/collections_rv"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:paddingBottom="16dp"

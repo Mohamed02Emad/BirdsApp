@@ -22,14 +22,15 @@
         />
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/child_recycler_view"
         android:layout_width="match_parent"
-        android:layout_height="150dp"
+        android:layout_height="175dp"
+        android:foregroundGravity="center"
         android:orientation="horizontal"
         app:layout_constraintTop_toBottomOf="@id/collectionTitle"
         android:layout_marginTop="8dp"
         android:background="@drawable/blue_frame"
-        android:padding="4dp"
-        />
+        android:padding="4dp" />
 
     <ImageView
         android:id="@+id/delete_collection_button"

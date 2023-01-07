@@ -10,7 +10,7 @@
      android:id="@+id/header_txt"
      android:layout_width="match_parent"
      android:layout_height="wrap_content"
-     android:textSize="24sp"
+     android:textSize="20sp"
      android:gravity="center"
      app:layout_constraintTop_toTopOf="parent"
      android:background="@color/light_blue"

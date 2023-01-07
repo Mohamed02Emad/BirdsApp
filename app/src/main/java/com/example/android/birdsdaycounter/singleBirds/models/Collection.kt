@@ -1,6 +1,6 @@
 package com.example.android.birdsdaycounter.singleBirds.models
 
-data class SingleBirdCollection(
+data class Collection(
     var collectionName : String,
-    var birdsList: ArrayList<SingleBird>
+    var birdsList: ArrayList<Bird>?
     )
