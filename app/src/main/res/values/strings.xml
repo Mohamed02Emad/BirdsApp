@@ -9,4 +9,5 @@
     <string name="age">Age : </string>
     <string name="name">Name : </string>
     <string name="gender">Gender : </string>
+    <string name="know_your_birds">know your birds</string>
 </resources>
