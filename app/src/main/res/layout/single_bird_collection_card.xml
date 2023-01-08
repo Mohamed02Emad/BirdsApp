@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/parent_constraint"
+    android:layout_marginStart="16dp"
+    android:layout_marginEnd="16dp"
+    android:layout_marginTop="16dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/collectionTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="4dp"
+        tools:text="Collection Title"
+        />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/child_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="175dp"
+        android:foregroundGravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@id/collectionTitle"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/blue_frame"
+        android:padding="4dp" />
+
+    <ImageView
+        android:id="@+id/delete_collection_button"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:src="@drawable/ic_baseline_delete_forever_24"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="4dp"
+        />
+    <ImageView
+        android:id="@+id/add_bird_button"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:src="@drawable/blue_add_icon"
+        app:layout_constraintEnd_toStartOf="@id/delete_collection_button"
+       android:layout_marginEnd="24dp"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="4dp"
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
