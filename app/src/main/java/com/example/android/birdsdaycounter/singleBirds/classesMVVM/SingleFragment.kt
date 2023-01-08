@@ -11,6 +11,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.android.birdsdaycounter.R
 import com.example.android.birdsdaycounter.databinding.FragmentSingleBinding
 import com.example.android.birdsdaycounter.singleBirds.recyclerView.CollectionAdapter
 
@@ -49,12 +50,13 @@ class SingleFragment : Fragment() {
         binding.addCollectionButton.setOnClickListener {
 
             val dialogName: AlertDialog.Builder = AlertDialog.Builder(requireActivity())
+
             dialogName.setTitle("Collection name")
 
             val EditTxtName = EditText(requireActivity())
             dialogName.setView(EditTxtName)
-            dialogName.setPositiveButton("Add",
-                DialogInterface.OnClickListener { dialogInterface, i ->
+
+            dialogName.setPositiveButton("Add", DialogInterface.OnClickListener { dialogInterface, i ->
                     val string = EditTxtName.text.toString()
                     if (!string.isEmpty()) {
                         viewModel.addNewCollection(string)
@@ -65,9 +67,11 @@ class SingleFragment : Fragment() {
                     dialogInterface.cancel()
                 })
 
+
             dialogName.setNegativeButton("Cancel",
                 DialogInterface.OnClickListener { dialogInterface, i -> dialogInterface.cancel() })
             dialogName.show()
+
 
 
         }
