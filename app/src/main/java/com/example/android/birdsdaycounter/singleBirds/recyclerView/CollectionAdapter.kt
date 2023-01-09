@@ -3,6 +3,7 @@ package com.example.android.birdsdaycounter.singleBirds.recyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -15,19 +16,16 @@ class CollectionAdapter(
     private var arrayList: ArrayList<Collection>?
 ) : RecyclerView.Adapter<CollectionAdapter.ViewHolderSingleBird>() {
 
-
     private val viewPool = RecycledViewPool()
 
-    class ViewHolderSingleBird(itemView: View) :
+    class ViewHolderSingleBird(itemView: View ) :
         RecyclerView.ViewHolder(itemView) {
         val title: TextView = itemView.findViewById(R.id.collectionTitle)
         var recyclerChild: RecyclerView = itemView.findViewById(R.id.child_recycler_view)
-
-        init {
-
-        }
+        val addBird : ImageView = itemView.findViewById(R.id.add_bird_button)
+        val deleteCollection :ImageView = itemView.findViewById(R.id.delete_collection_button)
+        init {}
     }
-
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolderSingleBird {
         val view = LayoutInflater.from(parent.context)
@@ -40,9 +38,7 @@ class CollectionAdapter(
         holder.title.text = dataObject.collectionName
 
         val layoutManager = LinearLayoutManager(holder.recyclerChild.getContext(),LinearLayoutManager.HORIZONTAL, false)
-
         layoutManager.setInitialPrefetchItemCount(dataObject.birdsList!!.size)
-
         val childAdapter = BirdsAdapter(dataObject.birdsList!!)
 
         holder.recyclerChild.setLayoutManager(layoutManager)

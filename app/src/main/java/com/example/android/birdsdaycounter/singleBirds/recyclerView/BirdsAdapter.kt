@@ -12,19 +12,16 @@ import com.example.android.birdsdaycounter.singleBirds.models.Bird
 class BirdsAdapter(var arrayList: ArrayList<Bird>) : RecyclerView
 .Adapter<BirdsAdapter.BirdVH>() {
 
-    private lateinit var myInterface: RecyclerInterface
 
 
-    class BirdVH(itemView: View, singleBirdInterface: BirdsAdapter.RecyclerInterface) :
+    class BirdVH(itemView: View) :
         RecyclerView.ViewHolder(itemView) {
         var name: TextView = itemView.findViewById(R.id.bird_name)
         var age: TextView = itemView.findViewById(R.id.bird_age)
         var gender: TextView = itemView.findViewById(R.id.bird_gender)
 
         init {
-            itemView.setOnClickListener {
-                singleBirdInterface.onClick(position = adapterPosition)
-            }
+
         }
     }
 
@@ -32,7 +29,7 @@ class BirdsAdapter(var arrayList: ArrayList<Bird>) : RecyclerView
         val view: View = LayoutInflater.from(parent.getContext())
             .inflate(R.layout.bird_card, parent, false)
 
-        return BirdVH(view, myInterface)
+        return BirdVH(view)
     }
 
     override fun onBindViewHolder(holder: BirdVH, position: Int) {
@@ -47,11 +44,4 @@ class BirdsAdapter(var arrayList: ArrayList<Bird>) : RecyclerView
         return arrayList.size
     }
 
-    fun setOnClicked(recyclerInterface: RecyclerInterface) {
-        myInterface = recyclerInterface
-    }
-
-    interface RecyclerInterface {
-        fun onClick(position: Int)
-    }
 }

@@ -6,8 +6,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.android.birdsdaycounter.R
+import com.example.android.birdsdaycounter.globalUse.MyFragmentParentClass
 
-class HomeFragment : Fragment() {
+class HomeFragment : MyFragmentParentClass() {
 
 
     override fun onCreateView(

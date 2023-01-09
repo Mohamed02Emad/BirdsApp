@@ -8,15 +8,16 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.Toast
-import androidx.fragment.app.Fragment
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.android.birdsdaycounter.R
 import com.example.android.birdsdaycounter.databinding.FragmentSingleBinding
+import com.example.android.birdsdaycounter.globalUse.MyFragmentParentClass
 import com.example.android.birdsdaycounter.singleBirds.recyclerView.CollectionAdapter
 
 
-class SingleFragment : Fragment() {
+class SingleFragment : MyFragmentParentClass() {
 
     private lateinit var binding: FragmentSingleBinding
 
@@ -42,8 +43,9 @@ class SingleFragment : Fragment() {
     private fun setupRV() {
         val layoutManager = LinearLayoutManager(requireActivity())
         adapter = CollectionAdapter(viewModel.collectionsLiveData.value)
-        binding.collectionsRv.setAdapter(adapter);
-        binding.collectionsRv.setLayoutManager(layoutManager);
+        binding.collectionsRv.setAdapter(adapter)
+        binding.collectionsRv.setLayoutManager(layoutManager)
+
     }
 
     private fun setOnClickListeners() {
@@ -54,15 +56,24 @@ class SingleFragment : Fragment() {
             dialogName.setTitle("Collection name")
 
             val EditTxtName = EditText(requireActivity())
+
+            EditTxtName.apply {
+                setTextColor(ContextCompat.getColor(requireActivity(), R.color.black))
+                setHintTextColor(ContextCompat.getColor(requireActivity(), R.color.grey))
+                hint = "Enter collection name"
+            }
             dialogName.setView(EditTxtName)
 
-            dialogName.setPositiveButton("Add", DialogInterface.OnClickListener { dialogInterface, i ->
+            dialogName.setPositiveButton(
+                "Add",
+                DialogInterface.OnClickListener { dialogInterface, i ->
                     val string = EditTxtName.text.toString()
                     if (!string.isEmpty()) {
                         viewModel.addNewCollection(string)
                         resetRV()
-                    }else{
-                        Toast.makeText(requireActivity(),"Title is required",Toast.LENGTH_SHORT).show()
+                    } else {
+                        Toast.makeText(requireActivity(), "Title is required", Toast.LENGTH_SHORT)
+                            .show()
                     }
                     dialogInterface.cancel()
                 })
@@ -71,11 +82,11 @@ class SingleFragment : Fragment() {
             dialogName.setNegativeButton("Cancel",
                 DialogInterface.OnClickListener { dialogInterface, i -> dialogInterface.cancel() })
             dialogName.show()
+        }
 
 
 
         }
-    }
 
     private fun resetRV() {
         adapter.notifyItemInserted(viewModel.collectionSize()-1)
