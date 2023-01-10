@@ -11,13 +11,15 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.android.birdsdaycounter.MainActivity
 import com.example.android.birdsdaycounter.R
 import com.example.android.birdsdaycounter.databinding.FragmentSingleBinding
 import com.example.android.birdsdaycounter.globalUse.MyFragmentParentClass
+import com.example.android.birdsdaycounter.singleBirds.models.Collection
 import com.example.android.birdsdaycounter.singleBirds.recyclerView.CollectionAdapter
 
 
-class SingleFragment : MyFragmentParentClass() {
+class SingleFragment : MyFragmentParentClass()  {
 
     private lateinit var binding: FragmentSingleBinding
 
@@ -42,11 +44,32 @@ class SingleFragment : MyFragmentParentClass() {
 
     private fun setupRV() {
         val layoutManager = LinearLayoutManager(requireActivity())
-        adapter = CollectionAdapter(viewModel.collectionsLiveData.value)
+
+        adapter = CollectionAdapter(viewModel.collectionsLiveData.value,CollectionAdapter.OnAddClickListener{collection->
+         addNewBirdToCollection(collection)
+
+        },
+            CollectionAdapter.OnRemoveClickListener{collection ->
+                removeCollection(collection)
+            }
+        )
         binding.collectionsRv.setAdapter(adapter)
         binding.collectionsRv.setLayoutManager(layoutManager)
 
     }
+
+    private fun removeCollection(collection: Collection) {
+        showToast("collection removed")
+        var itemRemovedPosition : Int = viewModel.removeCollection(collection)
+        adapter.notifyItemRemoved(itemRemovedPosition)
+    }
+
+    private fun addNewBirdToCollection(collection: Collection) {
+          viewModel.addFakeBird(collection)
+        var pos = viewModel.collectionsLiveData.value!!.indexOf(collection)
+        adapter.notifyItemChanged(pos)
+    }
+
 
     private fun setOnClickListeners() {
         binding.addCollectionButton.setOnClickListener {
@@ -91,5 +114,7 @@ class SingleFragment : MyFragmentParentClass() {
     private fun resetRV() {
         adapter.notifyItemInserted(viewModel.collectionSize()-1)
     }
+
+
 
 }
