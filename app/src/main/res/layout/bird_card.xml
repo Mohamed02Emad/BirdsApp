@@ -5,16 +5,25 @@
     android:layout_marginTop="16dp"
     android:layout_marginStart="8dp"
     android:layout_marginEnd="8dp"
-    android:layout_height="165dp"
+    android:layout_height="wrap_content"
     android:id="@+id/cardBack"
-    android:background="@drawable/blue_frame"
+    android:background="@drawable/bird_ripple"
     xmlns:tools="http://schemas.android.com/tools">
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:background="@drawable/blue_frame_with_gradient_background"
+    android:layout_height="match_parent"
+    >
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/bird_img"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_margin="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:adjustViewBounds="true"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
         android:scaleType="centerCrop"
         tools:src="@drawable/ic_launcher_background"
         app:layout_constraintEnd_toEndOf="parent"
@@ -59,5 +68,6 @@
         app:layout_constraintTop_toBottomOf="@id/bird_age" />
 
 
+</androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

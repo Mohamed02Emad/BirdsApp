@@ -6,8 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.LinearSmoothScroller
 import androidx.recyclerview.widget.RecyclerView.LayoutManager
+import androidx.recyclerview.widget.RecyclerView.SmoothScroller
 import com.example.android.birdsdaycounter.allBirds.recyclerView.AllBirdsAdapter
 import com.example.android.birdsdaycounter.databinding.FragmentAllBirdsBinding
 import com.example.android.birdsdaycounter.globalUse.MyFragmentParentClass
@@ -47,7 +48,7 @@ class BirdsFragment : MyFragmentParentClass() {
                         //todo
                     },
                     AllBirdsAdapter.OnRemoveClickListener { collection ->
-                        //todo
+                        //does nothing
                     }
                 )
 
@@ -68,7 +69,15 @@ class BirdsFragment : MyFragmentParentClass() {
     private fun resetRV() {
         var pos = viewModel.birdListSize() - 1
         adapter.notifyItemInserted(pos)
-        layoutManager.scrollToPosition(pos)
+      //  layoutManager.scrollToPosition(pos)
+
+        val smoothScroller: SmoothScroller = object : LinearSmoothScroller(context) {
+            override fun getVerticalSnapPreference(): Int {
+                return SNAP_TO_START
+            }
+        }
+        smoothScroller.setTargetPosition(pos)
+        layoutManager.startSmoothScroll(smoothScroller)
     }
 
 
