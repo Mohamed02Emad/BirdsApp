@@ -10,4 +10,8 @@
     <string name="name">Name : </string>
     <string name="gender">Gender : </string>
     <string name="know_your_birds">All your Birds</string>
+    <string name="enter_bird_data">Enter bird data</string>
+    <string name="bird_name">Bird name</string>
+    <string name="save"> Save </string>
+    <string name="cancel">Cancel</string>
 </resources>

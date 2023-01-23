@@ -1,4 +1,4 @@
-package com.example.android.birdsdaycounter.allBirds.models
+package com.example.android.birdsdaycounter.allBirdsFragment.models
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

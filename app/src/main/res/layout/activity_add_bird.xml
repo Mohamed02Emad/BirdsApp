@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF"
+    tools:context=".allBirdsFragment.AddBirdActivity">
+
+    <TextView
+        android:id="@+id/uppertxt2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/light_blue"
+        android:gravity="center"
+        android:padding="4dp"
+        android:text="@string/enter_bird_data"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/save_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
+        android:background="@drawable/save_button"
+        android:padding="8dp"
+        android:text="@string/save"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/cancel_button"/>
+
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/cancel_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
+        android:background="@drawable/cancel_button"
+        android:padding="8dp"
+        android:text="@string/cancel"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/save_button"
+        />
+
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@id/save_button"
+        app:layout_constraintTop_toBottomOf="@id/uppertxt2">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/bird_creat_img"
+                android:layout_width="match_parent"
+
+                android:layout_height="0dp"
+                android:layout_marginStart="70dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="70dp"
+                android:adjustViewBounds="true"
+                android:background="@drawable/blue_frame"
+                android:src="@drawable/bird"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/add_bird_camera"
+                android:layout_width="38dp"
+                android:layout_height="38dp"
+                android:background="@color/grey"
+                android:src="@drawable/camera_icon"
+                app:layout_constraintBottom_toBottomOf="@id/bird_creat_img"
+                app:layout_constraintRight_toRightOf="@id/bird_creat_img" />
+
+            <EditText
+                android:id="@+id/bird_name_ET"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="12dp"
+                android:maxLines="1"
+                android:layout_marginEnd="20dp"
+                android:hint="@string/bird_name"
+                android:textColor="@color/black"
+                android:textSize="14sp"
+                app:layout_constraintTop_toBottomOf="@id/bird_creat_img" />
+
+            <EditText
+                android:id="@+id/bird_age_ET"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="20dp"
+                android:hint="@string/age"
+                android:textColor="@color/black"
+                android:textSize="14sp"
+                android:inputType="number"
+                android:maxLines="1"
+                app:layout_constraintTop_toBottomOf="@id/bird_name_ET" />
+
+            <EditText
+                android:id="@+id/bird_gender_ET"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="20dp"
+                android:hint="@string/gender"
+                android:textColor="@color/black"
+                android:maxLines="1"
+                android:textSize="14sp"
+                app:layout_constraintTop_toBottomOf="@id/bird_age_ET" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

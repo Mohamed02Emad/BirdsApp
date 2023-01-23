@@ -1,5 +1,6 @@
-package com.example.android.birdsdaycounter.allBirds.classesMVVM
+package com.example.android.birdsdaycounter.allBirdsFragment.classesMVVM
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,7 +10,8 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearSmoothScroller
 import androidx.recyclerview.widget.RecyclerView.LayoutManager
 import androidx.recyclerview.widget.RecyclerView.SmoothScroller
-import com.example.android.birdsdaycounter.allBirds.recyclerView.AllBirdsAdapter
+import com.example.android.birdsdaycounter.allBirdsFragment.AddBirdActivity
+import com.example.android.birdsdaycounter.allBirdsFragment.recyclerView.AllBirdsAdapter
 import com.example.android.birdsdaycounter.databinding.FragmentAllBirdsBinding
 import com.example.android.birdsdaycounter.globalUse.MyFragmentParentClass
 
@@ -61,8 +63,12 @@ class BirdsFragment : MyFragmentParentClass() {
 
     private fun setOnClickListeners() {
         binding.addCollectionButton.setOnClickListener {
-            viewModel.addNewBird(viewModel.createFakeBuird())
-                        resetRV()
+            var i = Intent(requireActivity(),AddBirdActivity::class.java)
+             requireActivity().startActivity(i)
+
+
+            //viewModel.addNewBird(viewModel.createFakeBuird())
+            //            resetRV()
         }
         }
 

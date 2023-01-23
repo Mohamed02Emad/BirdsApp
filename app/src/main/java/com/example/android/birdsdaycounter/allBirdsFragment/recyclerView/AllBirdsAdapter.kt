@@ -1,6 +1,5 @@
-package com.example.android.birdsdaycounter.allBirds.recyclerView
+package com.example.android.birdsdaycounter.allBirdsFragment.recyclerView
 
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,9 +8,7 @@ import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.example.android.birdsdaycounter.R
-import com.example.android.birdsdaycounter.globalUse.MyApp
-import com.example.android.birdsdaycounter.globalUse.birdStuff.BirdInformation
-import com.example.android.birdsdaycounter.allBirds.models.Bird
+import com.example.android.birdsdaycounter.allBirdsFragment.models.Bird
 
 
 class AllBirdsAdapter(

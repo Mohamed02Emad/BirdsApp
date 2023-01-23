@@ -1,11 +1,11 @@
-package com.example.android.birdsdaycounter.allBirds.classesMVVM
+package com.example.android.birdsdaycounter.allBirdsFragment.classesMVVM
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.android.birdsdaycounter.R
-import com.example.android.birdsdaycounter.allBirds.models.Bird
+import com.example.android.birdsdaycounter.allBirdsFragment.models.Bird
 import com.example.android.birdsdaycounter.globalUse.MyApp
 import com.example.android.birdsdaycounter.globalUse.allBirdsRoom.AllBirdsDataBaseClass
 import kotlinx.coroutines.Dispatchers

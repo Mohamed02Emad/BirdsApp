@@ -1,8 +1,7 @@
 package com.example.android.birdsdaycounter.globalUse.allBirdsRoom
 
-import androidx.lifecycle.MutableLiveData
 import androidx.room.*
-import com.example.android.birdsdaycounter.allBirds.models.Bird
+import com.example.android.birdsdaycounter.allBirdsFragment.models.Bird
 
 @Dao
 interface AllBirdsDao {

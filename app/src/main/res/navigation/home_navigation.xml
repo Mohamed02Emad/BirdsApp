@@ -6,17 +6,17 @@
     app:startDestination="@id/homeFragment2">
     <fragment
         android:id="@+id/homeFragment2"
-        android:name="com.example.android.birdsdaycounter.schedule.HomeFragment"
+        android:name="com.example.android.birdsdaycounter.scheduleFragment.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" />
     <fragment
         android:id="@+id/singleFragment2"
-        android:name="com.example.android.birdsdaycounter.allBirds.classesMVVM.BirdsFragment"
+        android:name="com.example.android.birdsdaycounter.allBirdsFragment.classesMVVM.BirdsFragment"
         android:label="fragment_single"
         tools:layout="@layout/fragment_all_birds" />
     <fragment
         android:id="@+id/multiBirdFragment2"
-        android:name="com.example.android.birdsdaycounter.multiBirds.MultiBirdFragment"
+        android:name="com.example.android.birdsdaycounter.multiBirdsFragment.MultiBirdFragment"
         android:label="fragment_multi_bird"
         tools:layout="@layout/fragment_multi_bird" />
 </navigation>

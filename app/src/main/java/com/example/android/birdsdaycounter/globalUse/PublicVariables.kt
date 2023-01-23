@@ -2,7 +2,7 @@ package com.example.android.birdsdaycounter.globalUse
 
 import android.app.Application
 import android.content.Context
-import com.example.android.birdsdaycounter.allBirds.models.Bird
+import com.example.android.birdsdaycounter.allBirdsFragment.models.Bird
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
