@@ -3,17 +3,14 @@ package com.example.android.birdsdaycounter.splash
 import android.animation.Animator
 import android.content.Intent
 import android.os.Bundle
-import android.view.accessibility.AccessibilityManager.TouchExplorationStateChangeListener
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.lifecycleScope
 import com.airbnb.lottie.LottieAnimationView
 import com.example.android.birdsdaycounter.MainActivity
 import com.example.android.birdsdaycounter.R
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 
 class SplashActivity : AppCompatActivity() {
+
     lateinit var lottieAnimationView: LottieAnimationView
     lateinit var i: Intent
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -21,7 +18,6 @@ class SplashActivity : AppCompatActivity() {
         setContentView(R.layout.activity_splash)
          i = Intent(this, MainActivity::class.java)
         lottieAnimationView = findViewById(R.id.animationView)
-
         setAnimation()
         whenAnimationEnd()
     }

@@ -8,7 +8,6 @@ import androidx.core.view.isVisible
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import com.example.android.birdsdaycounter.databinding.ActivityMainBinding
-import com.example.android.birdsdaycounter.globalUse.PublicVariables
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
@@ -30,7 +29,7 @@ class MainActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
 
-        PublicVariables.setConctext(this)
+
         setupNavigation()
         requestNotificationPermission()
     }

@@ -1,15 +1,30 @@
 package com.example.android.birdsdaycounter.globalUse
 
-import android.annotation.SuppressLint
+import android.app.Application
 import android.content.Context
+import com.example.android.birdsdaycounter.allBirds.models.Bird
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
-@SuppressLint("StaticFieldLeak")
-object PublicVariables {
-    private lateinit var context: Context
-    fun setConctext(con: Context) {
-        context = con
+class MyApp : Application() {
+
+    override fun onCreate() {
+        super.onCreate()
+        allBirds = ArrayList()
+        appContext = applicationContext
     }
 
-    fun getContext(): Context = context
 
+    companion object {
+        lateinit var appContext: Context
+        lateinit var allBirds: ArrayList<Bird>
+
+        init {
+            GlobalScope.launch {
+                //get Data From Room to allBirds
+            }
+        }
+
+    }
 }
+

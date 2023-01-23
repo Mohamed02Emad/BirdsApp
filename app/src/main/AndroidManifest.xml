@@ -13,9 +13,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.BirdsDayCounter"
+        android:name="com.example.android.birdsdaycounter.globalUse.MyApp"
         tools:targetApi="31">
+
         <activity
-            android:name=".BirdInformation"
+            android:name=".globalUse.birdStuff.BirdInformation"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
@@ -41,6 +43,7 @@
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
+
     </application>
 
 </manifest>
