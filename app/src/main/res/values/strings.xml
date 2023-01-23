@@ -14,4 +14,8 @@
     <string name="bird_name">Bird name</string>
     <string name="save"> Save </string>
     <string name="cancel">Cancel</string>
+    <string name="Gender">Gender</string>
+    <string name="male">male</string>
+    <string name="female">female</string>
+    <string name="Age">Age</string>
 </resources>

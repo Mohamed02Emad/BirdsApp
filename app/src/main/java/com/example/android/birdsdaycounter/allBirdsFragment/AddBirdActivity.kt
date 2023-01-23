@@ -2,6 +2,8 @@ package com.example.android.birdsdaycounter.allBirdsFragment
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
+import android.widget.RadioButton
 import android.widget.Toast
 import com.example.android.birdsdaycounter.databinding.ActivityAddBirdBinding
 
@@ -28,6 +30,11 @@ class AddBirdActivity : AppCompatActivity() {
 
         binding.saveButton.setOnClickListener {
             Toast.makeText(this,"ToDo",Toast.LENGTH_SHORT).show()
+            val name = binding.birdNameET.text
+            val age = binding.birdAgeET.text
+            var id = binding.myRadioGroup.checkedRadioButtonId
+            val gender = findViewById<RadioButton>(id).text
+
 
         }
     }

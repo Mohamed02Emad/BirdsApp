@@ -84,45 +84,106 @@
                 app:layout_constraintBottom_toBottomOf="@id/bird_creat_img"
                 app:layout_constraintRight_toRightOf="@id/bird_creat_img" />
 
+            <TextView
+                android:id="@+id/nametxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/bird_creat_img"
+                android:layout_marginTop="16dp"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:text="@string/bird_name"
+                />
             <EditText
                 android:id="@+id/bird_name_ET"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="0dp"
                 android:maxLines="1"
                 android:layout_marginEnd="20dp"
                 android:hint="@string/bird_name"
                 android:textColor="@color/black"
                 android:textSize="14sp"
-                app:layout_constraintTop_toBottomOf="@id/bird_creat_img" />
+                app:layout_constraintTop_toBottomOf="@id/nametxt" />
 
+
+            <TextView
+                android:id="@+id/agetxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/bird_name_ET"
+                android:layout_marginTop="20dp"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:text="@string/Age"
+                />
             <EditText
                 android:id="@+id/bird_age_ET"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
-                android:layout_marginTop="12dp"
                 android:layout_marginEnd="20dp"
                 android:hint="@string/age"
                 android:textColor="@color/black"
                 android:textSize="14sp"
                 android:inputType="number"
                 android:maxLines="1"
-                app:layout_constraintTop_toBottomOf="@id/bird_name_ET" />
+                app:layout_constraintTop_toBottomOf="@id/agetxt" />
 
-            <EditText
-                android:id="@+id/bird_gender_ET"
-                android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/gendertxt"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="12dp"
-                android:layout_marginEnd="20dp"
-                android:hint="@string/gender"
+                app:layout_constraintTop_toBottomOf="@id/bird_age_ET"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:layout_marginTop="20dp"
                 android:textColor="@color/black"
-                android:maxLines="1"
-                android:textSize="14sp"
-                app:layout_constraintTop_toBottomOf="@id/bird_age_ET" />
+                android:text="@string/Gender"
+                />
+
+              <RadioGroup
+                  android:id="@+id/myRadioGroup"
+                  app:layout_constraintTop_toBottomOf="@id/gendertxt"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:orientation="vertical"
+                  android:layout_marginStart="12dp"
+                  >
+                  <RadioButton
+                      android:id="@+id/radiodonotknow"
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:checked="true"
+                      android:layout_marginBottom="4dp"
+                      android:text="don't know"
+                      android:textSize="14sp"/>
+                  <RadioButton
+                      android:id="@+id/radiomale"
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:checked="false"
+                      android:layout_marginBottom="4dp"
+                      android:text="@string/male"
+                      android:textSize="14sp"/>
+                  <RadioButton
+                      android:id="@+id/radiofemale"
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:checked="false"
+                      android:textSize="14sp"
+                      android:text="@string/female"/>
+              </RadioGroup>
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
