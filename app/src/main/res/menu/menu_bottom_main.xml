@@ -3,7 +3,7 @@
 
     <item
         android:id="@+id/singleFragment2"
-        android:icon="@drawable/egg_icon"
+        android:icon="@drawable/bird"
         android:title="@string/title_singleBird" />
 
 

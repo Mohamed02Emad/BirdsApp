@@ -29,6 +29,7 @@ class MainActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
 
+
         setupNavigation()
         requestNotificationPermission()
     }
@@ -49,6 +50,7 @@ class MainActivity : AppCompatActivity() {
             pushNotificationPermissionLauncher.launch(android.Manifest.permission.POST_NOTIFICATIONS)
         }
     }
+
 
 }
 

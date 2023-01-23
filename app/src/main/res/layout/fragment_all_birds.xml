@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".singleBirds.classesMVVM.SingleFragment">
+    tools:context=".allBirds.classesMVVM.BirdsFragment">
 
     <TextView
         android:id="@+id/upperTXT"
@@ -22,9 +22,14 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/collections_rv"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="0dp"
         android:paddingBottom="16dp"
+        android:orientation="vertical"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/upperTXT"
         app:layout_constraintBottom_toBottomOf="parent"
         />
@@ -32,8 +37,8 @@
 
    <com.google.android.material.imageview.ShapeableImageView
        android:id="@+id/add_collection_button"
-       android:layout_width="42dp"
-       android:layout_height="42dp"
+       android:layout_width="45dp"
+       android:layout_height="45dp"
        app:shapeAppearanceOverlay="@style/roundedImageViewRounded"
        app:layout_constraintBottom_toBottomOf="parent"
        app:layout_constraintEnd_toEndOf="parent"

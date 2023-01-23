@@ -11,9 +11,9 @@
         tools:layout="@layout/fragment_home" />
     <fragment
         android:id="@+id/singleFragment2"
-        android:name="com.example.android.birdsdaycounter.singleBirds.classesMVVM.SingleFragment"
+        android:name="com.example.android.birdsdaycounter.allBirds.classesMVVM.BirdsFragment"
         android:label="fragment_single"
-        tools:layout="@layout/fragment_single" />
+        tools:layout="@layout/fragment_all_birds" />
     <fragment
         android:id="@+id/multiBirdFragment2"
         android:name="com.example.android.birdsdaycounter.multiBirds.MultiBirdFragment"
