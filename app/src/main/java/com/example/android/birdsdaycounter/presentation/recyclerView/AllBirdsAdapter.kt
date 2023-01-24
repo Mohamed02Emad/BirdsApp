@@ -1,5 +1,6 @@
-package com.example.android.birdsdaycounter.allBirdsFragment.recyclerView
+package com.example.android.birdsdaycounter.presentation.recyclerView
 
+import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,12 +9,12 @@ import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.example.android.birdsdaycounter.R
-import com.example.android.birdsdaycounter.allBirdsFragment.models.Bird
+import com.example.android.birdsdaycounter.data.models.Bird
 
 
 class AllBirdsAdapter(
     private var arrayList: ArrayList<Bird>?,
-    private val onClickListener:OnAddClickListener,
+    private val onClickListener: OnAddClickListener,
     private val onRemoveClickListener: OnRemoveClickListener
 ) : RecyclerView.Adapter<AllBirdsAdapter.ViewHolderSingleBird>() {
 
@@ -38,7 +39,8 @@ class AllBirdsAdapter(
         holder.name.text = dataObject.name
         holder.age.text = dataObject.age.toString()
         holder.gender.text = dataObject.gender
-        holder.img.setImageResource(dataObject.image ?: R.drawable.bird )
+
+        holder.img.setImageURI(Uri.parse(dataObject.imgLocation))
 
 
         holder.background.setOnClickListener {
@@ -56,12 +58,12 @@ class AllBirdsAdapter(
     }
 
 
-    class OnAddClickListener(val clickListener: (bird:Bird) -> Unit) {
-        fun onAddBirdClick(bird:Bird) = clickListener(bird)
+    class OnAddClickListener(val clickListener: (bird: Bird) -> Unit) {
+        fun onAddBirdClick(bird: Bird) = clickListener(bird)
     }
 
-    class OnRemoveClickListener(val clickListener: (bird:Bird) -> Unit) {
-        fun onRemoveCollectionClick(bird:Bird) = clickListener(bird)
+    class OnRemoveClickListener(val clickListener: (bird: Bird) -> Unit) {
+        fun onRemoveCollectionClick(bird: Bird) = clickListener(bird)
     }
 
 }

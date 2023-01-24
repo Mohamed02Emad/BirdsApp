@@ -1,7 +1,7 @@
-package com.example.android.birdsdaycounter.allBirdsFragment.classesMVVM
+package com.example.android.birdsdaycounter.data.repositories
 
-import com.example.android.birdsdaycounter.allBirdsFragment.models.Bird
-import com.example.android.birdsdaycounter.globalUse.allBirdsRoom.AllBirdsDao
+import com.example.android.birdsdaycounter.data.models.Bird
+import com.example.android.birdsdaycounter.data.source.allBirdsRoom.AllBirdsDao
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 

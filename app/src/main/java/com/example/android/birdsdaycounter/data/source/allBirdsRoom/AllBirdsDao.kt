@@ -1,7 +1,7 @@
-package com.example.android.birdsdaycounter.globalUse.allBirdsRoom
+package com.example.android.birdsdaycounter.data.source.allBirdsRoom
 
 import androidx.room.*
-import com.example.android.birdsdaycounter.allBirdsFragment.models.Bird
+import com.example.android.birdsdaycounter.data.models.Bird
 
 @Dao
 interface AllBirdsDao {
@@ -9,17 +9,17 @@ interface AllBirdsDao {
     fun getAll(): List<Bird>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertAll(vararg bird:Bird )
+    fun insertAll(vararg bird: Bird)
 
     @Query("delete from Birds")
     fun deleteAll()
 
     @Delete
-    fun delete(bird:Bird )
+    fun delete(bird: Bird)
 
     @Query("DELETE FROM Birds WHERE id = :id")
     suspend fun deleteById(id: Int)
 
     @Update
-    fun update(bird:Bird )
+    fun update(bird: Bird)
 }

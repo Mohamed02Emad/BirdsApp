@@ -1,4 +1,4 @@
-package com.example.android.birdsdaycounter.splash
+package com.example.android.birdsdaycounter.presentation.splash
 
 import android.animation.Animator
 import android.content.Intent

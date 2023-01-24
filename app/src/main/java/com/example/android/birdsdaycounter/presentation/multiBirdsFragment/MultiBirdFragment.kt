@@ -1,4 +1,4 @@
-package com.example.android.birdsdaycounter.multiBirdsFragment
+package com.example.android.birdsdaycounter.presentation.multiBirdsFragment
 
 import android.os.Bundle
 import android.view.LayoutInflater

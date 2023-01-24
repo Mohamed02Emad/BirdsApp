@@ -16,8 +16,8 @@
         android:theme="@style/Theme.BirdsDayCounter"
         tools:targetApi="31">
         <activity
-            android:name=".allBirdsFragment.AddBirdActivity"
-            android:theme="@style/Theme.MaterialComponents.Light.Dialog.FixedSize.Bridge"
+            android:name=".presentation.AddBirdActivity"
+            android:theme="@style/Theme.MaterialComponents.DayNight.Dialog.FixedSize.Bridge"
             android:excludeFromRecents="true"
             android:exported="false">
             <meta-data
@@ -32,7 +32,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".splash.SplashActivity"
+            android:name=".presentation.splash.SplashActivity"
             android:exported="true">
             <meta-data
                 android:name="android.app.lib_name"

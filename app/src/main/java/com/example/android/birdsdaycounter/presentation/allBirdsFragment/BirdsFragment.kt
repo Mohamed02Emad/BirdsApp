@@ -1,4 +1,4 @@
-package com.example.android.birdsdaycounter.allBirdsFragment.classesMVVM
+package com.example.android.birdsdaycounter.presentation.allBirdsFragment
 
 import android.content.Intent
 import android.os.Bundle
@@ -10,8 +10,8 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearSmoothScroller
 import androidx.recyclerview.widget.RecyclerView.LayoutManager
 import androidx.recyclerview.widget.RecyclerView.SmoothScroller
-import com.example.android.birdsdaycounter.allBirdsFragment.AddBirdActivity
-import com.example.android.birdsdaycounter.allBirdsFragment.recyclerView.AllBirdsAdapter
+import com.example.android.birdsdaycounter.presentation.AddBirdActivity
+import com.example.android.birdsdaycounter.presentation.recyclerView.AllBirdsAdapter
 import com.example.android.birdsdaycounter.databinding.FragmentAllBirdsBinding
 import com.example.android.birdsdaycounter.globalUse.MyFragmentParentClass
 
@@ -22,6 +22,7 @@ class BirdsFragment : MyFragmentParentClass() {
     lateinit var layoutManager : LayoutManager
     private val viewModel: AllBirdsViewModel by viewModels()
     private lateinit var adapter: AllBirdsAdapter
+    var oldSize = 0
 
 
     override fun onCreateView(
@@ -56,27 +57,34 @@ class BirdsFragment : MyFragmentParentClass() {
 
                 binding.collectionsRv.setAdapter(adapter)
                 binding.collectionsRv.setLayoutManager(layoutManager)
+
             }
+            oldSize = viewModel.birdListSize()
         }
+
     }
 
 
     private fun setOnClickListeners() {
         binding.addCollectionButton.setOnClickListener {
-            var i = Intent(requireActivity(),AddBirdActivity::class.java)
-             requireActivity().startActivity(i)
-
-
-            //viewModel.addNewBird(viewModel.createFakeBuird())
-            //            resetRV()
+            var i = Intent(requireActivity(), AddBirdActivity::class.java)
+            requireActivity().startActivity(i)
         }
-        }
+    }
 
     private fun resetRV() {
-        var pos = viewModel.birdListSize() - 1
-        adapter.notifyItemInserted(pos)
-      //  layoutManager.scrollToPosition(pos)
+        var pos = viewModel.birdListSize()
+        try {
+            if (pos != oldSize && pos != 0) {
+                adapter.notifyItemInserted(pos - 1)
+                smoothScrollToPosition(pos)
+            }
+        }catch (E:Exception){}
 
+    }
+
+    private fun smoothScrollToPosition(pos: Int) {
+        //  layoutManager.scrollToPosition(pos)
         val smoothScroller: SmoothScroller = object : LinearSmoothScroller(context) {
             override fun getVerticalSnapPreference(): Int {
                 return SNAP_TO_START
@@ -86,6 +94,12 @@ class BirdsFragment : MyFragmentParentClass() {
         layoutManager.startSmoothScroll(smoothScroller)
     }
 
-
+    override fun onResume() {
+        super.onResume()
+        viewModel.resetArrayList()
+        if (viewModel.isReadyToShow.value == true) {
+            resetRV()
+        }
+    }
 
 }

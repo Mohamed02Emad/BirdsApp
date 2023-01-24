@@ -1,11 +1,12 @@
-package com.example.android.birdsdaycounter.globalUse.allBirdsRoom
+package com.example.android.birdsdaycounter.data.source.allBirdsRoom
 
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import com.example.android.birdsdaycounter.data.models.Bird
 
-@Database(entities = [com.example.android.birdsdaycounter.allBirdsFragment.models.Bird::class], version = 1)
+@Database(entities = [Bird::class], version = 1)
 
 abstract class AllBirdsDataBaseClass : RoomDatabase() {
 
