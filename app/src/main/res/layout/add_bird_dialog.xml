@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/main_gradient_theme"
-    tools:context=".presentation.AddBirdActivity">
+    android:background="@drawable/main_gradient_theme">
 
     <View
         android:layout_width="match_parent"
@@ -112,6 +111,7 @@
                 android:layout_marginEnd="20dp"
                 android:background="@drawable/blue_frame"
                 android:hint="@string/bird_name"
+                android:textColorHint="#ADA7A7"
                 android:maxLines="1"
                 android:padding="6dp"
                 android:textColor="@color/white"
@@ -138,6 +138,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="4dp"
+                android:textColorHint="#ADA7A7"
                 android:layout_marginEnd="20dp"
                 android:background="@drawable/blue_frame"
                 android:hint="@string/Age"
@@ -181,6 +182,7 @@
                     android:layout_marginBottom="4dp"
                     android:checked="true"
                     android:text="don't know"
+                    android:textColor="@color/white"
                     android:textSize="14sp" />
 
                 <RadioButton
@@ -188,6 +190,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="4dp"
+                    android:textColor="@color/white"
                     android:checked="false"
                     android:text="@string/male"
                     android:textSize="14sp" />
@@ -198,6 +201,7 @@
                     android:layout_height="wrap_content"
                     android:checked="false"
                     android:text="@string/female"
+                    android:textColor="@color/white"
                     android:textSize="14sp" />
             </RadioGroup>
 

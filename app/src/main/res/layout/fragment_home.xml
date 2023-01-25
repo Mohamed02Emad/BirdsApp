@@ -6,24 +6,23 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".presentation.scheduleFragment.HomeFragment">
 
- <TextView
-     android:id="@+id/header_txt"
-     android:layout_width="match_parent"
-     android:layout_height="wrap_content"
-     android:textSize="20sp"
-     android:gravity="center"
-     app:layout_constraintTop_toTopOf="parent"
-     android:background="@color/main_gradient_blue"
-     android:textColor="@color/white"
-     android:text="@string/weekly_food_schedule"
-     android:padding="8dp"
-     />
+<!-- <TextView-->
+<!--     android:id="@+id/header_txt"-->
+<!--     android:layout_width="match_parent"-->
+<!--     android:layout_height="wrap_content"-->
+<!--     android:textSize="20sp"-->
+<!--     android:gravity="center"-->
+<!--     app:layout_constraintTop_toTopOf="parent"-->
+<!--     android:background="@color/main_gradient_blue"-->
+<!--     android:textColor="@color/white"-->
+<!--     android:text="@string/weekly_food_schedule"-->
+<!--     android:padding="8dp"-->
+<!--     />-->
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/header_txt"
         app:layout_constraintVertical_bias="0.0"
         tools:layout_editor_absoluteX="0dp">
 
