@@ -1,9 +1,14 @@
 package com.example.android.birdsdaycounter
 
+import android.annotation.TargetApi
+import android.app.Activity
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Window
+import android.view.WindowManager
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
@@ -27,6 +32,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         val view = binding.root
+        setStatusBarGradiant(this)
         setContentView(view)
 
 
@@ -34,10 +40,24 @@ class MainActivity : AppCompatActivity() {
         requestNotificationPermission()
     }
 
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    fun setStatusBarGradiant(activity: Activity) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            val window: Window = activity.window
+            val background = ContextCompat.getDrawable(activity, R.drawable.main_gradient_theme)
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+
+         //   window.statusBarColor = ContextCompat.getColor(activity,android.R.color.transparent)
+            window.navigationBarColor = ContextCompat.getColor(activity,android.R.color.transparent)
+         //   window.setBackgroundDrawable(background)
+        }
+    }
+
     private fun setupNavigation() {
         navHostFragment =
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
-        bottomNavigationView = findViewById(R.id.bottom_nav)
+
+        bottomNavigationView = findViewById<BottomNavigationView?>(R.id.bottom_nav)
         NavigationUI.setupWithNavController(bottomNavigationView, navHostFragment.navController)
     }
 

@@ -11,4 +11,7 @@
     <color name="grey">#777070</color>
     <color name="light_blue">#1B5FDA</color>
     <color name="dark_blue">#0B2A62</color>
+    <color name="main_gradient_blue">#12586C</color>
+    <color name="main_gradient_purple">#41105B</color>
+    <color name="transperent">#0041105B</color>
 </resources>

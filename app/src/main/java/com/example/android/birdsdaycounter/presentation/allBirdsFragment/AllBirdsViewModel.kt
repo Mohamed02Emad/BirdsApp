@@ -1,13 +1,13 @@
-package com.example.android.birdsdaycounter.allBirds.classesMVVM
+package com.example.android.birdsdaycounter.presentation.allBirdsFragment
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.android.birdsdaycounter.R
-import com.example.android.birdsdaycounter.allBirds.models.Bird
+import com.example.android.birdsdaycounter.data.models.Bird
+import com.example.android.birdsdaycounter.data.repositories.AllBirdsRepository
 import com.example.android.birdsdaycounter.globalUse.MyApp
-import com.example.android.birdsdaycounter.globalUse.allBirdsRoom.AllBirdsDataBaseClass
+import com.example.android.birdsdaycounter.data.source.allBirdsRoom.AllBirdsDataBaseClass
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -28,9 +28,13 @@ class AllBirdsViewModel : ViewModel() {
         val dao = AllBirdsDataBaseClass.getInstance(MyApp.appContext).singleDao()
         repository = AllBirdsRepository(dao)
         viewModelScope.launch {
-            _collectionsLiveData.value = repository.getAll() as ArrayList<Bird>
+            _collectionsLiveData.value=MyApp.allBirds
             isReadyToShow.value=true
         }
+    }
+
+    fun resetArrayList(){
+        _collectionsLiveData.value = MyApp.allBirds
     }
 
     fun insertDB(bird: Bird) =
@@ -48,23 +52,7 @@ class AllBirdsViewModel : ViewModel() {
     fun clearDB() =
         viewModelScope.launch(Dispatchers.IO) { repository.deleteAll() }
 
-
-    fun addNewBird(bird: Bird) {
-        _collectionsLiveData.value!!.add(bird)
-           insertDB(bird)
-    }
-
     fun birdListSize() = _collectionsLiveData.value!!.size
 
-
-//    fun removeCollection(collection: Collection): Int {
-//        var pos = _collectionsLiveData.value!!.indexOf(collection)
-//        _collectionsLiveData.value!!.remove(collection)
-//        //  deleteByIdDB(collection.id)
-//        return pos
-//    }
-
-
-    fun createFakeBuird():Bird = Bird(R.drawable.bird,birdListSize(),"momo","male")
-
+    fun createFakeBuird(): Bird = Bird(birdListSize().toString(),"momo","male",null)
 }

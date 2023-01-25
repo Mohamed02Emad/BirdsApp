@@ -1,4 +1,4 @@
-package com.example.android.birdsdaycounter.schedule.models
+package com.example.android.birdsdaycounter.presentation.scheduleFragment.models
 
 data class ScheduleDay (
     val day : String,

@@ -6,17 +6,35 @@
     app:startDestination="@id/homeFragment2">
     <fragment
         android:id="@+id/homeFragment2"
-        android:name="com.example.android.birdsdaycounter.schedule.HomeFragment"
+        android:name="com.example.android.birdsdaycounter.presentation.scheduleFragment.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" />
     <fragment
-        android:id="@+id/singleFragment2"
-        android:name="com.example.android.birdsdaycounter.allBirds.classesMVVM.BirdsFragment"
-        android:label="fragment_single"
-        tools:layout="@layout/fragment_all_birds" />
+        android:id="@+id/AllBirdsFragment"
+        android:name="com.example.android.birdsdaycounter.presentation.allBirdsFragment.BirdsFragment"
+        android:label="Birds"
+        tools:layout="@layout/fragment_all_birds" >
+
+        <argument
+            android:name="hasNewBird"
+            app:argType="string"
+            app:nullable="true"
+            android:defaultValue="no" />
+        <action
+            android:id="@+id/action_singleFragment2_to_addBirdDialog"
+            app:destination="@id/addBirdDialog" />
+    </fragment>
     <fragment
         android:id="@+id/multiBirdFragment2"
-        android:name="com.example.android.birdsdaycounter.multiBirds.MultiBirdFragment"
+        android:name="com.example.android.birdsdaycounter.presentation.multiBirdsFragment.MultiBirdFragment"
         android:label="fragment_multi_bird"
         tools:layout="@layout/fragment_multi_bird" />
+    <dialog
+        android:id="@+id/addBirdDialog"
+        android:name="com.example.android.birdsdaycounter.presentation.AddBirdDialog"
+        android:label="AddBirdDialog" >
+        <action
+            android:id="@+id/action_addBirdDialog_to_singleFragment2"
+            app:destination="@id/AllBirdsFragment" />
+    </dialog>
 </navigation>
