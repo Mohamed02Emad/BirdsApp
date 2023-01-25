@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.LinearSmoothScroller
 import androidx.recyclerview.widget.RecyclerView.LayoutManager
 import androidx.recyclerview.widget.RecyclerView.SmoothScroller
 import com.example.android.birdsdaycounter.presentation.AddBirdActivity
-import com.example.android.birdsdaycounter.presentation.recyclerView.AllBirdsAdapter
+import com.example.android.birdsdaycounter.presentation.recyclerViews.recyclerViewAllBirds.AllBirdsAdapter
 import com.example.android.birdsdaycounter.databinding.FragmentAllBirdsBinding
 import com.example.android.birdsdaycounter.globalUse.MyFragmentParentClass
 

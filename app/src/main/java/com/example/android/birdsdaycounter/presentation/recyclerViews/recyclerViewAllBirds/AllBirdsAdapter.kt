@@ -1,12 +1,16 @@
-package com.example.android.birdsdaycounter.presentation.recyclerView
+package com.example.android.birdsdaycounter.presentation.recyclerViews.recyclerViewAllBirds
 
+import android.R.attr.left
+import android.R.attr.right
 import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.cardview.widget.CardView
+import androidx.core.view.marginBottom
 import androidx.recyclerview.widget.RecyclerView
 import com.example.android.birdsdaycounter.R
 import com.example.android.birdsdaycounter.data.models.Bird
@@ -24,7 +28,7 @@ class AllBirdsAdapter(
         val age : TextView = itemView.findViewById(R.id.bird_age)
         val gender:TextView = itemView.findViewById(R.id.bird_gender)
         val img:ImageView = itemView.findViewById(R.id.bird_img)
-        val background : ConstraintLayout = itemView.findViewById(R.id.cardBack)
+        val background : CardView = itemView.findViewById(R.id.cardBack)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolderSingleBird {
@@ -39,9 +43,16 @@ class AllBirdsAdapter(
         holder.name.text = dataObject.name
         holder.age.text = dataObject.age.toString()
         holder.gender.text = dataObject.gender
-
         holder.img.setImageURI(Uri.parse(dataObject.imgLocation))
 
+//        if(position ==  arrayList!!.size-1 ){
+//            val lp = LinearLayout.LayoutParams(
+//                LinearLayout.LayoutParams.WRAP_CONTENT,
+//                LinearLayout.LayoutParams.WRAP_CONTENT
+//            )
+//            lp.setMargins(8, 8, 8, 8)
+//            holder.background.layoutParams = lp
+//        }
 
         holder.background.setOnClickListener {
             onClickListener.onAddBirdClick(bird = dataObject)

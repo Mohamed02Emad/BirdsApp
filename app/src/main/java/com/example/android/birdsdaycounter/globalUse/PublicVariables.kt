@@ -9,6 +9,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.io.File
 
 class MyApp : Application() {
 
@@ -17,6 +18,9 @@ class MyApp : Application() {
         allBirds = ArrayList()
         appContext = applicationContext
         customInit()
+
+        // creating parent file
+
     }
 
 
@@ -24,6 +28,9 @@ class MyApp : Application() {
         lateinit var appContext: Context
         lateinit var allBirds: ArrayList<Bird>
         lateinit var myDao : AllBirdsDao
+
+
+
 
         fun customInit() {
             myDao = AllBirdsDataBaseClass.getInstance(appContext).singleDao()

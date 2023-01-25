@@ -4,20 +4,21 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF"
+    android:background="@drawable/main_gradient_theme"
     tools:context=".presentation.AddBirdActivity">
-<View
-    android:layout_width="match_parent"
-    android:layout_height="2dp"
-    app:layout_constraintBottom_toTopOf="@id/cancel_button"
-    android:layout_marginBottom="6dp"
-    android:background="@color/light_blue"
-    />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_marginBottom="6dp"
+        android:background="@color/light_blue"
+        app:layout_constraintBottom_toTopOf="@id/cancel_button" />
+
     <TextView
         android:id="@+id/uppertxt2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/light_blue"
+        android:background="@color/main_gradient_purple"
         android:gravity="center"
         android:padding="4dp"
         android:text="@string/enter_bird_data"
@@ -36,8 +37,8 @@
         android:textColor="@color/white"
         android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/cancel_button"/>
+        app:layout_constraintEnd_toStartOf="@id/cancel_button"
+        app:layout_constraintStart_toStartOf="parent" />
 
 
     <androidx.appcompat.widget.AppCompatButton
@@ -51,9 +52,7 @@
         android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/save_button"
-        />
-
+        app:layout_constraintStart_toEndOf="@id/save_button" />
 
 
     <ScrollView
@@ -70,22 +69,23 @@
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/bird_creat_img"
                 android:layout_width="match_parent"
-                app:strokeWidth="2dp"
-                app:shapeAppearanceOverlay="@style/roundedImageViewRounded_Small"
-                app:strokeColor="@color/light_blue"
                 android:layout_height="0dp"
+                app:layout_constraintDimensionRatio="H,1:1"
                 android:layout_marginStart="70dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="70dp"
-                android:adjustViewBounds="true"
+                android:scaleType="centerCrop"
                 android:src="@drawable/bird"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:shapeAppearanceOverlay="@style/roundedImageViewRounded_Small"
+                app:strokeColor="@color/light_blue"
+                app:strokeWidth="2dp" />
 
             <ImageView
                 android:id="@+id/add_bird_camera"
-                android:layout_width="38dp"
-                android:layout_height="38dp"
-                android:background="@color/grey"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:background="#935F5959"
                 android:src="@drawable/camera_icon"
                 app:layout_constraintBottom_toBottomOf="@id/bird_creat_img"
                 app:layout_constraintRight_toRightOf="@id/bird_creat_img" />
@@ -94,15 +94,14 @@
                 android:id="@+id/nametxt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/bird_creat_img"
                 android:layout_marginTop="28dp"
+                android:text="@string/bird_name"
+                android:textColor="@color/white"
                 android:textSize="12sp"
                 android:textStyle="bold"
-                android:textColor="@color/black"
-                android:text="@string/bird_name"
-                />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/bird_creat_img" />
 
             <EditText
                 android:id="@+id/bird_name_ET"
@@ -110,12 +109,12 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="4dp"
+                android:layout_marginEnd="20dp"
+                android:background="@drawable/blue_frame"
+                android:hint="@string/bird_name"
                 android:maxLines="1"
                 android:padding="6dp"
-                android:layout_marginEnd="20dp"
-                android:hint="@string/bird_name"
-                android:background="@drawable/blue_frame"
-                android:textColor="@color/black"
+                android:textColor="@color/white"
                 android:textSize="14sp"
                 app:layout_constraintTop_toBottomOf="@id/nametxt" />
 
@@ -124,83 +123,83 @@
                 android:id="@+id/agetxt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/bird_name_ET"
                 android:layout_marginTop="14dp"
+                android:text="@string/Age"
+                android:textColor="@color/white"
                 android:textSize="12sp"
                 android:textStyle="bold"
-                android:textColor="@color/black"
-                android:text="@string/Age"
-                />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/bird_name_ET" />
 
             <EditText
                 android:id="@+id/bird_age_ET"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
-                android:background="@drawable/blue_frame"
-                android:layout_marginEnd="20dp"
-                android:hint="@string/Age"
                 android:layout_marginTop="4dp"
-                android:padding="6dp"
-                android:textColor="@color/black"
-                android:textSize="14sp"
+                android:layout_marginEnd="20dp"
+                android:background="@drawable/blue_frame"
+                android:hint="@string/Age"
                 android:inputType="number"
                 android:maxLines="1"
+                android:padding="6dp"
+                android:textColor="@color/white"
+                android:textSize="14sp"
                 app:layout_constraintTop_toBottomOf="@id/agetxt" />
 
             <TextView
                 android:id="@+id/gendertxt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/bird_age_ET"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginTop="14dp"
+                android:text="@string/Gender"
+                android:textColor="@color/white"
                 android:textSize="12sp"
                 android:textStyle="bold"
-                android:layout_marginTop="14dp"
-                android:textColor="@color/black"
-                android:text="@string/Gender"
-                />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/bird_age_ET" />
 
-              <RadioGroup
-                  android:id="@+id/myRadioGroup"
-                  app:layout_constraintTop_toBottomOf="@id/gendertxt"
-                  android:layout_width="match_parent"
-                  android:layout_height="wrap_content"
-                  android:orientation="vertical"
-                  android:layout_marginStart="20dp"
-                  android:background="@drawable/blue_frame"
-                  android:layout_marginEnd="20dp"
-                  android:padding="6dp"
-                  android:layout_marginBottom="20dp"
-                  app:layout_constraintBottom_toBottomOf="parent"
-                  >
-                  <RadioButton
-                      android:id="@+id/radiodonotknow"
-                      android:layout_width="match_parent"
-                      android:layout_height="wrap_content"
-                      android:checked="true"
-                      android:layout_marginBottom="4dp"
-                      android:text="don't know"
-                      android:textSize="14sp"/>
-                  <RadioButton
-                      android:id="@+id/radiomale"
-                      android:layout_width="match_parent"
-                      android:layout_height="wrap_content"
-                      android:checked="false"
-                      android:layout_marginBottom="4dp"
-                      android:text="@string/male"
-                      android:textSize="14sp"/>
-                  <RadioButton
-                      android:id="@+id/radiofemale"
-                      android:layout_width="match_parent"
-                      android:layout_height="wrap_content"
-                      android:checked="false"
-                      android:textSize="14sp"
-                      android:text="@string/female"/>
-              </RadioGroup>
+            <RadioGroup
+                android:id="@+id/myRadioGroup"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/blue_frame"
+                android:orientation="vertical"
+                android:padding="6dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/gendertxt">
+
+                <RadioButton
+                    android:id="@+id/radiodonotknow"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="4dp"
+                    android:checked="true"
+                    android:text="don't know"
+                    android:textSize="14sp" />
+
+                <RadioButton
+                    android:id="@+id/radiomale"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="4dp"
+                    android:checked="false"
+                    android:text="@string/male"
+                    android:textSize="14sp" />
+
+                <RadioButton
+                    android:id="@+id/radiofemale"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:checked="false"
+                    android:text="@string/female"
+                    android:textSize="14sp" />
+            </RadioGroup>
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
