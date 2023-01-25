@@ -69,8 +69,10 @@ class BirdsFragment : MyFragmentParentClass() {
     private fun setOnClickListeners() {
         binding.addCollectionButton.setOnClickListener {
 
-//            val addBirdDialog : AddBirdDialog = AddBirdDialog()
-//            addBirdDialog.show(childFragmentManager,"TAG")
+            val addBirdDialog : AddBirdDialog = AddBirdDialog()
+            addBirdDialog.show(childFragmentManager,"TAG")
+
+
 //            var i = Intent(requireActivity(), AddBirdDialog::class.java)
 //            requireActivity().startActivity(i)
            //   findNavController().navigate()

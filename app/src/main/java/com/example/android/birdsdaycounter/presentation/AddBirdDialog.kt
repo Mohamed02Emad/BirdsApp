@@ -67,8 +67,7 @@ class AddBirdDialog : DialogFragment() {
     private fun setOnClicks(view: View) {
 
        cancelBTN.setOnClickListener {
-          this.findNavController().navigateUp()
-           //todo : suzan
+           this.dismiss()
         }
 
         cameraBTN.setOnClickListener {
@@ -101,9 +100,6 @@ class AddBirdDialog : DialogFragment() {
 
            //todo: suzan make sure that user have entered data before saving
             saveBird(bird,bytes)
-
-      //todo : Suzan
-
        }
     }
 
@@ -129,9 +125,9 @@ class AddBirdDialog : DialogFragment() {
             //  Log.i(TAG, "saveBird: ${E.message}")
 
         }
-
-
         MyApp.addToAllBirdsArrayList(bird)
+
+        this.dismiss()
     }
 
     var resultLauncher =
