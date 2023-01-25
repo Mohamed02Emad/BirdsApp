@@ -16,6 +16,7 @@ import com.example.android.birdsdaycounter.databinding.ActivityMainBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
+
     lateinit var binding: ActivityMainBinding
     private lateinit var navHostFragment: NavHostFragment
     private lateinit var bottomNavigationView: BottomNavigationView
