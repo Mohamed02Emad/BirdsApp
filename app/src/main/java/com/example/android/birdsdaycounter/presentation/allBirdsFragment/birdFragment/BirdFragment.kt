@@ -1,12 +1,15 @@
 package com.example.android.birdsdaycounter.presentation.allBirdsFragment.birdFragment
 
+import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.RadioButton
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -18,7 +21,6 @@ import com.example.android.birdsdaycounter.globalUse.MyFragmentParentClass
 import kotlinx.coroutines.launch
 
 class BirdFragment : MyFragmentParentClass() {
-
     private val args by navArgs<BirdFragmentArgs>()
     private lateinit var binding: FragmentBirdBinding
     private val viewModel: BirdViewModel by viewModels()
@@ -40,34 +42,30 @@ class BirdFragment : MyFragmentParentClass() {
     }
 
     private fun setOnClicks(view: View) {
-        binding.nameSaveBtn.setOnClickListener {
+
+        binding.saveBtn.setOnClickListener {
             viewModel.bird.value!!.name = binding.birdName.text.toString()
-            it.visibility = View.GONE
-            lifecycleScope.launch {
-                val myBird = viewModel.bird.value
-                MyApp.updateBird(myBird!!)
-            }
-        }
-
-        binding.ageSaveBtn.setOnClickListener {
             viewModel.bird.value!!.age = binding.birdAge.text.toString()
-            it.visibility = View.GONE
-            lifecycleScope.launch {
-                val myBird = viewModel.bird.value
-                MyApp.updateBird(myBird!!)
-            }
-        }
-
-        binding.genderSaveBtn.setOnClickListener {
             val id = binding.myRadioGroup.checkedRadioButtonId
             viewModel.bird.value!!.gender = view.findViewById<RadioButton>(id).text.toString()
+            viewModel.changePic(binding.birdImg.drawable)
             it.visibility = View.GONE
             lifecycleScope.launch {
                 val myBird = viewModel.bird.value
                 MyApp.updateBird(myBird!!)
             }
-
         }
+
+        binding.cameraIcon.setOnClickListener {
+
+            val i = Intent().apply {
+                setType("image/*")
+                setAction(Intent.ACTION_GET_CONTENT)
+            }
+            resultLauncher.launch(i)
+        }
+
+        binding.backBtn.setOnClickListener { findNavController().navigateUp() }
     }
 
     private fun setViews(view: View) {
@@ -79,41 +77,48 @@ class BirdFragment : MyFragmentParentClass() {
             "male" -> binding.radiomale.isChecked = true
             "female" -> binding.radiofemale.isChecked = true
         }
-        binding.ageSaveBtn.visibility = View.GONE
-        binding.genderSaveBtn.visibility = View.GONE
-        binding.nameSaveBtn.visibility = View.GONE
-
+        binding.saveBtn.visibility = View.GONE
         saveNewValues(view)
     }
 
     private fun saveNewValues(view: View) {
         binding.birdName.doOnTextChanged { text, start, before, count ->
-            if (text != viewModel.bird.value!!.name) {
-                binding.nameSaveBtn.visibility = View.VISIBLE
-            } else if (text == viewModel.bird.value!!.name) {
-                binding.nameSaveBtn.visibility = View.GONE
-            }
+           compareValues(view)
         }
-
         binding.birdAge.doOnTextChanged { text, start, before, count ->
-
-            if (text != viewModel.bird.value!!.age) {
-                binding.ageSaveBtn.visibility = View.VISIBLE
-            } else if (text == viewModel.bird.value!!.age) {
-                binding.ageSaveBtn.visibility = View.GONE
-            }
-
+            compareValues(view)
         }
-
         binding.myRadioGroup.setOnCheckedChangeListener { radioGroup, i ->
-            val id = radioGroup.checkedRadioButtonId
-            val gender = view.findViewById<RadioButton>(id).text
-            if (!gender.equals(viewModel.bird.value!!.gender)) {
-                binding.genderSaveBtn.visibility = View.VISIBLE
-            } else binding.genderSaveBtn.visibility = View.GONE
-
+            compareValues(view)
+        }
+        viewModel.uri.observe(viewLifecycleOwner){
+            if (viewModel.uri.value!=null)
+            compareValues(view)
         }
     }
+
+    fun compareValues(view: View) {
+        val id = binding.myRadioGroup.checkedRadioButtonId
+        val gender = view.findViewById<RadioButton>(id).text
+        if (binding.birdAge.text.toString() != viewModel.bird.value!!.age ||
+            binding.birdName.text.toString() != viewModel.bird.value!!.name ||
+            viewModel.imageCheck()||
+            !gender.equals(viewModel.bird.value!!.gender )
+        ) {
+            binding.saveBtn.visibility = View.VISIBLE
+        } else {
+            binding.saveBtn.visibility = View.GONE
+        }
+    }
+
+    var resultLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                val data = result.data
+                viewModel.uri.value = data!!.data
+                binding.birdImg.setImageURI(viewModel.uri.value)
+            }
+        }
 
     override fun onAttach(context: Context) {
         if (viewModel.leaveControlFlag) {
