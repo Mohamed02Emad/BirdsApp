@@ -1,8 +1,8 @@
 package com.example.android.birdsdaycounter.presentation.allBirdsFragment
 
-import android.content.Intent
+import android.R.attr.data
 import android.os.Bundle
-import android.text.Layout.Directions
+import android.os.Parcelable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,13 +12,16 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearSmoothScroller
 import androidx.recyclerview.widget.RecyclerView.LayoutManager
 import androidx.recyclerview.widget.RecyclerView.SmoothScroller
+import com.example.android.birdsdaycounter.R
+import com.example.android.birdsdaycounter.data.models.Bird
 import com.example.android.birdsdaycounter.databinding.FragmentAllBirdsBinding
 import com.example.android.birdsdaycounter.globalUse.MyFragmentParentClass
 import com.example.android.birdsdaycounter.presentation.AddBirdDialog
+import com.example.android.birdsdaycounter.presentation.allBirdsFragment.birdFragment.BirdFragment
 import com.example.android.birdsdaycounter.presentation.recyclerViews.recyclerViewAllBirds.AllBirdsAdapter
 
 
-class BirdsFragment : MyFragmentParentClass() {
+class AllBirdsFragment : MyFragmentParentClass() {
 
     private lateinit var binding: FragmentAllBirdsBinding
     lateinit var layoutManager: LayoutManager
@@ -48,10 +51,10 @@ class BirdsFragment : MyFragmentParentClass() {
                     GridLayoutManager(requireActivity(), 2, GridLayoutManager.VERTICAL, false)
 
                 adapter = AllBirdsAdapter(viewModel.collectionsLiveData.value,
-                    AllBirdsAdapter.OnAddClickListener { collection ->
-
+                    AllBirdsAdapter.OnAddClickListener { bird ->
+                                birdClicked(bird)
                     },
-                    AllBirdsAdapter.OnRemoveClickListener { collection ->
+                    AllBirdsAdapter.OnRemoveClickListener { bird ->
                         //does nothing
                     }
                 )
@@ -65,17 +68,37 @@ class BirdsFragment : MyFragmentParentClass() {
 
     }
 
+    private fun birdClicked(bird: Bird) {
+
+        val action = AllBirdsFragmentDirections.actionAllBirdsFragmentToBirdFragment(bird)
+        findNavController().navigate(action)
+    }
+
 
     private fun setOnClickListeners() {
+
+        viewModel.newBirdWasAdded.observe(viewLifecycleOwner) {
+            if (it) {
+                try {
+                    viewModel.resetArrayList()
+                    if (viewModel.isReadyToShow.value == true) {
+                        resetRV()
+                    }
+                } catch (E: Exception) {
+                }
+                viewModel.newBirdWasAdded.value = false
+            }
+        }
+
         binding.addCollectionButton.setOnClickListener {
 
-            val addBirdDialog : AddBirdDialog = AddBirdDialog()
-            addBirdDialog.show(childFragmentManager,"TAG")
+            val addBirdDialog: AddBirdDialog = AddBirdDialog(viewModel)
+            addBirdDialog.show(childFragmentManager, "TAG")
 
 
 //            var i = Intent(requireActivity(), AddBirdDialog::class.java)
 //            requireActivity().startActivity(i)
-           //   findNavController().navigate()
+            //   findNavController().navigate()
         }
     }
 
@@ -100,17 +123,8 @@ class BirdsFragment : MyFragmentParentClass() {
         }
         smoothScroller.setTargetPosition(pos)
         layoutManager.startSmoothScroll(smoothScroller)
-    }
 
-    override fun onResume() {
-        super.onResume()
-        try {
-            viewModel.resetArrayList()
-            if (viewModel.isReadyToShow.value == true) {
-                resetRV()
-            }
-        } catch (E: Exception) {
-        }
+       //binding.collectionsRv.smoothScrollToPosition()
     }
 
 }

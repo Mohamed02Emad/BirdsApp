@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".presentation.allBirdsFragment.BirdsFragment">
+    tools:context=".presentation.allBirdsFragment.AllBirdsFragment">
 
-<!--    <TextView-->
-<!--        android:id="@+id/upperTXT"-->
-<!--        app:layout_constraintTop_toTopOf="parent"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:text="@string/know_your_birds"-->
-<!--        android:gravity="center"-->
-<!--        android:textSize="20sp"-->
-<!--        android:padding="8dp"-->
-<!--        android:textColor="@color/white"-->
-<!--        android:background="@color/main_gradient_blue"-->
-<!--        />-->
+    <!--    <TextView-->
+    <!--        android:id="@+id/upperTXT"-->
+    <!--        app:layout_constraintTop_toTopOf="parent"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:text="@string/know_your_birds"-->
+    <!--        android:gravity="center"-->
+    <!--        android:textSize="20sp"-->
+    <!--        android:padding="8dp"-->
+    <!--        android:textColor="@color/white"-->
+    <!--        android:background="@color/main_gradient_blue"-->
+    <!--        />-->
 
 
     <androidx.recyclerview.widget.RecyclerView
@@ -27,26 +27,24 @@
         android:orientation="vertical"
         android:paddingLeft="8dp"
         android:paddingRight="8dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="parent" />
 
 
-   <com.google.android.material.imageview.ShapeableImageView
-       android:id="@+id/add_collection_button"
-       android:layout_width="45dp"
-       android:layout_height="45dp"
-       app:shapeAppearanceOverlay="@style/roundedImageViewRounded"
-       app:layout_constraintBottom_toBottomOf="parent"
-       app:layout_constraintEnd_toEndOf="parent"
-       android:layout_marginBottom="16dp"
-       android:layout_marginEnd="16dp"
-       android:src="@drawable/add_icon"
-       android:background="@drawable/add_ripple"
-       app:strokeColor="@color/white"
-       app:strokeWidth="1dp"
-       />
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/add_collection_button"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:background="@color/light_blue"
+        android:src="@drawable/add_icon"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:shapeAppearanceOverlay="@style/roundedImageViewRounded"
+        app:strokeColor="@color/white"
+        app:strokeWidth="0dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,19 +1,17 @@
 package com.example.android.birdsdaycounter.presentation.recyclerViews.recyclerViewAllBirds
 
-import android.R.attr.left
-import android.R.attr.right
 import android.net.Uri
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.cardview.widget.CardView
-import androidx.core.view.marginBottom
 import androidx.recyclerview.widget.RecyclerView
 import com.example.android.birdsdaycounter.R
 import com.example.android.birdsdaycounter.data.models.Bird
+import kotlinx.coroutines.*
 
 
 class AllBirdsAdapter(
@@ -22,13 +20,13 @@ class AllBirdsAdapter(
     private val onRemoveClickListener: OnRemoveClickListener
 ) : RecyclerView.Adapter<AllBirdsAdapter.ViewHolderSingleBird>() {
 
-    class ViewHolderSingleBird(itemView: View ) :
+    class ViewHolderSingleBird(itemView: View) :
         RecyclerView.ViewHolder(itemView) {
         val name: TextView = itemView.findViewById(R.id.bird_name)
-        val age : TextView = itemView.findViewById(R.id.bird_age)
-        val gender:TextView = itemView.findViewById(R.id.bird_gender)
-        val img:ImageView = itemView.findViewById(R.id.bird_img)
-        val background : CardView = itemView.findViewById(R.id.cardBack)
+        val age: TextView = itemView.findViewById(R.id.bird_age)
+        val gender: TextView = itemView.findViewById(R.id.bird_gender)
+        val img: ImageView = itemView.findViewById(R.id.bird_img)
+        val background: CardView = itemView.findViewById(R.id.cardBack)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolderSingleBird {
@@ -37,13 +35,28 @@ class AllBirdsAdapter(
         return ViewHolderSingleBird(view)
     }
 
+    @OptIn(DelicateCoroutinesApi::class)
     override fun onBindViewHolder(holder: ViewHolderSingleBird, position: Int) {
         val dataObject = arrayList!![position]
 
         holder.name.text = dataObject.name
         holder.age.text = dataObject.age.toString()
         holder.gender.text = dataObject.gender
-        holder.img.setImageURI(Uri.parse(dataObject.imgLocation))
+
+
+
+        GlobalScope.launch(Dispatchers.Main) {
+            try {
+                    holder.img.setImageURI(Uri.parse(dataObject.imgLocation))
+                    this.cancel()
+
+            } catch (E:Exception) {
+                    Log.i("Moha", "onBindViewHolder: ${E.message}")
+            }
+        }
+
+
+
 
 //        if(position ==  arrayList!!.size-1 ){
 //            val lp = LinearLayout.LayoutParams(

@@ -18,4 +18,5 @@
     <string name="male">male</string>
     <string name="female">female</string>
     <string name="Age">Age</string>
+    <string name="Empty">Empty</string>
 </resources>

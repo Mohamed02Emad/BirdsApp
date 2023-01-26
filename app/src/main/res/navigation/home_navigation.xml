@@ -11,7 +11,7 @@
         tools:layout="@layout/fragment_home" />
     <fragment
         android:id="@+id/AllBirdsFragment"
-        android:name="com.example.android.birdsdaycounter.presentation.allBirdsFragment.BirdsFragment"
+        android:name="com.example.android.birdsdaycounter.presentation.allBirdsFragment.AllBirdsFragment"
         android:label="Birds"
         tools:layout="@layout/fragment_all_birds" >
 
@@ -21,20 +21,24 @@
             app:nullable="true"
             android:defaultValue="no" />
         <action
-            android:id="@+id/action_singleFragment2_to_addBirdDialog"
-            app:destination="@id/addBirdDialog" />
+            android:id="@+id/action_AllBirdsFragment_to_birdFragment"
+            app:destination="@id/birdFragment" />
     </fragment>
     <fragment
         android:id="@+id/multiBirdFragment2"
         android:name="com.example.android.birdsdaycounter.presentation.multiBirdsFragment.MultiBirdFragment"
         android:label="fragment_multi_bird"
         tools:layout="@layout/fragment_multi_bird" />
-    <dialog
-        android:id="@+id/addBirdDialog"
-        android:name="com.example.android.birdsdaycounter.presentation.AddBirdDialog"
-        android:label="AddBirdDialog" >
+    <fragment
+        android:id="@+id/birdFragment"
+        android:name="com.example.android.birdsdaycounter.presentation.allBirdsFragment.birdFragment.BirdFragment"
+        android:label="fragment_bird"
+        tools:layout="@layout/fragment_bird" >
         <action
-            android:id="@+id/action_addBirdDialog_to_singleFragment2"
+            android:id="@+id/action_birdFragment_to_AllBirdsFragment2"
             app:destination="@id/AllBirdsFragment" />
-    </dialog>
+        <argument
+            android:name="bird"
+            app:argType="com.example.android.birdsdaycounter.data.models.Bird" />
+    </fragment>
 </navigation>

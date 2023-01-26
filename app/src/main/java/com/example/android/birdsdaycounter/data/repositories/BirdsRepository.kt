@@ -5,7 +5,7 @@ import com.example.android.birdsdaycounter.data.source.allBirdsRoom.AllBirdsDao
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-class AllBirdsRepository(
+class BirdsRepository(
     private val myDao: AllBirdsDao
 ) {
 
