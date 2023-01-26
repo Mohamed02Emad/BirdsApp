@@ -25,7 +25,7 @@ class AllBirdsViewModel : ViewModel() {
 
     init {
         isReadyToShow.value=false
-        isReadyToShow.value=false
+        newBirdWasAdded.value=false
         _collectionsLiveData.value = ArrayList()
         val dao = AllBirdsDataBaseClass.getInstance(MyApp.appContext).singleDao()
         repository = BirdsRepository(dao)

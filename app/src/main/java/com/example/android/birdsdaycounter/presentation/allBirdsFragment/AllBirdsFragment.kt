@@ -123,6 +123,8 @@ class AllBirdsFragment : MyFragmentParentClass() {
         }
         smoothScroller.setTargetPosition(pos)
         layoutManager.startSmoothScroll(smoothScroller)
+
+       //binding.collectionsRv.smoothScrollToPosition()
     }
 
 }
