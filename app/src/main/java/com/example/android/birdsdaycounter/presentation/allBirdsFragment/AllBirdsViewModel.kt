@@ -19,10 +19,12 @@ class AllBirdsViewModel : ViewModel() {
     val collectionsLiveData: LiveData<ArrayList<Bird>?> = _collectionsLiveData
 
     var isReadyToShow = MutableLiveData<Boolean>()
+    var newBirdWasAdded = MutableLiveData<Boolean>()
 
      val repository: AllBirdsRepository
 
     init {
+        isReadyToShow.value=false
         isReadyToShow.value=false
         _collectionsLiveData.value = ArrayList()
         val dao = AllBirdsDataBaseClass.getInstance(MyApp.appContext).singleDao()

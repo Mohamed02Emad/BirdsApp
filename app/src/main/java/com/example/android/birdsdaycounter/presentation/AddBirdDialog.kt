@@ -13,20 +13,15 @@ import android.widget.*
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.graphics.drawable.toBitmap
 import androidx.fragment.app.DialogFragment
-import androidx.navigation.NavController
-import androidx.navigation.Navigation
-import androidx.navigation.fragment.findNavController
 import com.example.android.birdsdaycounter.R
 import com.example.android.birdsdaycounter.data.models.Bird
 import com.example.android.birdsdaycounter.globalUse.MyApp
-import com.example.android.birdsdaycounter.presentation.allBirdsFragment.BirdsFragment
+import com.example.android.birdsdaycounter.presentation.allBirdsFragment.AllBirdsViewModel
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileOutputStream
 
-class AddBirdDialog : DialogFragment() {
-
-    //private lateinit var binding:
+class AddBirdDialog(val viewModel: AllBirdsViewModel) : DialogFragment() {
     var uri: Uri? = null
     lateinit var cancelBTN : Button
     lateinit var saveBTN : Button
@@ -126,9 +121,11 @@ class AddBirdDialog : DialogFragment() {
 
         }
         MyApp.addToAllBirdsArrayList(bird)
-
+       viewModel.newBirdWasAdded.value=true
         this.dismiss()
     }
+
+
 
     var resultLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
@@ -139,7 +136,6 @@ class AddBirdDialog : DialogFragment() {
 
             }
         }
-
 
     override fun onResume() {
         super.onResume()

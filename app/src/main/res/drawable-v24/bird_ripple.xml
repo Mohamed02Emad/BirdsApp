@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ripple xmlns:android="http://schemas.android.com/apk/res/android"
-    android:color="#D80EDB">
+    android:color="#0C2AA2">
     <item>
         <shape>
             <stroke
@@ -8,8 +8,8 @@
                 android:color="#0431EE" />
             <gradient
                 android:angle="90"
-                android:endColor="#FFFFFF"
-                android:startColor="#C2B47CF2"
+                android:endColor="#3E549B"
+                android:startColor="#C27C8AF2"
                 />
             <corners
                 android:radius="16dp"

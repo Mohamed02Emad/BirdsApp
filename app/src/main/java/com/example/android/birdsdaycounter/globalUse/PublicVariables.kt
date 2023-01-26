@@ -41,6 +41,13 @@ class MyApp : Application() {
         suspend fun getAll(): List<Bird> = withContext(Dispatchers.IO){
             myDao.getAll()
         }
+
+        suspend fun updateBird(bird: Bird) = withContext(Dispatchers.IO){
+            myDao.update(bird)
+        }
+
+
+
         fun addToAllBirdsArrayList(bird: Bird){
            allBirds.add(bird)
             GlobalScope.launch {
