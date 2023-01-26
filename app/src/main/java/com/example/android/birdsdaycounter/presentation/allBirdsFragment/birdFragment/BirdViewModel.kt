@@ -57,7 +57,7 @@ class BirdViewModel : ViewModel() {
     }
 
     fun imageCheck(): Boolean =
-        uri!=null
+        uri.value!=null
 
 
 

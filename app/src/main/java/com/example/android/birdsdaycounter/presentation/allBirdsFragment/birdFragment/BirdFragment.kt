@@ -92,7 +92,7 @@ class BirdFragment : MyFragmentParentClass() {
             compareValues(view)
         }
         viewModel.uri.observe(viewLifecycleOwner){
-            if (viewModel.uri.value!=null)
+            if (viewModel.imageCheck())
             compareValues(view)
         }
     }
