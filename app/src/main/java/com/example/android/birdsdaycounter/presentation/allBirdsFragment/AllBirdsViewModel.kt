@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.android.birdsdaycounter.data.models.Bird
-import com.example.android.birdsdaycounter.data.repositories.AllBirdsRepository
+import com.example.android.birdsdaycounter.data.repositories.BirdsRepository
 import com.example.android.birdsdaycounter.globalUse.MyApp
 import com.example.android.birdsdaycounter.data.source.allBirdsRoom.AllBirdsDataBaseClass
 import kotlinx.coroutines.Dispatchers
@@ -21,14 +21,14 @@ class AllBirdsViewModel : ViewModel() {
     var isReadyToShow = MutableLiveData<Boolean>()
     var newBirdWasAdded = MutableLiveData<Boolean>()
 
-     val repository: AllBirdsRepository
+     val repository: BirdsRepository
 
     init {
         isReadyToShow.value=false
         isReadyToShow.value=false
         _collectionsLiveData.value = ArrayList()
         val dao = AllBirdsDataBaseClass.getInstance(MyApp.appContext).singleDao()
-        repository = AllBirdsRepository(dao)
+        repository = BirdsRepository(dao)
         viewModelScope.launch {
             _collectionsLiveData.value=MyApp.allBirds
             isReadyToShow.value=true
