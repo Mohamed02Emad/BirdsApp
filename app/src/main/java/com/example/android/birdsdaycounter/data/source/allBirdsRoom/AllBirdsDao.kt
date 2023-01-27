@@ -5,6 +5,7 @@ import com.example.android.birdsdaycounter.data.models.Bird
 
 @Dao
 interface AllBirdsDao {
+
     @Query("SELECT * FROM Birds")
     fun getAll(): List<Bird>
 

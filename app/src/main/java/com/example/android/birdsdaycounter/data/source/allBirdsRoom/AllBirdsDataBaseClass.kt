@@ -28,15 +28,7 @@ abstract class AllBirdsDataBaseClass : RoomDatabase() {
                 ).build()
                 instancee = instance
                 instance
-
         }
-
-
         }
-
-
     }
-
-
-
 }
