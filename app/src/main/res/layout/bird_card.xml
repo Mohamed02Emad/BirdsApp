@@ -3,6 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_marginTop="8dp"
+    app:cardElevation="10dp"
+    app:cardPreventCornerOverlap="false"
+    android:divider="@android:color/transparent"
+    android:dividerHeight="0.0dp"
+    android:clipToPadding="false"
+    android:clipChildren="false"
     android:layout_marginStart="8dp"
     android:layout_marginEnd="8dp"
     android:layout_marginBottom="8dp"
@@ -19,8 +25,8 @@
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/bird_img"
-        android:layout_width="250dp"
-        android:layout_height="250dp"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
         app:layout_constraintDimensionRatio="H,1:1"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
