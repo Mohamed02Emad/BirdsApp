@@ -21,15 +21,16 @@ import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileOutputStream
 
+
 class AddBirdDialog(val viewModel: AllBirdsViewModel) : DialogFragment() {
     var uri: Uri? = null
     lateinit var cancelBTN : Button
     lateinit var saveBTN : Button
     lateinit var cameraBTN:Button
-    lateinit var nameET:EditText
+    lateinit var nameET: EditText
     lateinit var ageET:EditText
-    lateinit var img:ImageView
-    lateinit var radioGroup:RadioGroup
+    lateinit var img: ImageView
+    lateinit var radioGroup: RadioGroup
 
     override fun onCreateView(
         inflater: LayoutInflater,
