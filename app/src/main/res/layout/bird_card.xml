@@ -33,8 +33,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:shapeAppearanceOverlay="@style/roundedImageViewRounded_Small"
-        app:strokeColor="@color/dark_blue"
-        app:strokeWidth="2dp" />
+         />
 
     <TextView
         android:id="@+id/bird_name"
@@ -42,8 +41,9 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         tools:text="bird bird"
+        android:textStyle="bold"
         android:maxLength="11"
-        android:textColor="@color/white"
+        android:textColor="@color/black"
         android:textSize="11sp"
         app:layout_constraintEnd_toEndOf="@id/bird_img"
         app:layout_constraintStart_toStartOf="@id/bird_img"
@@ -54,7 +54,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
-        android:textColor="@color/white"
+        android:textColor="@color/black"
         tools:text="4 m , 14 d"
         android:textSize="11sp"
         app:layout_constraintEnd_toEndOf="@id/bird_img"
@@ -69,7 +69,7 @@
         android:layout_marginBottom="4dp"
         tools:text="Male"
         android:textSize="11sp"
-        android:textColor="@color/white"
+        android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="@id/bird_img"
         app:layout_constraintStart_toStartOf="@id/bird_img"
         app:layout_constraintTop_toBottomOf="@id/bird_age"

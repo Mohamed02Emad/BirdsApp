@@ -19,4 +19,7 @@
     <string name="female">female</string>
     <string name="Age">Age</string>
     <string name="Empty">Empty</string>
+    <string name="save_btn">Save</string>
+    <string name="add">Add</string>
+    <string name="edit_photo">Edit Photo</string>
 </resources>

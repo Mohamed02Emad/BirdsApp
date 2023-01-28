@@ -2,11 +2,6 @@
 android:color="#1B1A1A">
 <item>
     <shape>
-        <stroke
-            android:color="#272525"
-            android:width="1dp"
-            />
-
         <corners
             android:radius="25dp"/>
         <solid
