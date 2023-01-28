@@ -25,7 +25,7 @@ class AddBirdDialog(val viewModel: AllBirdsViewModel) : DialogFragment() {
     var uri: Uri? = null
     lateinit var cancelBTN : Button
     lateinit var saveBTN : Button
-    lateinit var cameraBTN:ImageView
+    lateinit var cameraBTN:Button
     lateinit var nameET:EditText
     lateinit var ageET:EditText
     lateinit var img:ImageView

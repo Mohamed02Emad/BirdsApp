@@ -9,10 +9,10 @@ import kotlinx.parcelize.Parcelize
 @Entity(tableName = "Family")
 data class Family (
     var familyName : String?,
-    var male : Bird?,
-    var female : Bird?
+    var male : Int?,
+    var female : Int?
         ) : Parcelable {
-    @PrimaryKey(autoGenerate = true) val id : Int = 0
+    @PrimaryKey(autoGenerate = true) var id : Int = 0
     var numberOfEggs = 0
     var numberOfKids = 0
 }
