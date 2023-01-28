@@ -84,7 +84,7 @@
             <Button
                 android:id="@+id/add_bird_camera"
                 android:layout_width="0dp"
-                android:layout_height="35dp"
+                android:layout_height="45dp"
                 android:layout_marginStart="18dp"
                 android:layout_marginEnd="18dp"
                 android:background="#00777070"
