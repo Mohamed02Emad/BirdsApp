@@ -11,7 +11,7 @@
         <item name="colorOnSecondary">#000000</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor">#002D65C8</item>
-        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:windowLightStatusBar">true</item>
         <!-- Customize your theme here. -->
         <item name="android:windowBackground">@drawable/main_gradient_theme</item>
         <item name="android:navigationBarColor">@color/black</item>

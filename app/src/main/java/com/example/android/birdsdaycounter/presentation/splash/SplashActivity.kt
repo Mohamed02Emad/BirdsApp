@@ -25,7 +25,7 @@ class SplashActivity : AppCompatActivity() {
         setContentView(R.layout.activity_splash)
         i = Intent(this, MainActivity::class.java)
         lottieAnimationView = findViewById(R.id.animationView)
-        setAnimation()
+        //setAnimation()
         whenAnimationEnd()
     }
 
