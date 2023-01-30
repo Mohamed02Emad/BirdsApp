@@ -1,4 +1,4 @@
-package com.example.android.birdsdaycounter.presentation.allBirdsFragment.birdFragment
+package com.example.android.birdsdaycounter.presentation.birdFragment
 
 import android.annotation.SuppressLint
 import android.app.Activity
@@ -19,13 +19,17 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.navigation.ui.NavigationUI.navigateUp
+import com.example.android.birdsdaycounter.MainActivity
+import com.example.android.birdsdaycounter.data.models.Bird
 import com.example.android.birdsdaycounter.databinding.FragmentBirdBinding
 import com.example.android.birdsdaycounter.globalUse.MyApp
 import com.example.android.birdsdaycounter.globalUse.MyFragmentParentClass
+import com.example.android.birdsdaycounter.presentation.allBirdsFragment.AllBirdsFragment
 import kotlinx.coroutines.launch
 
-class BirdFragment : MyFragmentParentClass() {
-    private val args by navArgs<BirdFragmentArgs>()
+class BirdFragment(val bird: Bird) : MyFragmentParentClass() {
+  //  private val args by navArgs<BirdFragmentArgs>()
     private lateinit var binding: FragmentBirdBinding
     private val viewModel: BirdViewModel by viewModels()
 
@@ -33,8 +37,8 @@ class BirdFragment : MyFragmentParentClass() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
-        viewModel.leaveControlFlag = true
-        viewModel.initBird(args.bird)
+       // viewModel.initBird(args.bird)
+        viewModel.initBird(bird = bird)
         binding = FragmentBirdBinding.inflate(layoutInflater)
         return binding.root
     }
@@ -59,10 +63,13 @@ class BirdFragment : MyFragmentParentClass() {
                 val myBird = viewModel.bird.value
                 MyApp.updateBird(myBird!!)
             }
+
+            setFragment(AllBirdsFragment.newInstance(),false)
         }
 
         binding.scroll.setOnTouchListener(View.OnTouchListener { v, event ->
             if (event.action == MotionEvent.ACTION_DOWN) {
+
                 if (binding.birdName.isFocused()) {
                     val outRect = Rect()
                     binding.birdName.getGlobalVisibleRect(outRect)
@@ -73,6 +80,7 @@ class BirdFragment : MyFragmentParentClass() {
                         imm.hideSoftInputFromWindow(v.windowToken, 0)
                     }
                 }
+
                 if (binding.birdAge.isFocused()) {
                     val outRect = Rect()
                     binding.birdAge.getGlobalVisibleRect(outRect)
@@ -98,7 +106,10 @@ class BirdFragment : MyFragmentParentClass() {
             resultLauncher.launch(i)
         }
 
-        binding.backBtn.setOnClickListener { findNavController().navigateUp() }
+        binding.backBtn.setOnClickListener {
+            //findNavController().navigateUp()  to Allbirds
+            setFragment(AllBirdsFragment.newInstance(),false)
+        }
     }
 
     private fun setViews(view: View) {
@@ -172,14 +183,11 @@ class BirdFragment : MyFragmentParentClass() {
             }
         }
 
-    override fun onAttach(context: Context) {
-        if (viewModel.leaveControlFlag) {
-            try {
-                findNavController().navigateUp()
-            } catch (E: java.lang.Exception) {
-            }
+
+    companion object {
+        fun newInstance(bird: Bird): BirdFragment {
+            return BirdFragment(bird)
         }
-        super.onAttach(context)
     }
 
 }

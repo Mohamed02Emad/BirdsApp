@@ -1,9 +1,13 @@
 package com.example.android.birdsdaycounter
 
+import android.annotation.SuppressLint
 import android.annotation.TargetApi
 import android.app.Activity
+import android.content.Context
 import android.os.Build
 import android.os.Bundle
+import android.view.View
+import android.view.ViewGroup.MarginLayoutParams
 import android.view.Window
 import android.view.WindowManager
 import androidx.activity.result.contract.ActivityResultContracts
@@ -19,9 +23,10 @@ import com.example.android.birdsdaycounter.presentation.multiBirdsFragment.Multi
 import com.example.android.birdsdaycounter.presentation.scheduleFragment.HomeFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
+
 class MainActivity : AppCompatActivity() {
 
-    lateinit var binding: ActivityMainBinding
+   // lateinit var binding: ActivityMainBinding
     private lateinit var navHostFragment: NavHostFragment
     private lateinit var bottomNavigationView: BottomNavigationView
 
@@ -37,6 +42,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         val view = binding.root
+        context=this
         setStatusBarGradiant(this)
         setContentView(view)
         setMeowNavigation()
@@ -47,7 +53,6 @@ class MainActivity : AppCompatActivity() {
     private fun setMeowNavigation() {
         val bottomNavigation = findViewById<MeowBottomNavigation>(R.id.bottom_nav)
 
-      //  bottomNavigation.typeface = Typeface.createFromAsset(assets, "fonts/SourceSansPro-Regular.ttf")
 
         bottomNavigation.add(MeowBottomNavigation.Model(1, R.drawable.bird))
         bottomNavigation.add(MeowBottomNavigation.Model(2, R.drawable.schedule_icon))
@@ -64,13 +69,12 @@ class MainActivity : AppCompatActivity() {
         bottomNavigation.show(2)
     }
 
-
     fun setFragment(fragment: Fragment) {
         supportFragmentManager.beginTransaction()
             .replace(R.id.frame_layout, fragment, "main activity")
             .commit()
-
     }
+
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     fun setStatusBarGradiant(activity: Activity) {
@@ -105,37 +109,30 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    companion object {
+
+        @SuppressLint("StaticFieldLeak")
+        lateinit var binding : ActivityMainBinding
+        lateinit var context: Context
+
+           fun hideBottomNav(hide: Boolean) {
+            if (hide) {
+                binding.bottomNav.visibility = View.GONE
+                setMargins(binding.frameLayout,0,0,0,0)
+
+            } else {
+                binding.bottomNav.visibility = View.VISIBLE
+                setMargins(binding.frameLayout,0,0,0,120)
+            }
+        }
+
+        private fun setMargins(view: View, left: Int, top: Int, right: Int, bottom: Int) {
+            if (view.layoutParams is MarginLayoutParams) {
+                val p = view.layoutParams as MarginLayoutParams
+                p.setMargins(left, top, right, bottom)
+                view.requestLayout()
+            }
+        }
+    }
 
 }
-
-
-/*
-create collections
-each collection contains some birds
-
-each bird has {
-image of them
-number of eggs
-each egg laying date and expected hatching date
-when the expected date comes notification should arrive
-
-if the user marked an egg as a little bird
-new waiting period should start and a notification should arrive when the bird is ready
-to leave the nest
-
-else if the egg didn't hatch you can simply delete it
-
-
-you can add new little bird or new egg at any time
-you can also remove them at any time
-}
-
-you can add a single bird to caculate it's age day after another
-this bird can have image and number or just number
-
-
-
-you can make a schedule for your food and medicine
-
-use bottom navigation to navigate between schedule (Home) , collections and single birds
- */

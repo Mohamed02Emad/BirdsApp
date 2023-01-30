@@ -31,7 +31,7 @@
         tools:layout="@layout/fragment_multi_bird" />
     <fragment
         android:id="@+id/birdFragment"
-        android:name="com.example.android.birdsdaycounter.presentation.allBirdsFragment.birdFragment.BirdFragment"
+        android:name="com.example.android.birdsdaycounter.presentation.birdFragment.BirdFragment"
         android:label="fragment_bird"
         tools:layout="@layout/fragment_bird" >
         <action
