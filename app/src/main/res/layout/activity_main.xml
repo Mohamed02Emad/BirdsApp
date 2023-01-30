@@ -48,19 +48,21 @@
         app:layout_constraintTop_toTopOf="parent" />
 
 
-    <meow.bottomnavigation.MeowBottomNavigation
+    <com.etebarian.meowbottomnavigation.MeowBottomNavigation
         android:id="@+id/bottom_nav"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/transperent"
+        android:backgroundTint="@color/transperent"
+        app:mbn_countBackgroundColor="@color/transperent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:mbn_backgroundBottomColor="@color/dark_blue"
-        app:mbn_circleColor="#ffffff"
-        app:mbn_countBackgroundColor="#ff6f00"
+        app:mbn_circleColor="@color/dark_blue"
         app:mbn_countTextColor="@color/black"
         app:mbn_defaultIconColor="#90a4ae"
         app:mbn_rippleColor="@color/blue"
-        app:mbn_selectedIconColor="@color/dark_blue"
-        app:mbn_shadowColor="#1f212121"
+        app:mbn_selectedIconColor="#FFFFFF"
+        app:mbn_shadowColor="@color/grey"
 
         />
 

@@ -13,12 +13,12 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
+import com.etebarian.meowbottomnavigation.MeowBottomNavigation
 import com.example.android.birdsdaycounter.databinding.ActivityMainBinding
 import com.example.android.birdsdaycounter.presentation.allBirdsFragment.AllBirdsFragment
 import com.example.android.birdsdaycounter.presentation.multiBirdsFragment.MultiBirdFragment
 import com.example.android.birdsdaycounter.presentation.scheduleFragment.HomeFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import meow.bottomnavigation.MeowBottomNavigation
 
 class MainActivity : AppCompatActivity() {
 
@@ -48,7 +48,7 @@ class MainActivity : AppCompatActivity() {
     private fun setMeowNavigation() {
         val bottomNavigation = findViewById<MeowBottomNavigation>(R.id.bottom_nav)
 
-        bottomNavigation.add(MeowBottomNavigation.Model(1, R.drawable.birds_family_icon))
+        bottomNavigation.add(MeowBottomNavigation.Model(1, R.drawable.bird))
         bottomNavigation.add(MeowBottomNavigation.Model(2, R.drawable.schedule_icon))
         bottomNavigation.add(MeowBottomNavigation.Model(3, R.drawable.eye_icon))
 
@@ -81,6 +81,7 @@ class MainActivity : AppCompatActivity() {
             //   window.statusBarColor = ContextCompat.getColor(activity,android.R.color.transparent)
             window.navigationBarColor =
                 ContextCompat.getColor(activity, android.R.color.transparent)
+
             //   window.setBackgroundDrawable(background)
         }
     }
