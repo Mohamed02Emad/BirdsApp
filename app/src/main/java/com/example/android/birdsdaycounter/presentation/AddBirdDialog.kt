@@ -13,10 +13,13 @@ import android.widget.*
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.graphics.drawable.toBitmap
 import androidx.fragment.app.DialogFragment
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.viewModelScope
 import com.example.android.birdsdaycounter.R
 import com.example.android.birdsdaycounter.data.models.Bird
 import com.example.android.birdsdaycounter.globalUse.MyApp
 import com.example.android.birdsdaycounter.presentation.allBirdsFragment.AllBirdsViewModel
+import kotlinx.coroutines.launch
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileOutputStream
@@ -100,31 +103,36 @@ class AddBirdDialog(val viewModel: AllBirdsViewModel) : DialogFragment() {
 
     private fun saveBird(bird: Bird,byte:ByteArrayOutputStream) {
 
-        val imgLocation = MyApp.appContext.filesDir.absolutePath + File.separator
-        val myAppDir = File(imgLocation)
-        if (!myAppDir.exists()) myAppDir.mkdir()
-
-        //creating child file
-        val fileName = "${System.currentTimeMillis()}.png"
-        val ImageFile = File(myAppDir,fileName)
-        if (!ImageFile.exists()) ImageFile.createNewFile()
-
-        try{
-            val fo = FileOutputStream(ImageFile)
-            fo.write(byte.toByteArray())
-            fo.close()
-
-            bird.imgLocation= ImageFile.absolutePath
-           // Log.i(TAG, "saveBird: ")
-        }catch (E:Exception){
-            //  Log.i(TAG, "saveBird: ${E.message}")
-
+        viewModel.viewModelScope.launch {
+            saveBirdImage(bird, byte)
+            MyApp.addToAllBirdsArrayList(bird)
+            viewModel.newBirdWasAdded.value = true
         }
-        MyApp.addToAllBirdsArrayList(bird)
-       viewModel.newBirdWasAdded.value=true
         this.dismiss()
     }
 
+    private fun saveBirdImage(bird: Bird, byte: ByteArrayOutputStream) {
+            val imgLocation = MyApp.appContext.filesDir.absolutePath + File.separator
+            val myAppDir = File(imgLocation)
+            if (!myAppDir.exists()) myAppDir.mkdir()
+
+            //creating child file
+            val fileName = "${System.currentTimeMillis()}.png"
+            val ImageFile = File(myAppDir, fileName)
+            if (!ImageFile.exists()) ImageFile.createNewFile()
+
+            try {
+                val fo = FileOutputStream(ImageFile)
+                fo.write(byte.toByteArray())
+                fo.close()
+
+                bird.imgLocation = ImageFile.absolutePath
+                // Log.i(TAG, "saveBird: ")
+            } catch (E: Exception) {
+                //  Log.i(TAG, "saveBird: ${E.message}")
+            }
+
+    }
 
 
     var resultLauncher =
