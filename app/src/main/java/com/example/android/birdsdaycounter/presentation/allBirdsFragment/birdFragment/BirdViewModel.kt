@@ -20,6 +20,9 @@ class BirdViewModel : ViewModel() {
     private var _birdLiveData = MutableLiveData<Bird>()
     val bird: LiveData<Bird> = _birdLiveData
 
+    private var _firstTimeChangLiveData = MutableLiveData(true)
+    val firstTimeChange: LiveData<Boolean> = _firstTimeChangLiveData
+
     fun initBird(bird: Bird){
         _birdLiveData.value=bird
         uri.value = null
@@ -59,6 +62,8 @@ class BirdViewModel : ViewModel() {
     fun imageCheck(): Boolean =
         uri.value!=null
 
-
+    fun setFirstTimeChange(b: Boolean) {
+        _firstTimeChangLiveData.value=b
+    }
 
 }

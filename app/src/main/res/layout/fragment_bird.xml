@@ -35,6 +35,7 @@
          />
 
     <ScrollView
+        android:id="@+id/scroll"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="4dp"
@@ -97,7 +98,9 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/name_not_tobe_edited"
                 app:layout_constraintTop_toBottomOf="@id/camera_icon"
-                tools:text="Botato" />
+                tools:text="Botato"
+                android:focusable="true"
+                android:focusableInTouchMode="true"/>
 
             <TextView
                 android:id="@+id/age_not_tobe_edited"
