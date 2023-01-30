@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.example.android.birdsdaycounter.R
 import com.example.android.birdsdaycounter.globalUse.MyFragmentParentClass
+import com.example.android.birdsdaycounter.presentation.allBirdsFragment.AllBirdsFragment
 
 class MultiBirdFragment : MyFragmentParentClass() {
 
@@ -17,4 +18,13 @@ class MultiBirdFragment : MyFragmentParentClass() {
         return inflater.inflate(R.layout.fragment_multi_bird, container, false)
     }
 
+
+
+
+
+    companion object{
+        fun newInstance(): MultiBirdFragment {
+            return MultiBirdFragment()
+        }
+    }
 }

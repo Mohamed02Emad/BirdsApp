@@ -3,17 +3,22 @@ package com.example.android.birdsdaycounter
 import android.annotation.TargetApi
 import android.app.Activity
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Window
 import android.view.WindowManager
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import com.example.android.birdsdaycounter.databinding.ActivityMainBinding
+import com.example.android.birdsdaycounter.presentation.allBirdsFragment.AllBirdsFragment
+import com.example.android.birdsdaycounter.presentation.multiBirdsFragment.MultiBirdFragment
+import com.example.android.birdsdaycounter.presentation.scheduleFragment.HomeFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import meow.bottomnavigation.MeowBottomNavigation
 
 class MainActivity : AppCompatActivity() {
 
@@ -35,10 +40,35 @@ class MainActivity : AppCompatActivity() {
         val view = binding.root
         setStatusBarGradiant(this)
         setContentView(view)
-
-
-        setupNavigation()
+        setMeowNavigation()
+        //setupNavigation()
         requestNotificationPermission()
+    }
+
+    private fun setMeowNavigation() {
+        val bottomNavigation = findViewById<MeowBottomNavigation>(R.id.bottom_nav)
+
+        bottomNavigation.add(MeowBottomNavigation.Model(1, R.drawable.birds_family_icon))
+        bottomNavigation.add(MeowBottomNavigation.Model(2, R.drawable.schedule_icon))
+        bottomNavigation.add(MeowBottomNavigation.Model(3, R.drawable.eye_icon))
+
+        bottomNavigation.setOnClickMenuListener {
+            when (it.id) {
+                1 -> setFragment(AllBirdsFragment.newInstance())
+                2 -> setFragment(HomeFragment.newInstance())
+                3 -> setFragment(MultiBirdFragment.newInstance())
+            }
+        }
+
+        bottomNavigation.show(2)
+    }
+
+
+    fun setFragment(fragment: Fragment) {
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.frame_layout, fragment, "main activity")
+            .commit()
+
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
@@ -48,18 +78,19 @@ class MainActivity : AppCompatActivity() {
             val background = ContextCompat.getDrawable(activity, R.drawable.main_gradient_theme)
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
 
-         //   window.statusBarColor = ContextCompat.getColor(activity,android.R.color.transparent)
-            window.navigationBarColor = ContextCompat.getColor(activity,android.R.color.transparent)
-         //   window.setBackgroundDrawable(background)
+            //   window.statusBarColor = ContextCompat.getColor(activity,android.R.color.transparent)
+            window.navigationBarColor =
+                ContextCompat.getColor(activity, android.R.color.transparent)
+            //   window.setBackgroundDrawable(background)
         }
     }
 
     private fun setupNavigation() {
-        navHostFragment =
-            supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+//        navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+//
+//        bottomNavigationView = findViewById<BottomNavigationView?>(R.id.bottom_nav)
+//        NavigationUI.setupWithNavController(bottomNavigationView, navHostFragment.navController)
 
-        bottomNavigationView = findViewById<BottomNavigationView?>(R.id.bottom_nav)
-        NavigationUI.setupWithNavController(bottomNavigationView, navHostFragment.navController)
     }
 
     fun bottomBarNavigationVisibility(isVisible: Boolean) {
