@@ -17,7 +17,7 @@ import com.example.android.birdsdaycounter.data.models.Bird
 import com.example.android.birdsdaycounter.databinding.FragmentAllBirdsBinding
 import com.example.android.birdsdaycounter.globalUse.MyFragmentParentClass
 import com.example.android.birdsdaycounter.presentation.AddBirdDialog
-import com.example.android.birdsdaycounter.presentation.allBirdsFragment.birdFragment.BirdFragment
+import com.example.android.birdsdaycounter.presentation.birdFragment.BirdFragment
 import com.example.android.birdsdaycounter.presentation.recyclerViews.recyclerViewAllBirds.AllBirdsAdapter
 
 

@@ -1,4 +1,4 @@
-package com.example.android.birdsdaycounter.presentation.allBirdsFragment.birdFragment
+package com.example.android.birdsdaycounter.presentation.birdFragment
 
 import android.content.Intent
 import android.graphics.Bitmap
@@ -19,6 +19,9 @@ class BirdViewModel : ViewModel() {
     var uri  = MutableLiveData<Uri?>()
     private var _birdLiveData = MutableLiveData<Bird>()
     val bird: LiveData<Bird> = _birdLiveData
+
+    private var _firstTimeChangLiveData = MutableLiveData(true)
+    val firstTimeChange: LiveData<Boolean> = _firstTimeChangLiveData
 
     fun initBird(bird: Bird){
         _birdLiveData.value=bird
@@ -56,9 +59,11 @@ class BirdViewModel : ViewModel() {
         }
     }
 
-    fun imageCheck(): Boolean =
-        uri.value!=null
+    fun imageCheck(): Boolean = uri.value!=null
 
+    fun setFirstTimeChange(b: Boolean) {
+        _firstTimeChangLiveData.value=b
+    }
 
 
 }

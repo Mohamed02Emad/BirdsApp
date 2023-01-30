@@ -1,13 +1,18 @@
-package com.example.android.birdsdaycounter.presentation.allBirdsFragment.birdFragment
+package com.example.android.birdsdaycounter.presentation.birdFragment
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.graphics.Rect
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
+import android.view.View.OnTouchListener
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.RadioButton
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.widget.doOnTextChanged
@@ -19,6 +24,7 @@ import com.example.android.birdsdaycounter.databinding.FragmentBirdBinding
 import com.example.android.birdsdaycounter.globalUse.MyApp
 import com.example.android.birdsdaycounter.globalUse.MyFragmentParentClass
 import kotlinx.coroutines.launch
+
 
 class BirdFragment : MyFragmentParentClass() {
     private val args by navArgs<BirdFragmentArgs>()
@@ -66,6 +72,33 @@ class BirdFragment : MyFragmentParentClass() {
         }
 
         binding.backBtn.setOnClickListener { findNavController().navigateUp() }
+
+        binding.scroll.setOnTouchListener(OnTouchListener { v, event ->
+            if (event.action == MotionEvent.ACTION_DOWN) {
+                if (binding.birdName.isFocused()) {
+                    val outRect = Rect()
+                    binding.birdName.getGlobalVisibleRect(outRect)
+                    if (!outRect.contains(event.rawX.toInt(), event.rawY.toInt())) {
+                        binding.birdName.clearFocus()
+                        val imm: InputMethodManager =
+                            v.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                        imm.hideSoftInputFromWindow(v.windowToken, 0)
+                    }
+                }
+                if (binding.birdAge.isFocused()) {
+                    val outRect = Rect()
+                    binding.birdAge.getGlobalVisibleRect(outRect)
+                    if (!outRect.contains(event.rawX.toInt(), event.rawY.toInt())) {
+                        binding.birdAge.clearFocus()
+                        val imm: InputMethodManager =
+                            v.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                        imm.hideSoftInputFromWindow(v.windowToken, 0)
+                    }
+                }
+            }
+            false
+        })
+
     }
 
     private fun setViews(view: View) {
@@ -81,33 +114,54 @@ class BirdFragment : MyFragmentParentClass() {
         saveNewValues(view)
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     private fun saveNewValues(view: View) {
         binding.birdName.doOnTextChanged { text, start, before, count ->
-           compareValues(view)
+            if ( binding.birdName.text.toString() == viewModel.bird.value!!.name) {
+                binding.saveBtn.visibility=View.GONE
+            }
         }
+        binding.birdName.setOnFocusChangeListener { et, isClicked ->
+            if (!isClicked){
+                compareValuesToSave(view)
+            }
+        }
+
         binding.birdAge.doOnTextChanged { text, start, before, count ->
-            compareValues(view)
+            compareValuesToSave(view)
         }
         binding.myRadioGroup.setOnCheckedChangeListener { radioGroup, i ->
-            compareValues(view)
+            compareValuesToSave(view)
         }
         viewModel.uri.observe(viewLifecycleOwner){
             if (viewModel.imageCheck())
-            compareValues(view)
+            compareValuesToSave(view)
         }
     }
 
-    fun compareValues(view: View) {
+    fun compareValuesToSave(view: View) {
         val id = binding.myRadioGroup.checkedRadioButtonId
         val gender = view.findViewById<RadioButton>(id).text
+
+        //todo: when  more data are added remember to add them here too
         if (binding.birdAge.text.toString() != viewModel.bird.value!!.age ||
             binding.birdName.text.toString() != viewModel.bird.value!!.name ||
             viewModel.imageCheck()||
             !gender.equals(viewModel.bird.value!!.gender )
         ) {
             binding.saveBtn.visibility = View.VISIBLE
+            if (viewModel.firstTimeChange.value == true) {
+                binding.scroll.postDelayed({
+                    binding.scroll.scrollTo(
+                        0,
+                        binding.saveBtn.y.toInt()
+                    )
+                }, 100)
+                viewModel.setFirstTimeChange(false)
+            }
         } else {
             binding.saveBtn.visibility = View.GONE
+            viewModel.setFirstTimeChange(true)
         }
     }
 
