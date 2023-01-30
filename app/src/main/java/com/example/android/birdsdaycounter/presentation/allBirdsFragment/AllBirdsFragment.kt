@@ -127,4 +127,11 @@ class AllBirdsFragment : MyFragmentParentClass() {
        //binding.collectionsRv.smoothScrollToPosition()
     }
 
+
+    companion object{
+        fun newInstance(): AllBirdsFragment{
+            return AllBirdsFragment()
+        }
+    }
+
 }
