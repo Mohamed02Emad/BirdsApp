@@ -1,7 +1,6 @@
 package com.example.android.birdsdaycounter.presentation.recyclerViews.recyclerViewAllBirds
 
 import android.net.Uri
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,9 +8,11 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.android.birdsdaycounter.R
 import com.example.android.birdsdaycounter.data.models.Bird
 import kotlinx.coroutines.*
+import java.io.File
 
 
 class AllBirdsAdapter(
@@ -46,13 +47,7 @@ class AllBirdsAdapter(
 
 
         GlobalScope.launch(Dispatchers.Main) {
-            try {
-                    holder.img.setImageURI(Uri.parse(dataObject.imgLocation))
-                    this.cancel()
-
-            } catch (E:Exception) {
-                    Log.i("Moha", "onBindViewHolder: ${E.message}")
-            }
+            holder.img.loadUrl(Uri.parse(dataObject.imgLocation))
         }
 
 
@@ -88,6 +83,13 @@ class AllBirdsAdapter(
 
     class OnRemoveClickListener(val clickListener: (bird: Bird) -> Unit) {
         fun onRemoveCollectionClick(bird: Bird) = clickListener(bird)
+    }
+
+    fun ImageView.loadUrl(uri: Uri) {
+        Glide.with(this.context)
+            .load(File(uri.path)) // Uri of the picture
+            .centerCrop()
+        .into(this);
     }
 
 }
