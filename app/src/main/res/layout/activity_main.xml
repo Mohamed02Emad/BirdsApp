@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
+    android:background="#49A6CA"
     android:orientation="vertical">
 
     <!--    <androidx.fragment.app.FragmentContainerView-->
@@ -43,9 +44,9 @@
     <FrameLayout
         android:id="@+id/frame_layout"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@id/bottom_nav"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_height="match_parent"
+        android:layout_marginBottom="48dp"
+        android:background="@color/white"/>
 
 
     <com.etebarian.meowbottomnavigation.MeowBottomNavigation
@@ -62,8 +63,7 @@
         app:mbn_defaultIconColor="#90a4ae"
         app:mbn_rippleColor="@color/blue"
         app:mbn_selectedIconColor="#FFFFFF"
-        app:mbn_shadowColor="@color/grey"
-
+        app:mbn_shadowColor="#FFFFFF"
         />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

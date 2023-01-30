@@ -12,7 +12,6 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.ui.NavigationUI
 import com.etebarian.meowbottomnavigation.MeowBottomNavigation
 import com.example.android.birdsdaycounter.databinding.ActivityMainBinding
 import com.example.android.birdsdaycounter.presentation.allBirdsFragment.AllBirdsFragment
@@ -47,6 +46,8 @@ class MainActivity : AppCompatActivity() {
 
     private fun setMeowNavigation() {
         val bottomNavigation = findViewById<MeowBottomNavigation>(R.id.bottom_nav)
+
+      //  bottomNavigation.typeface = Typeface.createFromAsset(assets, "fonts/SourceSansPro-Regular.ttf")
 
         bottomNavigation.add(MeowBottomNavigation.Model(1, R.drawable.bird))
         bottomNavigation.add(MeowBottomNavigation.Model(2, R.drawable.schedule_icon))
