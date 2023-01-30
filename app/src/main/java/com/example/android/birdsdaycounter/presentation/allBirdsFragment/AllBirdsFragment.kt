@@ -1,23 +1,22 @@
 package com.example.android.birdsdaycounter.presentation.allBirdsFragment
 
-import android.R.attr.data
 import android.os.Bundle
-import android.os.Parcelable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearSmoothScroller
 import androidx.recyclerview.widget.RecyclerView.LayoutManager
 import androidx.recyclerview.widget.RecyclerView.SmoothScroller
+import com.example.android.birdsdaycounter.MainActivity
 import com.example.android.birdsdaycounter.R
 import com.example.android.birdsdaycounter.data.models.Bird
 import com.example.android.birdsdaycounter.databinding.FragmentAllBirdsBinding
 import com.example.android.birdsdaycounter.globalUse.MyFragmentParentClass
 import com.example.android.birdsdaycounter.presentation.AddBirdDialog
-import com.example.android.birdsdaycounter.presentation.allBirdsFragment.birdFragment.BirdFragment
+import com.example.android.birdsdaycounter.presentation.birdFragment.BirdFragment
 import com.example.android.birdsdaycounter.presentation.recyclerViews.recyclerViewAllBirds.AllBirdsAdapter
 
 
@@ -52,7 +51,7 @@ class AllBirdsFragment : MyFragmentParentClass() {
 
                 adapter = AllBirdsAdapter(viewModel.collectionsLiveData.value,
                     AllBirdsAdapter.OnAddClickListener { bird ->
-                                birdClicked(bird)
+                        birdClicked(bird)
                     },
                     AllBirdsAdapter.OnRemoveClickListener { bird ->
                         //does nothing
@@ -70,8 +69,11 @@ class AllBirdsFragment : MyFragmentParentClass() {
 
     private fun birdClicked(bird: Bird) {
 
-        val action = AllBirdsFragmentDirections.actionAllBirdsFragmentToBirdFragment(bird)
-        findNavController().navigate(action)
+//        val action = AllBirdsFragmentDirections.actionAllBirdsFragmentToBirdFragment(bird)
+//        findNavController().navigate(action)
+
+        setFragment(BirdFragment.newInstance(bird),true)
+
     }
 
 
@@ -124,14 +126,15 @@ class AllBirdsFragment : MyFragmentParentClass() {
         smoothScroller.setTargetPosition(pos)
         layoutManager.startSmoothScroll(smoothScroller)
 
-       //binding.collectionsRv.smoothScrollToPosition()
+        //binding.collectionsRv.smoothScrollToPosition()
     }
 
 
-    companion object{
-        fun newInstance(): AllBirdsFragment{
+    companion object {
+        fun newInstance(): AllBirdsFragment {
             return AllBirdsFragment()
         }
     }
+
 
 }

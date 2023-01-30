@@ -1,4 +1,4 @@
-package com.example.android.birdsdaycounter.presentation.allBirdsFragment.birdFragment
+package com.example.android.birdsdaycounter.presentation.birdFragment
 
 import android.content.Intent
 import android.graphics.Bitmap
@@ -15,7 +15,6 @@ import java.io.File
 import java.io.FileOutputStream
 
 class BirdViewModel : ViewModel() {
-    var leaveControlFlag = false
     var uri  = MutableLiveData<Uri?>()
     private var _birdLiveData = MutableLiveData<Bird>()
     val bird: LiveData<Bird> = _birdLiveData

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".presentation.allBirdsFragment.birdFragment.BirdFragment">
+    tools:context=".presentation.birdFragment.BirdFragment">
 
 
 <!--    <com.google.android.material.imageview.ShapeableImageView-->
