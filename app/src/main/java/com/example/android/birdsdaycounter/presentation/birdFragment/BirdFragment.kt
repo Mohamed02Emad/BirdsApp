@@ -64,7 +64,7 @@ class BirdFragment(val bird: Bird) : MyFragmentParentClass() {
                 MyApp.updateBird(myBird!!)
             }
 
-            setFragment(AllBirdsFragment.newInstance(),false)
+            popOfBackStack()
         }
 
         binding.scroll.setOnTouchListener(View.OnTouchListener { v, event ->
@@ -108,7 +108,8 @@ class BirdFragment(val bird: Bird) : MyFragmentParentClass() {
 
         binding.backBtn.setOnClickListener {
             //findNavController().navigateUp()  to Allbirds
-            setFragment(AllBirdsFragment.newInstance(),false)
+            //setFragment(AllBirdsFragment.newInstance(),false)
+            popOfBackStack()
         }
     }
 

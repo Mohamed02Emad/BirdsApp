@@ -72,7 +72,8 @@ class AllBirdsFragment : MyFragmentParentClass() {
 //        val action = AllBirdsFragmentDirections.actionAllBirdsFragmentToBirdFragment(bird)
 //        findNavController().navigate(action)
 
-        setFragment(BirdFragment.newInstance(bird),true)
+        setFragment(BirdFragment.newInstance(bird))
+        hideBottomBave(true)
 
     }
 
@@ -136,5 +137,9 @@ class AllBirdsFragment : MyFragmentParentClass() {
         }
     }
 
+    override fun onResume() {
+        hideBottomBave(false)
+        super.onResume()
+    }
 
 }
