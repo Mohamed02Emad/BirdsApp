@@ -56,7 +56,7 @@ class MainActivity : AppCompatActivity() {
 
         bottomNavigation.add(MeowBottomNavigation.Model(1, R.drawable.bird))
         bottomNavigation.add(MeowBottomNavigation.Model(2, R.drawable.schedule_icon))
-        bottomNavigation.add(MeowBottomNavigation.Model(3, R.drawable.eye_icon))
+        bottomNavigation.add(MeowBottomNavigation.Model(3, R.drawable.heart))
 
         bottomNavigation.setOnClickMenuListener {
             when (it.id) {
