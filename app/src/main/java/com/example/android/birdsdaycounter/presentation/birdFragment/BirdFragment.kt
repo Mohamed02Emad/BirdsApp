@@ -15,12 +15,9 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.RadioButton
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.widget.doOnTextChanged
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
-import androidx.navigation.ui.NavigationUI.navigateUp
-import com.example.android.birdsdaycounter.MainActivity
 import com.example.android.birdsdaycounter.data.models.Bird
 import com.example.android.birdsdaycounter.databinding.FragmentBirdBinding
 import com.example.android.birdsdaycounter.globalUse.MyApp
@@ -28,7 +25,7 @@ import com.example.android.birdsdaycounter.globalUse.MyFragmentParentClass
 import com.example.android.birdsdaycounter.presentation.allBirdsFragment.AllBirdsFragment
 import kotlinx.coroutines.launch
 
-class BirdFragment(val bird: Bird) : MyFragmentParentClass() {
+class BirdFragment(val bird: Bird,private val myParent: Fragment) : MyFragmentParentClass() {
   //  private val args by navArgs<BirdFragmentArgs>()
     private lateinit var binding: FragmentBirdBinding
     private val viewModel: BirdViewModel by viewModels()
@@ -38,6 +35,7 @@ class BirdFragment(val bird: Bird) : MyFragmentParentClass() {
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
        // viewModel.initBird(args.bird)
+        myparentFragment=myParent
         viewModel.initBird(bird = bird)
         binding = FragmentBirdBinding.inflate(layoutInflater)
         return binding.root
@@ -186,9 +184,18 @@ class BirdFragment(val bird: Bird) : MyFragmentParentClass() {
 
 
     companion object {
-        fun newInstance(bird: Bird): BirdFragment {
-            return BirdFragment(bird)
+        fun newInstance(bird: Bird, myParent: Fragment): BirdFragment {
+            return BirdFragment(bird,myParent)
         }
     }
 
+//    override fun onDetach() {
+//        hideBottomBave(false)
+//        super.onDetach()
+//    }
+
+    override fun onDestroy() {
+        hideBottomBave(false)
+        super.onDestroy()
+    }
 }

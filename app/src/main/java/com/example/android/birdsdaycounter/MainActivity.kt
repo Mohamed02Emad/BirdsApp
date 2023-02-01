@@ -10,15 +10,12 @@ import android.view.View
 import android.view.ViewGroup.MarginLayoutParams
 import android.view.Window
 import android.view.WindowManager
-import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.NavHostFragment
 import com.etebarian.meowbottomnavigation.MeowBottomNavigation
 import com.example.android.birdsdaycounter.databinding.ActivityMainBinding
-import com.example.android.birdsdaycounter.globalUse.MyApp.Companion.allBirds
 import com.example.android.birdsdaycounter.presentation.allBirdsFragment.AllBirdsFragment
 import com.example.android.birdsdaycounter.presentation.multiBirdsFragment.MultiBirdFragment
 import com.example.android.birdsdaycounter.presentation.scheduleFragment.HomeFragment
@@ -73,16 +70,42 @@ class MainActivity : AppCompatActivity() {
 
         bottomNavigation.setOnClickMenuListener {
             when (it.id) {
-                1 -> setFragment(allBirdsState = true, homeState = false, multiBirdsState = false)
-                2 -> setFragment(allBirdsState = false, homeState = true, multiBirdsState = false)
-                3 -> setFragment(allBirdsState = false, homeState = false, multiBirdsState = true)
+                1 -> setFragmentToShow(allBirdsState = true, homeState = false, multiBirdsState = false)
+                2 -> setFragmentToShow(allBirdsState = false, homeState = true, multiBirdsState = false)
+                3 -> setFragmentToShow(allBirdsState = false, homeState = false, multiBirdsState = true)
+//                1 -> setFragmentToAttach(allBirdsState = true, homeState = false, multiBirdsState = false)
+//                2 -> setFragmentToAttach(allBirdsState = false, homeState = true, multiBirdsState = false)
+//                3 -> setFragmentToAttach(allBirdsState = false, homeState = false, multiBirdsState = true)
             }
         }
 
         bottomNavigation.show(2)
     }
 
-    fun setFragment(allBirdsState:Boolean,homeState:Boolean,multiBirdsState:Boolean) {
+
+    fun setFragmentToAttach(allBirdsState:Boolean, homeState:Boolean, multiBirdsState:Boolean){
+        if (allBirdsState){
+            supportFragmentManager.beginTransaction()
+                .attach(allBirds)
+                .detach(home)
+                .detach(multiBirds)
+                .commit()
+        }else if (homeState){
+            supportFragmentManager.beginTransaction()
+                .detach(allBirds)
+                .attach(home)
+                .detach(multiBirds)
+                .commit()
+        }else if (multiBirdsState){
+            supportFragmentManager.beginTransaction()
+                .detach(allBirds)
+                .detach(home)
+                .attach(multiBirds)
+                .commit()
+        }
+    }
+
+    fun setFragmentToShow(allBirdsState:Boolean, homeState:Boolean, multiBirdsState:Boolean) {
         if (allBirdsState){
             supportFragmentManager.beginTransaction()
                 .show(allBirds)
