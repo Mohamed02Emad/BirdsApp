@@ -8,7 +8,8 @@ import com.example.android.birdsdaycounter.R
 open class MyFragmentParentClass : Fragment() {
     // class that has functions that are used in more than one fragment
 
-     lateinit var myparentFragment : Fragment
+
+      var myparentFragment : Fragment? = null
 
     fun showToast(s: String) {
         Toast.makeText(requireContext(), s, Toast.LENGTH_SHORT).show()
@@ -30,10 +31,14 @@ open class MyFragmentParentClass : Fragment() {
     }
 
     fun popOfBackStack() {
+        if (myparentFragment!=null){
         requireActivity().supportFragmentManager.popBackStack()
         requireActivity().supportFragmentManager.beginTransaction()
-            .show(myparentFragment)
+            .show(myparentFragment!!)
             .commit()
+        }else{
+            showToast("مبروك انت في القاع")
+        }
     }
 
 }

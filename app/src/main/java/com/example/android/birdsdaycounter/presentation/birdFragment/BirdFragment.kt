@@ -26,7 +26,7 @@ import com.example.android.birdsdaycounter.presentation.allBirdsFragment.AllBird
 import kotlinx.coroutines.launch
 
 class BirdFragment(val bird: Bird,private val myParent: Fragment) : MyFragmentParentClass() {
-  //  private val args by navArgs<BirdFragmentArgs>()
+
     private lateinit var binding: FragmentBirdBinding
     private val viewModel: BirdViewModel by viewModels()
 
@@ -188,11 +188,6 @@ class BirdFragment(val bird: Bird,private val myParent: Fragment) : MyFragmentPa
             return BirdFragment(bird,myParent)
         }
     }
-
-//    override fun onDetach() {
-//        hideBottomBave(false)
-//        super.onDetach()
-//    }
 
     override fun onDestroy() {
         hideBottomBave(false)

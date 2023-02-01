@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.annotation.TargetApi
 import android.app.Activity
 import android.content.Context
+import android.content.res.Resources
 import android.os.Build
 import android.os.Bundle
 import android.view.View
@@ -132,17 +133,10 @@ class MainActivity : AppCompatActivity() {
     fun setStatusBarGradiant(activity: Activity) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             val window: Window = activity.window
-            val background = ContextCompat.getDrawable(activity, R.drawable.main_gradient_theme)
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
-
-            //   window.statusBarColor = ContextCompat.getColor(activity,android.R.color.transparent)
-            window.navigationBarColor =
-                ContextCompat.getColor(activity, android.R.color.transparent)
-
-            //   window.setBackgroundDrawable(background)
+            window.navigationBarColor = ContextCompat.getColor(activity, android.R.color.transparent)
         }
     }
-
 
     private fun requestNotificationPermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
@@ -154,7 +148,6 @@ class MainActivity : AppCompatActivity() {
 
         @SuppressLint("StaticFieldLeak")
         lateinit var binding: ActivityMainBinding
-
         @SuppressLint("StaticFieldLeak")
         lateinit var context: Context
 
@@ -165,17 +158,20 @@ class MainActivity : AppCompatActivity() {
 
             } else {
                 binding.bottomNav.visibility = View.VISIBLE
-                setMargins(binding.frameLayout, 0, 0, 0, 120)
+                setMargins(binding.frameLayout, 0, 0, 0, 42)
             }
         }
 
         private fun setMargins(view: View, left: Int, top: Int, right: Int, bottom: Int) {
             if (view.layoutParams is MarginLayoutParams) {
                 val p = view.layoutParams as MarginLayoutParams
-                p.setMargins(left, top, right, bottom)
+                p.setMargins(left.dp, top.dp, right.dp, bottom.dp)
                 view.requestLayout()
             }
         }
+
+        val Int.dp: Int
+            get() = (this * Resources.getSystem().displayMetrics.density + 0.5f).toInt()
     }
 
 }
