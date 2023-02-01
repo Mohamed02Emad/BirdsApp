@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.annotation.TargetApi
 import android.app.Activity
 import android.content.Context
+import android.content.res.Resources
 import android.os.Build
 import android.os.Bundle
 import android.view.View
@@ -13,8 +14,6 @@ import android.view.WindowManager
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.core.view.isVisible
-import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.NavHostFragment
 import com.etebarian.meowbottomnavigation.MeowBottomNavigation
 import com.example.android.birdsdaycounter.databinding.ActivityMainBinding
@@ -26,9 +25,14 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
 
-   // lateinit var binding: ActivityMainBinding
+    // lateinit var binding: ActivityMainBinding
     private lateinit var navHostFragment: NavHostFragment
     private lateinit var bottomNavigationView: BottomNavigationView
+
+    private val allBirds = AllBirdsFragment.newInstance()
+    private val home = HomeFragment.newInstance()
+    private val multiBirds = MultiBirdFragment.newInstance()
+
 
     private val pushNotificationPermissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestPermission()
@@ -42,11 +46,10 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         val view = binding.root
-        context=this
+        context = this
         setStatusBarGradiant(this)
         setContentView(view)
         setMeowNavigation()
-        //setupNavigation()
         requestNotificationPermission()
     }
 
@@ -56,23 +59,73 @@ class MainActivity : AppCompatActivity() {
 
         bottomNavigation.add(MeowBottomNavigation.Model(1, R.drawable.bird))
         bottomNavigation.add(MeowBottomNavigation.Model(2, R.drawable.schedule_icon))
-        bottomNavigation.add(MeowBottomNavigation.Model(3, R.drawable.eye_icon))
+        bottomNavigation.add(MeowBottomNavigation.Model(3, R.drawable.heart))
+
+
+        supportFragmentManager.beginTransaction().apply {
+            add(R.id.frame_layout, allBirds,"allBirds").hide(allBirds)
+            add(R.id.frame_layout, home, "home")
+            add(R.id.frame_layout, multiBirds, "multiBirds").hide(multiBirds)
+        }.commit()
+
 
         bottomNavigation.setOnClickMenuListener {
             when (it.id) {
-                1 -> setFragment(AllBirdsFragment.newInstance())
-                2 -> setFragment(HomeFragment.newInstance())
-                3 -> setFragment(MultiBirdFragment.newInstance())
+                1 -> setFragmentToShow(allBirdsState = true, homeState = false, multiBirdsState = false)
+                2 -> setFragmentToShow(allBirdsState = false, homeState = true, multiBirdsState = false)
+                3 -> setFragmentToShow(allBirdsState = false, homeState = false, multiBirdsState = true)
+//                1 -> setFragmentToAttach(allBirdsState = true, homeState = false, multiBirdsState = false)
+//                2 -> setFragmentToAttach(allBirdsState = false, homeState = true, multiBirdsState = false)
+//                3 -> setFragmentToAttach(allBirdsState = false, homeState = false, multiBirdsState = true)
             }
         }
 
         bottomNavigation.show(2)
     }
 
-    fun setFragment(fragment: Fragment) {
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.frame_layout, fragment, "main activity")
-            .commit()
+
+    fun setFragmentToAttach(allBirdsState:Boolean, homeState:Boolean, multiBirdsState:Boolean){
+        if (allBirdsState){
+            supportFragmentManager.beginTransaction()
+                .attach(allBirds)
+                .detach(home)
+                .detach(multiBirds)
+                .commit()
+        }else if (homeState){
+            supportFragmentManager.beginTransaction()
+                .detach(allBirds)
+                .attach(home)
+                .detach(multiBirds)
+                .commit()
+        }else if (multiBirdsState){
+            supportFragmentManager.beginTransaction()
+                .detach(allBirds)
+                .detach(home)
+                .attach(multiBirds)
+                .commit()
+        }
+    }
+
+    fun setFragmentToShow(allBirdsState:Boolean, homeState:Boolean, multiBirdsState:Boolean) {
+        if (allBirdsState){
+            supportFragmentManager.beginTransaction()
+                .show(allBirds)
+                .hide(home)
+                .hide(multiBirds)
+                .commit()
+        }else if (homeState){
+            supportFragmentManager.beginTransaction()
+                .hide(allBirds)
+                .show(home)
+                .hide(multiBirds)
+                .commit()
+        }else if (multiBirdsState){
+            supportFragmentManager.beginTransaction()
+                .hide(allBirds)
+                .hide(home)
+                .show(multiBirds)
+                .commit()
+        }
     }
 
 
@@ -80,27 +133,9 @@ class MainActivity : AppCompatActivity() {
     fun setStatusBarGradiant(activity: Activity) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             val window: Window = activity.window
-            val background = ContextCompat.getDrawable(activity, R.drawable.main_gradient_theme)
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
-
-            //   window.statusBarColor = ContextCompat.getColor(activity,android.R.color.transparent)
-            window.navigationBarColor =
-                ContextCompat.getColor(activity, android.R.color.transparent)
-
-            //   window.setBackgroundDrawable(background)
+            window.navigationBarColor = ContextCompat.getColor(activity, android.R.color.transparent)
         }
-    }
-
-    private fun setupNavigation() {
-//        navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
-//
-//        bottomNavigationView = findViewById<BottomNavigationView?>(R.id.bottom_nav)
-//        NavigationUI.setupWithNavController(bottomNavigationView, navHostFragment.navController)
-
-    }
-
-    fun bottomBarNavigationVisibility(isVisible: Boolean) {
-        bottomNavigationView.isVisible = isVisible
     }
 
     private fun requestNotificationPermission() {
@@ -112,27 +147,31 @@ class MainActivity : AppCompatActivity() {
     companion object {
 
         @SuppressLint("StaticFieldLeak")
-        lateinit var binding : ActivityMainBinding
+        lateinit var binding: ActivityMainBinding
+        @SuppressLint("StaticFieldLeak")
         lateinit var context: Context
 
-           fun hideBottomNav(hide: Boolean) {
+        fun hideBottomNav(hide: Boolean) {
             if (hide) {
                 binding.bottomNav.visibility = View.GONE
-                setMargins(binding.frameLayout,0,0,0,0)
+                setMargins(binding.frameLayout, 0, 0, 0, 0)
 
             } else {
                 binding.bottomNav.visibility = View.VISIBLE
-                setMargins(binding.frameLayout,0,0,0,120)
+                setMargins(binding.frameLayout, 0, 0, 0, 42)
             }
         }
 
         private fun setMargins(view: View, left: Int, top: Int, right: Int, bottom: Int) {
             if (view.layoutParams is MarginLayoutParams) {
                 val p = view.layoutParams as MarginLayoutParams
-                p.setMargins(left, top, right, bottom)
+                p.setMargins(left.dp, top.dp, right.dp, bottom.dp)
                 view.requestLayout()
             }
         }
+
+        val Int.dp: Int
+            get() = (this * Resources.getSystem().displayMetrics.density + 0.5f).toInt()
     }
 
 }

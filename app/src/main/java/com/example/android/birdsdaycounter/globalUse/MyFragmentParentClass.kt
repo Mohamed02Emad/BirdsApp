@@ -5,20 +5,40 @@ import androidx.fragment.app.Fragment
 import com.example.android.birdsdaycounter.MainActivity
 import com.example.android.birdsdaycounter.R
 
-open class MyFragmentParentClass  : Fragment() {
+open class MyFragmentParentClass : Fragment() {
     // class that has functions that are used in more than one fragment
 
-    fun showToast(s:String){
-        Toast.makeText(requireContext(),s,Toast.LENGTH_SHORT).show()
+
+      var myparentFragment : Fragment? = null
+
+    fun showToast(s: String) {
+        Toast.makeText(requireContext(), s, Toast.LENGTH_SHORT).show()
     }
 
-    fun setFragment(fragment: Fragment, hideNavBar: Boolean) {
+    fun setFragment(fromFragment: Fragment, toFragment: Fragment) {
         requireActivity().supportFragmentManager.beginTransaction()
-            .replace(R.id.frame_layout, fragment, "main activity")
+            .hide(fromFragment)
+            .add(R.id.frame_layout,toFragment)
+            .addToBackStack(null)
+            .setReorderingAllowed(true)
+            .show(toFragment)
             .commit()
 
-        MainActivity.hideBottomNav(hideNavBar)
+    }
 
+    fun hideBottomBave(wantToHide: Boolean) {
+        MainActivity.hideBottomNav(wantToHide)
+    }
+
+    fun popOfBackStack() {
+        if (myparentFragment!=null){
+        requireActivity().supportFragmentManager.popBackStack()
+        requireActivity().supportFragmentManager.beginTransaction()
+            .show(myparentFragment!!)
+            .commit()
+        }else{
+            showToast("مبروك انت في القاع")
+        }
     }
 
 }

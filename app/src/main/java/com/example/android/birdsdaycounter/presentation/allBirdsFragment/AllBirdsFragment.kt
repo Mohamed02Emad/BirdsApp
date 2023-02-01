@@ -4,14 +4,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearSmoothScroller
 import androidx.recyclerview.widget.RecyclerView.LayoutManager
 import androidx.recyclerview.widget.RecyclerView.SmoothScroller
-import com.example.android.birdsdaycounter.MainActivity
-import com.example.android.birdsdaycounter.R
 import com.example.android.birdsdaycounter.data.models.Bird
 import com.example.android.birdsdaycounter.databinding.FragmentAllBirdsBinding
 import com.example.android.birdsdaycounter.globalUse.MyFragmentParentClass
@@ -33,6 +30,7 @@ class AllBirdsFragment : MyFragmentParentClass() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        showToast("created")
         binding = FragmentAllBirdsBinding.inflate(layoutInflater)
         return binding.root
     }
@@ -72,7 +70,8 @@ class AllBirdsFragment : MyFragmentParentClass() {
 //        val action = AllBirdsFragmentDirections.actionAllBirdsFragmentToBirdFragment(bird)
 //        findNavController().navigate(action)
 
-        setFragment(BirdFragment.newInstance(bird),true)
+        setFragment(this,BirdFragment.newInstance(bird,this))
+        hideBottomBave(true)
 
     }
 
@@ -136,5 +135,9 @@ class AllBirdsFragment : MyFragmentParentClass() {
         }
     }
 
+    override fun onResume() {
+        hideBottomBave(false)
+        super.onResume()
+    }
 
 }
