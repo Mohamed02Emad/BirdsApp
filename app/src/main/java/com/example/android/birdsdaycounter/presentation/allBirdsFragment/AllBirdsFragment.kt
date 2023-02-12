@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearSmoothScroller
 import androidx.recyclerview.widget.RecyclerView.LayoutManager
@@ -31,7 +32,6 @@ class AllBirdsFragment : MyFragmentParentClass() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        showToast("jhvjlvkb")
         binding = FragmentAllBirdsBinding.inflate(layoutInflater)
         return binding.root
     }
@@ -67,7 +67,7 @@ class AllBirdsFragment : MyFragmentParentClass() {
     }
 
     private fun birdClicked(bird: Bird) {
-       //todo : navigate to add bird
+       findNavController().navigate(AllBirdsFragmentDirections.actionAllBirdsFragmentToBirdFragment(bird))
     }
 
 

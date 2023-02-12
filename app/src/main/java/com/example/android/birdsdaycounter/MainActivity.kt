@@ -13,15 +13,19 @@ import android.view.WindowManager
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.NavigationUI
 import com.etebarian.meowbottomnavigation.MeowBottomNavigation
 import com.example.android.birdsdaycounter.databinding.ActivityMainBinding
 import com.example.android.birdsdaycounter.presentation.allBirdsFragment.AllBirdsFragment
 import com.example.android.birdsdaycounter.presentation.multiBirdsFragment.MultiBirdFragment
 import com.example.android.birdsdaycounter.presentation.scheduleFragment.HomeFragment
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 
 class MainActivity : AppCompatActivity() {
-
+    private lateinit var navHostFragment: NavHostFragment
+    private lateinit var bottomNavigationView: BottomNavigationView
     private lateinit var binding: ActivityMainBinding
 
     private val pushNotificationPermissionLauncher = registerForActivityResult(
@@ -36,11 +40,17 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         val view = binding.root
-        setStatusBarGradiant()
         setContentView(view)
+        setupNavigation()
+        setStatusBarGradiant()
         requestNotificationPermission()
     }
 
+    private fun setupNavigation() {
+        navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+        bottomNavigationView = findViewById(R.id.bottom_nav)
+        NavigationUI.setupWithNavController(bottomNavigationView, navHostFragment.navController)
+    }
 
     private fun setStatusBarGradiant() {
             val window: Window = this.window

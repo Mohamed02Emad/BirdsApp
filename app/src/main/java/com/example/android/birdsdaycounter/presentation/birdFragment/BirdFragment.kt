@@ -17,23 +17,25 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.example.android.birdsdaycounter.data.models.Bird
 import com.example.android.birdsdaycounter.databinding.FragmentBirdBinding
 import com.example.android.birdsdaycounter.globalUse.MyApp
 import com.example.android.birdsdaycounter.globalUse.MyFragmentParentClass
 import kotlinx.coroutines.launch
 
-class BirdFragment(val bird: Bird) : MyFragmentParentClass() {
+class BirdFragment() : MyFragmentParentClass() {
 
     private lateinit var binding: FragmentBirdBinding
     private val viewModel: BirdViewModel by viewModels()
+    private val args by navArgs<BirdFragmentArgs>()
 
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
-       // viewModel.initBird(args.bird)
-        viewModel.initBird(bird = bird)
+        viewModel.initBird(args.bird)
         binding = FragmentBirdBinding.inflate(layoutInflater)
         return binding.root
     }
@@ -59,13 +61,13 @@ class BirdFragment(val bird: Bird) : MyFragmentParentClass() {
                 MyApp.updateBird(myBird!!)
             }
 
-     //todo :  navigate up
+      findNavController().navigateUp()
         }
 
         binding.deleteBtn.setOnClickListener {
 
             //todo : add logic
-            //todo :  navigate up
+            findNavController().navigateUp()
         }
 
         binding.scroll.setOnTouchListener(View.OnTouchListener { v, event ->
@@ -108,9 +110,7 @@ class BirdFragment(val bird: Bird) : MyFragmentParentClass() {
         }
 
         binding.backBtn.setOnClickListener {
-            //findNavController().navigateUp()  to Allbirds
-            //setFragment(AllBirdsFragment.newInstance(),false)
-            //todo :  navigate up
+            findNavController().navigateUp()
         }
     }
 
@@ -184,12 +184,5 @@ class BirdFragment(val bird: Bird) : MyFragmentParentClass() {
                 binding.birdImg.setImageURI(viewModel.uri.value)
             }
         }
-
-
-    companion object {
-        fun newInstance(bird: Bird): BirdFragment {
-            return BirdFragment(bird)
-        }
-    }
 
 }

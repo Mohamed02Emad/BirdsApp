@@ -4,66 +4,44 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
-    android:background="#49A6CA"
+    android:background="#FFFFFF"
     android:orientation="vertical">
 
-    <!--    <androidx.fragment.app.FragmentContainerView-->
-    <!--        android:id="@+id/nav_host_fragment"-->
-    <!--        android:name="androidx.navigation.fragment.NavHostFragment"-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="0dp"-->
-    <!--        android:layout_weight="1"-->
-    <!--        app:defaultNavHost="true"-->
-    <!--        app:navGraph="@navigation/home_navigation" />-->
+        <androidx.fragment.app.FragmentContainerView
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/bottom_nav"
+            android:id="@+id/nav_host_fragment"
+            android:name="androidx.navigation.fragment.NavHostFragment"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            app:defaultNavHost="true"
+            app:navGraph="@navigation/home_navigation" />
 
-    <!--    <com.google.android.material.bottomnavigation.BottomNavigationView-->
-    <!--        android:id="@+id/bottom_nav"-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        app:itemRippleColor="#252595"-->
-    <!--        android:background="#FFFFFF"-->
-    <!--        app:darkIcon="false"-->
-    <!--        app:circleColor="@color/main_blue"-->
-    <!--        app:elevation="0dp"-->
-    <!--        app:itemIconTint="@drawable/tab_color"-->
-    <!--        app:itemTextColor="@drawable/tab_font_color"-->
-    <!--        app:labelVisibilityMode="labeled"-->
-    <!--        app:layout_behavior="com.google.android.material.behavior.HideBottomViewOnScrollBehavior"-->
-    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
-    <!--        app:menu="@menu/menu_bottom_main" />-->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/dark_blue"
+            android:alpha="0.3"
+            app:layout_constraintBottom_toTopOf="@id/bottom_nav"
+            />
 
 
-    <!--     <com.github.kwasow.bottomnavigationcircles.BottomNavigationCircles-->
-    <!--         android:id="@+id/bottom_nav"-->
-    <!--         android:layout_width="match_parent"-->
-    <!--         android:layout_height="wrap_content"-->
-    <!--         app:menu="@menu/menu_bottom_main"-->
-    <!--         />-->
+
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/bottom_nav"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:itemRippleColor="#83252595"
+            android:background="#FFFFFF"
+            app:elevation="0dp"
+            app:itemIconTint="@drawable/tab_color"
+            app:itemTextColor="@drawable/tab_font_color"
+            app:labelVisibilityMode="unlabeled"
+            app:layout_behavior="com.google.android.material.behavior.HideBottomViewOnScrollBehavior"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:menu="@menu/menu_bottom_main" />
 
 
-    <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/frame_layout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginBottom="42dp"
-        android:background="@color/white"/>
-
-
-    <com.etebarian.meowbottomnavigation.MeowBottomNavigation
-        android:id="@+id/bottom_nav"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/transperent"
-        android:backgroundTint="@color/transperent"
-        app:mbn_countBackgroundColor="@color/transperent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:mbn_backgroundBottomColor="@color/dark_blue"
-        app:mbn_circleColor="@color/dark_blue"
-        app:mbn_countTextColor="@color/black"
-        app:mbn_defaultIconColor="#90a4ae"
-        app:mbn_rippleColor="@color/blue"
-        app:mbn_selectedIconColor="#FFFFFF"
-        app:mbn_shadowColor="#FFFFFF"
-        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
