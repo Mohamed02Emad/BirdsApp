@@ -20,8 +20,9 @@ class AllBirdsViewModel : ViewModel() {
 
     var isReadyToShow = MutableLiveData<Boolean>()
     var newBirdWasAdded = MutableLiveData<Boolean>()
+    var firstTimeOpen = MutableLiveData<Boolean>(true)
 
-     val repository: BirdsRepository
+     private val repository: BirdsRepository
 
     init {
         isReadyToShow.value=false
@@ -41,15 +42,15 @@ class AllBirdsViewModel : ViewModel() {
 
     fun insertDB(bird: Bird) =
         viewModelScope.launch(Dispatchers.IO) { repository.insert(bird) }
-
-    fun updateDB(bird: Bird) =
-        viewModelScope.launch(Dispatchers.IO) { repository.update(bird) }
-
-    fun deleteDB(bird: Bird) =
-        viewModelScope.launch(Dispatchers.IO) { repository.delete(bird) }
-
-    fun deleteByIdDB(id: Int) =
-        viewModelScope.launch(Dispatchers.IO) { repository.deleteById(id) }
+//
+//    fun updateDB(bird: Bird) =
+//        viewModelScope.launch(Dispatchers.IO) { repository.update(bird) }
+//
+//    fun deleteDB(bird: Bird) =
+//        viewModelScope.launch(Dispatchers.IO) { repository.delete(bird) }
+//
+//    fun deleteByIdDB(id: Int) =
+//        viewModelScope.launch(Dispatchers.IO) { repository.deleteById(id) }
 
     fun clearDB() =
         viewModelScope.launch(Dispatchers.IO) { repository.deleteAll() }

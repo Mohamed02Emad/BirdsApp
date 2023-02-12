@@ -13,7 +13,6 @@ import android.widget.*
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.graphics.drawable.toBitmap
 import androidx.fragment.app.DialogFragment
-import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
 import com.example.android.birdsdaycounter.R
 import com.example.android.birdsdaycounter.data.models.Bird
@@ -25,15 +24,15 @@ import java.io.File
 import java.io.FileOutputStream
 
 
-class AddBirdDialog(val viewModel: AllBirdsViewModel) : DialogFragment() {
-    var uri: Uri? = null
-    lateinit var cancelBTN : Button
-    lateinit var saveBTN : Button
-    lateinit var cameraBTN:Button
-    lateinit var nameET: EditText
-    lateinit var ageET:EditText
-    lateinit var img: ImageView
-    lateinit var radioGroup: RadioGroup
+class AddBirdDialog(private val viewModel: AllBirdsViewModel) : DialogFragment() {
+    private var uri: Uri? = null
+    private lateinit var cancelBTN : Button
+    private lateinit var saveBTN : Button
+    private lateinit var cameraBTN:Button
+    private lateinit var nameET: EditText
+    private lateinit var ageET:EditText
+    private lateinit var img: ImageView
+    private lateinit var radioGroup: RadioGroup
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -71,21 +70,17 @@ class AddBirdDialog(val viewModel: AllBirdsViewModel) : DialogFragment() {
 
         cameraBTN.setOnClickListener {
 
-            // todo: bassam
             val i = Intent().apply {
-                setType("image/*")
-                setAction(Intent.ACTION_GET_CONTENT)
+                type = "image/*"
+                action = Intent.ACTION_GET_CONTENT
             }
             resultLauncher.launch(i)
         }
 
        saveBTN.setOnClickListener {
             val name = nameET.text.toString()
-           // todo: bassaam -> remember to change age method
             val age = ageET.text.toString()
-            var id = radioGroup.checkedRadioButtonId
-
-           // todo: bassam -> remember to change choice color
+            val id = radioGroup.checkedRadioButtonId
             val gender = view.findViewById<RadioButton>(id).text.toString()
 
 
@@ -97,7 +92,6 @@ class AddBirdDialog(val viewModel: AllBirdsViewModel) : DialogFragment() {
 
             val bird = Bird(age, name, gender,null)
 
-           //todo: suzan make sure that user have entered data before saving
             saveBird(bird,bytes)
        }
     }
@@ -119,15 +113,15 @@ class AddBirdDialog(val viewModel: AllBirdsViewModel) : DialogFragment() {
 
             //creating child file
             val fileName = "${System.currentTimeMillis()}.png"
-            val ImageFile = File(myAppDir, fileName)
-            if (!ImageFile.exists()) ImageFile.createNewFile()
+            val imageFile = File(myAppDir, fileName)
+            if (!imageFile.exists()) imageFile.createNewFile()
 
             try {
-                val fo = FileOutputStream(ImageFile)
+                val fo = FileOutputStream(imageFile)
                 fo.write(byte.toByteArray())
                 fo.close()
 
-                bird.imgLocation = ImageFile.absolutePath
+                bird.imgLocation = imageFile.absolutePath
                 // Log.i(TAG, "saveBird: ")
             } catch (E: Exception) {
                 //  Log.i(TAG, "saveBird: ${E.message}")
@@ -136,7 +130,7 @@ class AddBirdDialog(val viewModel: AllBirdsViewModel) : DialogFragment() {
     }
 
 
-    var resultLauncher =
+    private val resultLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
                 val data = result.data
