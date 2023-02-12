@@ -16,6 +16,8 @@ import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.viewModelScope
 import com.example.android.birdsdaycounter.R
 import com.example.android.birdsdaycounter.data.models.Bird
+import com.example.android.birdsdaycounter.databinding.ActivityMainBinding
+import com.example.android.birdsdaycounter.databinding.AddBirdDialogBinding
 import com.example.android.birdsdaycounter.globalUse.MyApp
 import com.example.android.birdsdaycounter.presentation.allBirdsFragment.AllBirdsViewModel
 import kotlinx.coroutines.launch
@@ -25,50 +27,36 @@ import java.io.FileOutputStream
 
 
 class AddBirdDialog(private val viewModel: AllBirdsViewModel) : DialogFragment() {
+
+    private lateinit var binding: AddBirdDialogBinding
     private var uri: Uri? = null
-    private lateinit var cancelBTN : Button
-    private lateinit var saveBTN : Button
-    private lateinit var cameraBTN:Button
-    private lateinit var nameET: EditText
-    private lateinit var ageET:EditText
-    private lateinit var img: ImageView
-    private lateinit var radioGroup: RadioGroup
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.add_bird_dialog,container,false)
+        binding= AddBirdDialogBinding.inflate(layoutInflater)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setViews(view)
+        setOnClicks(view)
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         requireActivity().setFinishOnTouchOutside(false)
     }
-    private fun setViews(view: View) {
-        cancelBTN= view.findViewById(R.id.cancel_button)
-        saveBTN= view.findViewById(R.id.save_button)
-        cameraBTN= view.findViewById(R.id.add_bird_camera)
-        nameET = view.findViewById(R.id.bird_name_ET)
-        ageET=view.findViewById(R.id.bird_age_ET)
-        img=view.findViewById(R.id.bird_creat_img)
-        radioGroup=view.findViewById(R.id.myRadioGroup)
-        setOnClicks(view)
-
-    }
 
     private fun setOnClicks(view: View) {
 
-       cancelBTN.setOnClickListener {
+       binding.cancelButton.setOnClickListener {
            this.dismiss()
         }
 
-        cameraBTN.setOnClickListener {
+        binding.addBirdCamera.setOnClickListener {
 
             val i = Intent().apply {
                 type = "image/*"
@@ -77,14 +65,14 @@ class AddBirdDialog(private val viewModel: AllBirdsViewModel) : DialogFragment()
             resultLauncher.launch(i)
         }
 
-       saveBTN.setOnClickListener {
-            val name = nameET.text.toString()
-            val age = ageET.text.toString()
-            val id = radioGroup.checkedRadioButtonId
+       binding.saveButton.setOnClickListener {
+            val name = binding.birdNameET.text.toString()
+            val age = binding.birdAgeET.text.toString()
+            val id = binding.myRadioGroup.checkedRadioButtonId
             val gender = view.findViewById<RadioButton>(id).text.toString()
 
 
-            val imgBitmap = img.drawable.toBitmap()
+            val imgBitmap = binding.birdCreatImg.drawable.toBitmap()
             val bytes = ByteArrayOutputStream()
             imgBitmap.compress(Bitmap.CompressFormat.PNG, 100, bytes)
 
@@ -135,8 +123,7 @@ class AddBirdDialog(private val viewModel: AllBirdsViewModel) : DialogFragment()
             if (result.resultCode == Activity.RESULT_OK) {
                 val data = result.data
                 uri = data!!.data
-                img.setImageURI(uri)
-
+                binding.birdCreatImg.setImageURI(uri)
             }
         }
 
