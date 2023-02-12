@@ -67,8 +67,7 @@ class AllBirdsFragment : MyFragmentParentClass() {
     }
 
     private fun birdClicked(bird: Bird) {
-        setFragment(this,BirdFragment.newInstance(bird))
-        hideBottomBave(true)
+       //todo : navigate to add bird
     }
 
 
@@ -124,16 +123,6 @@ class AllBirdsFragment : MyFragmentParentClass() {
         fun newInstance(): AllBirdsFragment {
             return AllBirdsFragment()
         }
-    }
-
-    override fun onResume() {
-        hideBottomBave(false)
-        if (viewModel.firstTimeOpen.value==true){
-            viewModel.firstTimeOpen.value=false
-        }else {
-            showFragment(this)
-        }
-        super.onResume()
     }
 
 }

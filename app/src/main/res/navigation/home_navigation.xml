@@ -41,4 +41,9 @@
             android:name="bird"
             app:argType="com.example.android.birdsdaycounter.data.models.Bird" />
     </fragment>
+    <fragment
+        android:id="@+id/settings"
+        android:name="com.example.android.birdsdaycounter.presentation.settings.SettingsFragment"
+        android:label="fragment_settings"
+        tools:layout="@layout/fragment_settings" />
 </navigation>

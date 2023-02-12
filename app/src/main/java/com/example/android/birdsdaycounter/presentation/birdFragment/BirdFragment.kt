@@ -59,13 +59,13 @@ class BirdFragment(val bird: Bird) : MyFragmentParentClass() {
                 MyApp.updateBird(myBird!!)
             }
 
-            popOfBackStack()
+     //todo :  navigate up
         }
 
         binding.deleteBtn.setOnClickListener {
 
             //todo : add logic
-            popOfBackStack()
+            //todo :  navigate up
         }
 
         binding.scroll.setOnTouchListener(View.OnTouchListener { v, event ->
@@ -110,7 +110,7 @@ class BirdFragment(val bird: Bird) : MyFragmentParentClass() {
         binding.backBtn.setOnClickListener {
             //findNavController().navigateUp()  to Allbirds
             //setFragment(AllBirdsFragment.newInstance(),false)
-            popOfBackStack()
+            //todo :  navigate up
         }
     }
 
@@ -192,8 +192,4 @@ class BirdFragment(val bird: Bird) : MyFragmentParentClass() {
         }
     }
 
-    override fun onDestroy() {
-        hideBottomBave(false)
-        super.onDestroy()
-    }
 }

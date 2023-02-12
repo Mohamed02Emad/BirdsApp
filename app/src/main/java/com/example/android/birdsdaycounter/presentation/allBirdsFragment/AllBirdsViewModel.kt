@@ -20,7 +20,6 @@ class AllBirdsViewModel : ViewModel() {
 
     var isReadyToShow = MutableLiveData<Boolean>()
     var newBirdWasAdded = MutableLiveData<Boolean>()
-    var firstTimeOpen = MutableLiveData<Boolean>(true)
 
      private val repository: BirdsRepository
 

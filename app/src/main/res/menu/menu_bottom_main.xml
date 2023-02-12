@@ -17,6 +17,11 @@
         android:icon="@drawable/eye_icon"
         android:title="@string/title_birdsFamily" />
 
+    <item
+        android:id="@+id/settings"
+        android:icon="@drawable/ic_baseline_settings_24"
+        android:title="@string/title_birdsFamily" />
+
 
 
 </menu>
