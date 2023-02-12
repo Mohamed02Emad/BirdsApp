@@ -1,4 +1,4 @@
-package com.example.android.birdsdaycounter.presentation.scheduleFragment.models
+package com.example.android.birdsdaycounter.data.models
 
 data class Food(
     var foodName: String,

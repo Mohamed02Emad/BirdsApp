@@ -9,21 +9,18 @@ open class MyFragmentParentClass : Fragment() {
     // class that has functions that are used in more than one fragment
 
 
-      var myparentFragment : Fragment? = null
 
     fun showToast(s: String) {
         Toast.makeText(requireContext(), s, Toast.LENGTH_SHORT).show()
     }
 
-    fun setFragment(fromFragment: Fragment, toFragment: Fragment) {
+    fun setFragment(fromFragment : Fragment, toFragment: Fragment) {
         requireActivity().supportFragmentManager.beginTransaction()
-            .hide(fromFragment)
             .add(R.id.frame_layout,toFragment)
             .addToBackStack(null)
+            .hide(fromFragment)
             .setReorderingAllowed(true)
-            .show(toFragment)
             .commit()
-
     }
 
     fun hideBottomBave(wantToHide: Boolean) {
@@ -31,14 +28,14 @@ open class MyFragmentParentClass : Fragment() {
     }
 
     fun popOfBackStack() {
-        if (myparentFragment!=null){
+        hideBottomBave(false)
         requireActivity().supportFragmentManager.popBackStack()
+    }
+
+    fun showFragment(fragment: Fragment){
         requireActivity().supportFragmentManager.beginTransaction()
-            .show(myparentFragment!!)
+            .show(fragment)
             .commit()
-        }else{
-            showToast("مبروك انت في القاع")
-        }
     }
 
 }

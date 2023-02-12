@@ -72,6 +72,18 @@ class MyApp : Application() {
                 myDao.insertAll(bird)
             }
         }
+
+        fun removeAllFromAllBirdsArrayList(){
+            GlobalScope.launch {
+                myDao.deleteAll()
+            }
+        }
+
+        fun deleteFromAllBirdsArrayList(bird: Bird){
+            GlobalScope.launch {
+                myDao.delete(bird)
+            }
+        }
     }
 
 }

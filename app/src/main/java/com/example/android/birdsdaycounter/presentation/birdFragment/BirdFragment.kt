@@ -15,17 +15,15 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.RadioButton
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.widget.doOnTextChanged
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.example.android.birdsdaycounter.data.models.Bird
 import com.example.android.birdsdaycounter.databinding.FragmentBirdBinding
 import com.example.android.birdsdaycounter.globalUse.MyApp
 import com.example.android.birdsdaycounter.globalUse.MyFragmentParentClass
-import com.example.android.birdsdaycounter.presentation.allBirdsFragment.AllBirdsFragment
 import kotlinx.coroutines.launch
 
-class BirdFragment(val bird: Bird,private val myParent: Fragment) : MyFragmentParentClass() {
+class BirdFragment(val bird: Bird) : MyFragmentParentClass() {
 
     private lateinit var binding: FragmentBirdBinding
     private val viewModel: BirdViewModel by viewModels()
@@ -33,9 +31,8 @@ class BirdFragment(val bird: Bird,private val myParent: Fragment) : MyFragmentPa
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ): View? {
+    ): View {
        // viewModel.initBird(args.bird)
-        myparentFragment=myParent
         viewModel.initBird(bird = bird)
         binding = FragmentBirdBinding.inflate(layoutInflater)
         return binding.root
@@ -65,10 +62,16 @@ class BirdFragment(val bird: Bird,private val myParent: Fragment) : MyFragmentPa
             popOfBackStack()
         }
 
+        binding.deleteBtn.setOnClickListener {
+
+            //todo : add logic
+            popOfBackStack()
+        }
+
         binding.scroll.setOnTouchListener(View.OnTouchListener { v, event ->
             if (event.action == MotionEvent.ACTION_DOWN) {
 
-                if (binding.birdName.isFocused()) {
+                if (binding.birdName.isFocused) {
                     val outRect = Rect()
                     binding.birdName.getGlobalVisibleRect(outRect)
                     if (!outRect.contains(event.rawX.toInt(), event.rawY.toInt())) {
@@ -79,7 +82,7 @@ class BirdFragment(val bird: Bird,private val myParent: Fragment) : MyFragmentPa
                     }
                 }
 
-                if (binding.birdAge.isFocused()) {
+                if (binding.birdAge.isFocused) {
                     val outRect = Rect()
                     binding.birdAge.getGlobalVisibleRect(outRect)
                     if (!outRect.contains(event.rawX.toInt(), event.rawY.toInt())) {
@@ -98,8 +101,8 @@ class BirdFragment(val bird: Bird,private val myParent: Fragment) : MyFragmentPa
         binding.cameraIcon.setOnClickListener {
 
             val i = Intent().apply {
-                setType("image/*")
-                setAction(Intent.ACTION_GET_CONTENT)
+                type = "image/*"
+                action = Intent.ACTION_GET_CONTENT
             }
             resultLauncher.launch(i)
         }
@@ -147,7 +150,7 @@ class BirdFragment(val bird: Bird,private val myParent: Fragment) : MyFragmentPa
         }
     }
 
-    fun compareValuesToSave(view: View) {
+    private fun compareValuesToSave(view: View) {
         val id = binding.myRadioGroup.checkedRadioButtonId
         val gender = view.findViewById<RadioButton>(id).text
         if (binding.birdAge.text.toString() != viewModel.bird.value!!.age ||
@@ -173,7 +176,7 @@ class BirdFragment(val bird: Bird,private val myParent: Fragment) : MyFragmentPa
         }
     }
 
-    var resultLauncher =
+    private val resultLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
                 val data = result.data
@@ -184,8 +187,8 @@ class BirdFragment(val bird: Bird,private val myParent: Fragment) : MyFragmentPa
 
 
     companion object {
-        fun newInstance(bird: Bird, myParent: Fragment): BirdFragment {
-            return BirdFragment(bird,myParent)
+        fun newInstance(bird: Bird): BirdFragment {
+            return BirdFragment(bird)
         }
     }
 

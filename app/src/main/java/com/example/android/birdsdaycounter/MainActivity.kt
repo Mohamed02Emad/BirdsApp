@@ -1,7 +1,6 @@
 package com.example.android.birdsdaycounter
 
 import android.annotation.SuppressLint
-import android.annotation.TargetApi
 import android.app.Activity
 import android.content.Context
 import android.content.res.Resources
@@ -14,20 +13,14 @@ import android.view.WindowManager
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.navigation.fragment.NavHostFragment
 import com.etebarian.meowbottomnavigation.MeowBottomNavigation
 import com.example.android.birdsdaycounter.databinding.ActivityMainBinding
 import com.example.android.birdsdaycounter.presentation.allBirdsFragment.AllBirdsFragment
 import com.example.android.birdsdaycounter.presentation.multiBirdsFragment.MultiBirdFragment
 import com.example.android.birdsdaycounter.presentation.scheduleFragment.HomeFragment
-import com.google.android.material.bottomnavigation.BottomNavigationView
 
 
 class MainActivity : AppCompatActivity() {
-
-    // lateinit var binding: ActivityMainBinding
-    private lateinit var navHostFragment: NavHostFragment
-    private lateinit var bottomNavigationView: BottomNavigationView
 
     private val allBirds = AllBirdsFragment.newInstance()
     private val home = HomeFragment.newInstance()
@@ -71,12 +64,9 @@ class MainActivity : AppCompatActivity() {
 
         bottomNavigation.setOnClickMenuListener {
             when (it.id) {
-                1 -> setFragmentToShow(allBirdsState = true, homeState = false, multiBirdsState = false)
-                2 -> setFragmentToShow(allBirdsState = false, homeState = true, multiBirdsState = false)
-                3 -> setFragmentToShow(allBirdsState = false, homeState = false, multiBirdsState = true)
-//                1 -> setFragmentToAttach(allBirdsState = true, homeState = false, multiBirdsState = false)
-//                2 -> setFragmentToAttach(allBirdsState = false, homeState = true, multiBirdsState = false)
-//                3 -> setFragmentToAttach(allBirdsState = false, homeState = false, multiBirdsState = true)
+                1 -> setFragmentToAttach(allBirdsState = true, homeState = false, multiBirdsState = false)
+                2 -> setFragmentToAttach(allBirdsState = false, homeState = true, multiBirdsState = false)
+                3 -> setFragmentToAttach(allBirdsState = false, homeState = false, multiBirdsState = true)
             }
         }
 
@@ -87,55 +77,31 @@ class MainActivity : AppCompatActivity() {
     fun setFragmentToAttach(allBirdsState:Boolean, homeState:Boolean, multiBirdsState:Boolean){
         if (allBirdsState){
             supportFragmentManager.beginTransaction()
-                .attach(allBirds)
-                .detach(home)
-                .detach(multiBirds)
-                .commit()
-        }else if (homeState){
-            supportFragmentManager.beginTransaction()
-                .detach(allBirds)
-                .attach(home)
-                .detach(multiBirds)
-                .commit()
-        }else if (multiBirdsState){
-            supportFragmentManager.beginTransaction()
-                .detach(allBirds)
-                .detach(home)
-                .attach(multiBirds)
-                .commit()
-        }
-    }
-
-    fun setFragmentToShow(allBirdsState:Boolean, homeState:Boolean, multiBirdsState:Boolean) {
-        if (allBirdsState){
-            supportFragmentManager.beginTransaction()
-                .show(allBirds)
+                .attach(allBirds).show(allBirds)
                 .hide(home)
                 .hide(multiBirds)
                 .commit()
         }else if (homeState){
             supportFragmentManager.beginTransaction()
-                .hide(allBirds)
-                .show(home)
+                .attach(home).show(home)
                 .hide(multiBirds)
+                .hide(allBirds)
                 .commit()
         }else if (multiBirdsState){
             supportFragmentManager.beginTransaction()
+                .attach(multiBirds).show(multiBirds)
                 .hide(allBirds)
                 .hide(home)
-                .show(multiBirds)
                 .commit()
         }
     }
 
 
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    fun setStatusBarGradiant(activity: Activity) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+
+    private fun setStatusBarGradiant(activity: Activity) {
             val window: Window = activity.window
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
             window.navigationBarColor = ContextCompat.getColor(activity, android.R.color.transparent)
-        }
     }
 
     private fun requestNotificationPermission() {
@@ -170,7 +136,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        val Int.dp: Int
+        private val Int.dp: Int
             get() = (this * Resources.getSystem().displayMetrics.density + 0.5f).toInt()
     }
 
