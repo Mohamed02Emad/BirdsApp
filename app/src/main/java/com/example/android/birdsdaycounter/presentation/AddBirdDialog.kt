@@ -88,14 +88,14 @@ class AddBirdDialog(private val viewModel: AllBirdsViewModel) : DialogFragment()
 
         viewModel.viewModelScope.launch {
             saveBirdImage(bird, byte)
-            MyApp.addToAllBirdsArrayList(bird)
+            viewModel.insertDB(bird)
             viewModel.newBirdWasAdded.value = true
         }
         this.dismiss()
     }
 
     private fun saveBirdImage(bird: Bird, byte: ByteArrayOutputStream) {
-            val imgLocation = MyApp.appContext.filesDir.absolutePath + File.separator
+            val imgLocation = requireActivity().filesDir.absolutePath + File.separator
             val myAppDir = File(imgLocation)
             if (!myAppDir.exists()) myAppDir.mkdir()
 

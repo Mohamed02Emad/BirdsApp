@@ -16,7 +16,7 @@ data class Bird(
    var imgLocation: String? = null
 ):Parcelable{
    @PrimaryKey(autoGenerate = true) var id: Int = 0
-   var note : String = MyApp.appContext.getString(R.string.Empty)
+   var note : String = ""
    var isPinned : Boolean = false
 
    var stateCode = -1   // -1 single

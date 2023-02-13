@@ -6,8 +6,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.android.birdsdaycounter.data.models.Bird
 import com.example.android.birdsdaycounter.data.repositories.BirdsRepository
-import com.example.android.birdsdaycounter.globalUse.MyApp
 import com.example.android.birdsdaycounter.data.source.allBirdsRoom.AllBirdsDataBaseClass
+import com.example.android.birdsdaycounter.globalUse.MyApp
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -21,22 +21,22 @@ class AllBirdsViewModel : ViewModel() {
     var isReadyToShow = MutableLiveData<Boolean>()
     var newBirdWasAdded = MutableLiveData<Boolean>()
 
-     private val repository: BirdsRepository
+    private val repository: BirdsRepository
 
     init {
-        isReadyToShow.value=false
-        newBirdWasAdded.value=false
+        isReadyToShow.value = false
+        newBirdWasAdded.value = false
         _collectionsLiveData.value = ArrayList()
         val dao = AllBirdsDataBaseClass.getInstance(MyApp.appContext).singleDao()
         repository = BirdsRepository(dao)
         viewModelScope.launch {
-            _collectionsLiveData.value=MyApp.allBirds
-            isReadyToShow.value=true
+            getAllDB()
+            isReadyToShow.value = true
         }
     }
 
-    fun resetArrayList(){
-        _collectionsLiveData.value = MyApp.allBirds
+    fun resetArrayList() {
+        getAllDB()
     }
 
     fun insertDB(bird: Bird) =
@@ -54,7 +54,13 @@ class AllBirdsViewModel : ViewModel() {
     fun clearDB() =
         viewModelScope.launch(Dispatchers.IO) { repository.deleteAll() }
 
+    fun getAllDB(){
+        viewModelScope.launch(Dispatchers.IO) {
+            _collectionsLiveData.value = repository.getAll() as ArrayList<Bird>
+        }
+    }
+
     fun birdListSize() = _collectionsLiveData.value!!.size
 
-    fun createFakeBuird(): Bird = Bird(birdListSize().toString(),"momo","male",null)
+    fun createFakeBuird(): Bird = Bird(birdListSize().toString(), "momo", "male", null)
 }

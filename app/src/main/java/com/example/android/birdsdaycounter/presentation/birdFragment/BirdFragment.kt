@@ -58,7 +58,7 @@ class BirdFragment() : MyFragmentParentClass() {
             it.visibility = View.GONE
             lifecycleScope.launch {
                 val myBird = viewModel.bird.value
-                MyApp.updateBird(myBird!!)
+                viewModel.updateDB(myBird!!)
             }
 
       findNavController().navigateUp()

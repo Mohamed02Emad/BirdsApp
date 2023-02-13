@@ -8,8 +8,13 @@ import androidx.core.graphics.drawable.toBitmap
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.android.birdsdaycounter.data.models.Bird
+import com.example.android.birdsdaycounter.data.repositories.BirdsRepository
+import com.example.android.birdsdaycounter.data.source.allBirdsRoom.AllBirdsDataBaseClass
 import com.example.android.birdsdaycounter.globalUse.MyApp
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileOutputStream
@@ -22,9 +27,14 @@ class BirdViewModel : ViewModel() {
     private var _firstTimeChangLiveData = MutableLiveData(true)
     val firstTimeChange: LiveData<Boolean> = _firstTimeChangLiveData
 
+    private lateinit var repository: BirdsRepository
+
+
     fun initBird(bird: Bird){
         _birdLiveData.value=bird
         uri.value = null
+        val dao = AllBirdsDataBaseClass.getInstance(MyApp.appContext).singleDao()
+        repository = BirdsRepository(dao)
     }
 
     fun changePic(img: Drawable?) {
@@ -64,5 +74,8 @@ class BirdViewModel : ViewModel() {
     fun setFirstTimeChange(b: Boolean) {
         _firstTimeChangLiveData.value=b
     }
+
+    fun updateDB(bird: Bird) =
+       viewModelScope.launch(Dispatchers.IO) { repository.update(bird) }
 
 }
