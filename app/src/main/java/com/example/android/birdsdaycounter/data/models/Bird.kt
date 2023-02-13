@@ -21,6 +21,8 @@ data class Bird(
 
    var stateCode = -1   // -1 single
 
+   var isSelected = false
+
    fun calculateAge():String{
       return ""
    }

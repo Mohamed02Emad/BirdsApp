@@ -6,31 +6,102 @@
     android:layout_height="match_parent"
     tools:context=".presentation.allBirdsFragment.AllBirdsFragment">
 
-    <!--    <TextView-->
-    <!--        android:id="@+id/upperTXT"-->
-    <!--        app:layout_constraintTop_toTopOf="parent"-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:text="@string/know_your_birds"-->
-    <!--        android:gravity="center"-->
-    <!--        android:textSize="20sp"-->
-    <!--        android:padding="8dp"-->
-    <!--        android:textColor="@color/white"-->
-    <!--        android:background="@color/main_gradient_blue"-->
-    <!--        />-->
 
+    <LinearLayout
+        android:id="@+id/delete_selected_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/dark_grey"
+        android:orientation="horizontal"
+        android:visibility="gone"
+        tools:visibility="visible"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/cancelSelectedTXT"
+            android:paddingTop="12dp"
+            android:paddingBottom="12dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:text="@string/cancel"
+            android:paddingStart="16dp"
+            android:paddingEnd="8dp"
+            android:textColor="@color/black"
+            />
+
+        <ImageView
+            android:id="@+id/cancel_delete_selected"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:paddingEnd="8dp"
+            android:paddingStart="8dp"
+            android:src="@drawable/ic_baseline_cancel_24"
+            />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            />
+
+        <TextView
+            android:id="@+id/number_selected"
+            android:paddingTop="12dp"
+            android:paddingBottom="12dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            />
+
+
+        <ImageView
+            android:id="@+id/delete_selected_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:src="@drawable/ic_baseline_delete_forever_24"
+            />
+
+        <TextView
+            android:id="@+id/deleteSelectedTXT"
+            android:paddingTop="12dp"
+            android:paddingBottom="12dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:text="@string/Delete"
+            android:paddingStart="8dp"
+            android:paddingEnd="16dp"
+            android:textColor="@color/black"
+            />
+
+
+
+    </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/collections_rv"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
         android:orientation="vertical"
         android:paddingLeft="8dp"
         android:paddingRight="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/delete_selected_bar" />
 
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton

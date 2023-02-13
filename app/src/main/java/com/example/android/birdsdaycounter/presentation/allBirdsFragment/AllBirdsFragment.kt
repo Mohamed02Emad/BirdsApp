@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -40,7 +41,18 @@ class AllBirdsFragment : MyFragmentParentClass() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupRV()
+        setObservers()
         setOnClickListeners()
+    }
+
+    private fun setObservers() {
+        viewModel.isSelectToDelete.observe(viewLifecycleOwner){
+            if (it){
+                binding.deleteSelectedBar.visibility=View.VISIBLE
+            }else{
+                binding.deleteSelectedBar.visibility=View.GONE
+            }
+        }
     }
 
     private fun setupRV() {
@@ -49,12 +61,24 @@ class AllBirdsFragment : MyFragmentParentClass() {
                 layoutManager =
                     GridLayoutManager(requireActivity(), 2, GridLayoutManager.VERTICAL, false)
 
-                adapter = AllBirdsAdapter(viewModel.collectionsLiveData.value,
-                    AllBirdsAdapter.OnAddClickListener { bird ->
+                adapter = AllBirdsAdapter(viewModel.BirdsLiveData.value,
+                    AllBirdsAdapter.OnAddClickListener { bird:Bird , position:Int ->
+                        if (viewModel.isSelectToDelete.value==false){
                         birdClicked(bird)
+                        }else{
+                           val markBird = viewModel.checkToInsertToSelectedToBeDeleted(bird)
+                            bird.isSelected=markBird
+                            adapter.notifyItemChanged(position)
+                            binding.numberSelected.text=viewModel.listToDelete.value!!.size.toString()
+                        }
                     },
-                    AllBirdsAdapter.OnRemoveClickListener { bird ->
-                        //does nothing
+                    AllBirdsAdapter.OnLongClickListener{bird:Bird , position :Int ->
+                        viewModel.isSelectToDelete.value=true
+                        val markBird = viewModel.checkToInsertToSelectedToBeDeleted(bird)
+                        bird.isSelected=markBird
+                        adapter.notifyItemChanged(position)
+                        binding.numberSelected.text=viewModel.listToDelete.value!!.size.toString()
+                        false
                     }
                 )
 
@@ -78,7 +102,6 @@ class AllBirdsFragment : MyFragmentParentClass() {
             lifecycleScope.launch(Dispatchers.Main) {
                 if (it) {
                     try {
-                        viewModel.resetArrayList()
                         if (viewModel.isReadyToShow.value == true) {
                             resetRV()
                         }
@@ -92,6 +115,23 @@ class AllBirdsFragment : MyFragmentParentClass() {
             val addBirdDialog = AddBirdDialog(viewModel)
             addBirdDialog.show(childFragmentManager, "TAG")
 
+        }
+
+        binding.cancelDeleteSelected.setOnClickListener {
+            viewModel.clearSelectedToBeDeleted()
+            adapter.notifyDataSetChanged()
+        }
+        binding.cancelSelectedTXT.setOnClickListener {
+            viewModel.clearSelectedToBeDeleted()
+            adapter.notifyDataSetChanged()
+        }
+        binding.deleteSelectedBtn.setOnClickListener {
+            viewModel.deleteSelected()
+            adapter.notifyDataSetChanged()
+        }
+        binding.deleteSelectedTXT.setOnClickListener {
+            viewModel.deleteSelected()
+            adapter.notifyDataSetChanged()
         }
     }
 
@@ -108,7 +148,7 @@ class AllBirdsFragment : MyFragmentParentClass() {
     }
 
     private fun smoothScrollToPosition(pos: Int) {
-        //  layoutManager.scrollToPosition(pos)
+
         val smoothScroller: SmoothScroller = object : LinearSmoothScroller(context) {
             override fun getVerticalSnapPreference(): Int {
                 return SNAP_TO_START
@@ -117,7 +157,7 @@ class AllBirdsFragment : MyFragmentParentClass() {
         smoothScroller.targetPosition = pos
         layoutManager.startSmoothScroll(smoothScroller)
 
-        //binding.collectionsRv.smoothScrollToPosition()
+
     }
 
 }

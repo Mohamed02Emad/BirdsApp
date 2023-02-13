@@ -17,7 +17,7 @@ import kotlinx.coroutines.*
 class MultiBirdAdapter(
     private var arrayList: ArrayList<Bird>?,
     private val onClickListener: AllBirdsAdapter.OnAddClickListener,
-    private val onRemoveClickListener: AllBirdsAdapter.OnRemoveClickListener
+    private val onLongClickListener: AllBirdsAdapter.OnLongClickListener
 ) : RecyclerView.Adapter<MultiBirdAdapter.ViewHolderMultiBird>() {
 
     class ViewHolderMultiBird(itemView: View) :
@@ -67,7 +67,7 @@ class MultiBirdAdapter(
 //        }
 
         holder.background.setOnClickListener {
-            onClickListener.onAddBirdClick(bird = dataObject)
+            onClickListener.onAddBirdClick(bird = dataObject,position)
         }
 
 //        holder.deleteCollection.setOnClickListener {
