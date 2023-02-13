@@ -1,14 +1,11 @@
 package com.example.android.birdsdaycounter.presentation.birdFragment
 
-import android.content.Intent
+import android.app.Application
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import androidx.core.graphics.drawable.toBitmap
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.example.android.birdsdaycounter.data.models.Bird
 import com.example.android.birdsdaycounter.data.repositories.BirdsRepository
 import com.example.android.birdsdaycounter.data.source.allBirdsRoom.AllBirdsDataBaseClass
@@ -30,8 +27,8 @@ class BirdViewModel : ViewModel() {
     private lateinit var repository: BirdsRepository
 
 
-    fun initBird(bird: Bird){
-        _birdLiveData.value=bird
+    fun initBird(bird: Bird) {
+        _birdLiveData.value = bird
         uri.value = null
         val dao = AllBirdsDataBaseClass.getInstance(MyApp.appContext).singleDao()
         repository = BirdsRepository(dao)
@@ -39,7 +36,7 @@ class BirdViewModel : ViewModel() {
 
     fun changePic(img: Drawable?) {
 
-        if (uri!=null) {
+        if (uri != null) {
             val imgLocation = MyApp.appContext.filesDir.absolutePath + File.separator
             val myAppDir = File(imgLocation)
             if (!myAppDir.exists()) myAppDir.mkdir()
@@ -69,13 +66,13 @@ class BirdViewModel : ViewModel() {
     }
 
     fun imageCheck(): Boolean =
-        uri.value!=null
+        uri.value != null
 
     fun setFirstTimeChange(b: Boolean) {
-        _firstTimeChangLiveData.value=b
+        _firstTimeChangLiveData.value = b
     }
 
     fun updateDB(bird: Bird) =
-       viewModelScope.launch(Dispatchers.IO) { repository.update(bird) }
+        viewModelScope.launch(Dispatchers.IO) { repository.update(bird) }
 
 }

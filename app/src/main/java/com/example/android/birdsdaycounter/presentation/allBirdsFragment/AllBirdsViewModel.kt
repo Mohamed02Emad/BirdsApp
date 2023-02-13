@@ -10,12 +10,13 @@ import com.example.android.birdsdaycounter.data.source.allBirdsRoom.AllBirdsData
 import com.example.android.birdsdaycounter.globalUse.MyApp
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 
 class AllBirdsViewModel : ViewModel() {
 
     // should contain name and arrayList of Birds
-    private var _collectionsLiveData = MutableLiveData<ArrayList<Bird>>()
+    private var _collectionsLiveData = MutableLiveData<ArrayList<Bird>?>()
     val collectionsLiveData: LiveData<ArrayList<Bird>?> = _collectionsLiveData
 
     var isReadyToShow = MutableLiveData<Boolean>()
@@ -30,13 +31,13 @@ class AllBirdsViewModel : ViewModel() {
         val dao = AllBirdsDataBaseClass.getInstance(MyApp.appContext).singleDao()
         repository = BirdsRepository(dao)
         viewModelScope.launch {
-            getAllDB()
+            _collectionsLiveData.value = getAllDB()
             isReadyToShow.value = true
         }
     }
 
-    fun resetArrayList() {
-        getAllDB()
+    suspend fun resetArrayList() {
+        _collectionsLiveData.value = getAllDB()
     }
 
     fun insertDB(bird: Bird) =
@@ -54,11 +55,10 @@ class AllBirdsViewModel : ViewModel() {
     fun clearDB() =
         viewModelScope.launch(Dispatchers.IO) { repository.deleteAll() }
 
-    fun getAllDB(){
-        viewModelScope.launch(Dispatchers.IO) {
-            _collectionsLiveData.value = repository.getAll() as ArrayList<Bird>
+   suspend fun getAllDB(): ArrayList<Bird> = withContext(Dispatchers.IO) {
+             repository.getAll() as ArrayList<Bird>
         }
-    }
+
 
     fun birdListSize() = _collectionsLiveData.value!!.size
 

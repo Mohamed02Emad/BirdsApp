@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearSmoothScroller
@@ -12,11 +13,11 @@ import androidx.recyclerview.widget.RecyclerView.LayoutManager
 import androidx.recyclerview.widget.RecyclerView.SmoothScroller
 import com.example.android.birdsdaycounter.data.models.Bird
 import com.example.android.birdsdaycounter.databinding.FragmentAllBirdsBinding
-import com.example.android.birdsdaycounter.globalUse.MyApp
 import com.example.android.birdsdaycounter.globalUse.MyFragmentParentClass
 import com.example.android.birdsdaycounter.presentation.AddBirdDialog
-import com.example.android.birdsdaycounter.presentation.birdFragment.BirdFragment
 import com.example.android.birdsdaycounter.presentation.recyclerViews.recyclerViewAllBirds.AllBirdsAdapter
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 
 class AllBirdsFragment : MyFragmentParentClass() {
@@ -74,18 +75,19 @@ class AllBirdsFragment : MyFragmentParentClass() {
     private fun setOnClickListeners() {
 
         viewModel.newBirdWasAdded.observe(viewLifecycleOwner) {
-            if (it) {
-                try {
-                    viewModel.resetArrayList()
-                    if (viewModel.isReadyToShow.value == true) {
-                        resetRV()
+            lifecycleScope.launch(Dispatchers.Main) {
+                if (it) {
+                    try {
+                        viewModel.resetArrayList()
+                        if (viewModel.isReadyToShow.value == true) {
+                            resetRV()
+                        }
+                    } catch (E: Exception) {
                     }
-                } catch (E: Exception) {
+                    viewModel.newBirdWasAdded.value = false
                 }
-                viewModel.newBirdWasAdded.value = false
             }
         }
-
         binding.addCollectionButton.setOnClickListener {
             val addBirdDialog = AddBirdDialog(viewModel)
             addBirdDialog.show(childFragmentManager, "TAG")
@@ -116,13 +118,6 @@ class AllBirdsFragment : MyFragmentParentClass() {
         layoutManager.startSmoothScroll(smoothScroller)
 
         //binding.collectionsRv.smoothScrollToPosition()
-    }
-
-
-    companion object {
-        fun newInstance(): AllBirdsFragment {
-            return AllBirdsFragment()
-        }
     }
 
 }
