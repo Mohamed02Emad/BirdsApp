@@ -81,11 +81,12 @@ class AllBirdsViewModel : ViewModel() {
     }
 
     private suspend fun deleteDB(bird: Bird) =
-        withContext(Dispatchers.IO) { repository.delete(bird)
-        deleteImage(bird.imgLocation)
+        withContext(Dispatchers.IO) {
+            repository.delete(bird)
+            deleteImage(bird.imgLocation)
         }
 
-    private fun deleteImage(location : String?) {
+    private fun deleteImage(location: String?) {
         try {
             val file = File(location)
             file.delete()
@@ -97,14 +98,14 @@ class AllBirdsViewModel : ViewModel() {
         withContext(Dispatchers.IO) { repository.getAll() as ArrayList<Bird> }
 
     suspend fun getDataFromRoom() {
-            _birdsLiveData.value!!.clear()
-            _birdsLiveData.value!!.addAll(getAllDB())
-            Log.d(MyApp.TAG, "getDataFromRoom: " + _birdsLiveData.value!!.size)
+        _birdsLiveData.value!!.clear()
+        _birdsLiveData.value!!.addAll(getAllDB())
+        Log.d(MyApp.TAG, "getDataFromRoom: " + _birdsLiveData.value!!.size)
 
 
     }
 
-    fun markTheBird(markBird: Boolean,pos:Int) {
-            _birdsLiveData.value!![pos].isSelected=markBird
+    fun markTheBird(markBird: Boolean, pos: Int) {
+        _birdsLiveData.value!![pos].isSelected = markBird
     }
 }
