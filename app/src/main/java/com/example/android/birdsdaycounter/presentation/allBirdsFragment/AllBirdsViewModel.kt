@@ -10,9 +10,9 @@ import com.example.android.birdsdaycounter.data.repositories.BirdsRepository
 import com.example.android.birdsdaycounter.data.source.allBirdsRoom.AllBirdsDataBaseClass
 import com.example.android.birdsdaycounter.globalUse.MyApp
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.io.File
 
 
 class AllBirdsViewModel : ViewModel() {
@@ -81,7 +81,17 @@ class AllBirdsViewModel : ViewModel() {
     }
 
     private suspend fun deleteDB(bird: Bird) =
-        withContext(Dispatchers.IO) { repository.delete(bird) }
+        withContext(Dispatchers.IO) { repository.delete(bird)
+        deleteImage(bird.imgLocation)
+        }
+
+    private fun deleteImage(location : String?) {
+        try {
+            val file = File(location)
+            file.delete()
+        } catch (_: Exception) {
+        }
+    }
 
     private suspend fun getAllDB(): ArrayList<Bird> =
         withContext(Dispatchers.IO) { repository.getAll() as ArrayList<Bird> }
