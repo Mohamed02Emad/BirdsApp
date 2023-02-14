@@ -1,7 +1,6 @@
 package com.example.android.birdsdaycounter.presentation.allBirdsFragment
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,9 +9,9 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView.LayoutManager
+import com.example.android.birdsdaycounter.R
 import com.example.android.birdsdaycounter.data.models.Bird
 import com.example.android.birdsdaycounter.databinding.FragmentAllBirdsBinding
-import com.example.android.birdsdaycounter.globalUse.MyApp
 import com.example.android.birdsdaycounter.globalUse.MyFragmentParentClass
 import com.example.android.birdsdaycounter.presentation.AddBirdDialog
 import com.example.android.birdsdaycounter.presentation.recyclerViews.recyclerViewAllBirds.AllBirdsAdapter
@@ -55,11 +54,14 @@ class AllBirdsFragment : MyFragmentParentClass() {
 
         viewModel.isSelectToDelete.observe(viewLifecycleOwner) {
             if (it) {
-                binding.addCollectionButton.visibility=View.GONE
-                binding.deleteSelectedBar.visibility = View.VISIBLE
+                binding.addCollectionButton.setImageResource(R.drawable.ic_baseline_delete_forever_24)
+                binding.cancelDeleteSelected.visibility = View.VISIBLE
+                binding.numberSelected.visibility = View.VISIBLE
             } else {
-                binding.addCollectionButton.visibility=View.VISIBLE
-                binding.deleteSelectedBar.visibility = View.GONE
+                binding.addCollectionButton.setImageResource(R.drawable.add_icon)
+                binding.cancelDeleteSelected.visibility = View.GONE
+                binding.numberSelected.visibility = View.GONE
+
             }
         }
     }
@@ -82,14 +84,14 @@ class AllBirdsFragment : MyFragmentParentClass() {
                         if (viewModel.isSelectToDelete.value == false) {
                             birdClicked(bird)
                         } else {
-                           selectBirdLogic(bird,position)
+                            selectBirdLogic(bird, position)
                             binding.numberSelected.text =
                                 viewModel.listToDelete.value!!.size.toString()
                         }
                     },
                     AllBirdsAdapter.OnLongClickListener { bird: Bird, position: Int ->
                         viewModel.isSelectToDelete.value = true
-                        selectBirdLogic(bird,position)
+                        selectBirdLogic(bird, position)
                         binding.numberSelected.text = viewModel.listToDelete.value!!.size.toString()
                         false
                     }
@@ -103,7 +105,7 @@ class AllBirdsFragment : MyFragmentParentClass() {
     private fun selectBirdLogic(bird: Bird, position: Int) {
         // false deSelect ---- true select
         val markBird = viewModel.checkIfBirdIsSelected(bird)
-        viewModel.markTheBird(markBird,position)
+        viewModel.markTheBird(markBird, position)
         adapter.notifyItemChanged(position)
     }
 
@@ -118,22 +120,23 @@ class AllBirdsFragment : MyFragmentParentClass() {
 
     private fun setOnClickListeners() {
         binding.addCollectionButton.setOnClickListener {
-            oldSize = viewModel.birdListSize()
-            val addBirdDialog = AddBirdDialog(viewModel)
-            addBirdDialog.show(childFragmentManager, "TAG")
+            if (viewModel.isSelectToDelete.value == true) {
+
+                viewModel.deleteSelected()
+
+                adapter.notifyDataSetChanged()
+
+            } else {
+                oldSize = viewModel.birdListSize()
+                val addBirdDialog = AddBirdDialog(viewModel)
+                addBirdDialog.show(childFragmentManager, "TAG")
+            }
         }
 
         binding.cancelDeleteSelected.setOnClickListener {
             viewModel.clearSelectedToBeDeleted()
-        }
-        binding.cancelSelectedTXT.setOnClickListener {
-            viewModel.clearSelectedToBeDeleted()
-        }
-        binding.deleteSelectedBtn.setOnClickListener {
-            viewModel.deleteSelected()
-        }
-        binding.deleteSelectedTXT.setOnClickListener {
-            viewModel.deleteSelected()
+            adapter.notifyDataSetChanged()
+
         }
     }
 
