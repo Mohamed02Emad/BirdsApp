@@ -15,4 +15,5 @@
     <color name="transperent">#0041105B</color>
     <color name="light_grey">#D3D3D3</color>
     <color name="dark_grey">#808080</color>
+    <color name="main_ripple">#1DB804</color>
 </resources>

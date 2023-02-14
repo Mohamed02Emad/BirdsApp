@@ -42,6 +42,7 @@ class MainActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
         setupNavigation()
+        setUpVisibilityOfBottomBar()
         setStatusBarGradiant()
         requestNotificationPermission()
     }
@@ -64,5 +65,14 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun setUpVisibilityOfBottomBar() {
+        navHostFragment.navController.addOnDestinationChangedListener { controller, destination, arguments ->
+            when (destination.id) {
+                R.id.AllBirdsFragment, R.id.homeFragment2,R.id.multiBirdFragment2,
+                R.id.settings -> bottomNavigationView.visibility=View.VISIBLE
+                else -> bottomNavigationView.visibility=View.GONE
+            }
+        }
+    }
 
 }

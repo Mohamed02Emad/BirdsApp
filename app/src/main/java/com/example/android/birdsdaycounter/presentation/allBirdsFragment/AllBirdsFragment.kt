@@ -43,18 +43,10 @@ class AllBirdsFragment : MyFragmentParentClass() {
     }
 
     private fun setObservers() {
-
-        viewModel.birdsLiveData.observe(viewLifecycleOwner) {
-            // showToast(it!!.size.toString())
-        }
-
         viewModel.newBirdWasAdded.observe(viewLifecycleOwner) {
-
             if (it) {
-
                 lifecycleScope.launch {
                     viewModel.getDataFromRoom()
-                    Log.d(MyApp.TAG, "setObservers: " + viewModel.birdListSize())
                     resetRvAfterBirdInserted()
                     viewModel.newBirdWasAdded.value = false
                 }
@@ -63,8 +55,10 @@ class AllBirdsFragment : MyFragmentParentClass() {
 
         viewModel.isSelectToDelete.observe(viewLifecycleOwner) {
             if (it) {
+                binding.addCollectionButton.visibility=View.GONE
                 binding.deleteSelectedBar.visibility = View.VISIBLE
             } else {
+                binding.addCollectionButton.visibility=View.VISIBLE
                 binding.deleteSelectedBar.visibility = View.GONE
             }
         }
@@ -88,18 +82,14 @@ class AllBirdsFragment : MyFragmentParentClass() {
                         if (viewModel.isSelectToDelete.value == false) {
                             birdClicked(bird)
                         } else {
-                            val markBird = viewModel.checkIfBirdIsSelected(bird)
-                            bird.isSelected = markBird
-                            adapter.notifyItemChanged(position)
+                           selectBirdLogic(bird,position)
                             binding.numberSelected.text =
                                 viewModel.listToDelete.value!!.size.toString()
                         }
                     },
                     AllBirdsAdapter.OnLongClickListener { bird: Bird, position: Int ->
                         viewModel.isSelectToDelete.value = true
-                        val markBird = viewModel.checkIfBirdIsSelected(bird)
-                        bird.isSelected = markBird
-                        adapter.notifyItemChanged(position)
+                        selectBirdLogic(bird,position)
                         binding.numberSelected.text = viewModel.listToDelete.value!!.size.toString()
                         false
                     }
@@ -108,6 +98,13 @@ class AllBirdsFragment : MyFragmentParentClass() {
                 binding.collectionsRv.layoutManager = layoutManager
             }
         }
+    }
+
+    private fun selectBirdLogic(bird: Bird, position: Int) {
+        // false deSelect ---- true select
+        val markBird = viewModel.checkIfBirdIsSelected(bird)
+        viewModel.markTheBird(markBird,position)
+        adapter.notifyItemChanged(position)
     }
 
     private fun birdClicked(bird: Bird) {

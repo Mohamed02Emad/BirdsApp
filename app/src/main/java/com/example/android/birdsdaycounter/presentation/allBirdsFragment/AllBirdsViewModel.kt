@@ -103,4 +103,8 @@ class AllBirdsViewModel : ViewModel() {
 
 
     }
+
+    fun markTheBird(markBird: Boolean,pos:Int) {
+            _birdsLiveData.value!![pos].isSelected=markBird
+    }
 }

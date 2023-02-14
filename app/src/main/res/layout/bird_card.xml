@@ -23,6 +23,9 @@
     android:background="@drawable/bird_ripple"
     >
 
+
+
+
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/bird_img"
         android:layout_width="match_parent"
@@ -79,6 +82,19 @@
         app:layout_constraintTop_toBottomOf="@id/bird_age"
         app:layout_constraintBottom_toBottomOf="parent"/>
 
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:id="@+id/checked"
+        android:visibility="invisible"
+        app:shapeAppearanceOverlay="@style/roundedImageViewRounded_Small"
+        android:layout_margin="0dp"
+        android:background="@color/black"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:src="@drawable/checkbox_checked"
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 
