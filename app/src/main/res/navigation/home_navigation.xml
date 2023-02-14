@@ -46,4 +46,12 @@
         android:name="com.example.android.birdsdaycounter.presentation.settings.SettingsFragment"
         android:label="fragment_settings"
         tools:layout="@layout/fragment_settings" />
+    <dialog
+        android:id="@+id/addBirdDialog"
+        android:name="com.example.android.birdsdaycounter.presentation.AddBirdDialog"
+        android:label="AddBirdDialog" >
+        <action
+            android:id="@+id/action_addBirdDialog_to_AllBirdsFragment"
+            app:destination="@id/AllBirdsFragment" />
+    </dialog>
 </navigation>

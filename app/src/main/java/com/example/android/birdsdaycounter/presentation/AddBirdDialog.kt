@@ -9,16 +9,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
-import android.widget.*
+import android.widget.RadioButton
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.graphics.drawable.toBitmap
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.viewModelScope
-import com.example.android.birdsdaycounter.R
 import com.example.android.birdsdaycounter.data.models.Bird
-import com.example.android.birdsdaycounter.databinding.ActivityMainBinding
 import com.example.android.birdsdaycounter.databinding.AddBirdDialogBinding
-import com.example.android.birdsdaycounter.globalUse.MyApp
 import com.example.android.birdsdaycounter.presentation.allBirdsFragment.AllBirdsViewModel
 import kotlinx.coroutines.launch
 import java.io.ByteArrayOutputStream
@@ -31,13 +28,17 @@ class AddBirdDialog(private val viewModel: AllBirdsViewModel) : DialogFragment()
     private lateinit var binding: AddBirdDialogBinding
     private var uri: Uri? = null
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        requireActivity().setFinishOnTouchOutside(false)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        binding= AddBirdDialogBinding.inflate(layoutInflater)
+    ): View {
+        binding = AddBirdDialogBinding.inflate(layoutInflater)
         return binding.root
     }
 
@@ -45,15 +46,11 @@ class AddBirdDialog(private val viewModel: AllBirdsViewModel) : DialogFragment()
         super.onViewCreated(view, savedInstanceState)
         setOnClicks(view)
     }
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        requireActivity().setFinishOnTouchOutside(false)
-    }
 
     private fun setOnClicks(view: View) {
 
-       binding.cancelButton.setOnClickListener {
-           this.dismiss()
+        binding.cancelButton.setOnClickListener {
+            this.dismiss()
         }
 
         binding.addBirdCamera.setOnClickListener {
@@ -65,26 +62,23 @@ class AddBirdDialog(private val viewModel: AllBirdsViewModel) : DialogFragment()
             resultLauncher.launch(i)
         }
 
-       binding.saveButton.setOnClickListener {
+        binding.saveButton.setOnClickListener {
             val name = binding.birdNameET.text.toString()
             val age = binding.birdAgeET.text.toString()
             val id = binding.myRadioGroup.checkedRadioButtonId
             val gender = view.findViewById<RadioButton>(id).text.toString()
 
-
             val imgBitmap = binding.birdCreatImg.drawable.toBitmap()
             val bytes = ByteArrayOutputStream()
             imgBitmap.compress(Bitmap.CompressFormat.PNG, 100, bytes)
 
+            val bird = Bird(age, name, gender, null)
 
-
-            val bird = Bird(age, name, gender,null)
-
-            saveBird(bird,bytes)
-       }
+            saveBird(bird, bytes)
+        }
     }
 
-    private fun saveBird(bird: Bird,byte:ByteArrayOutputStream) {
+    private fun saveBird(bird: Bird, byte: ByteArrayOutputStream) {
 
         viewModel.viewModelScope.launch {
             saveBirdImage(bird, byte)
@@ -95,28 +89,25 @@ class AddBirdDialog(private val viewModel: AllBirdsViewModel) : DialogFragment()
     }
 
     private fun saveBirdImage(bird: Bird, byte: ByteArrayOutputStream) {
-            val imgLocation = requireActivity().filesDir.absolutePath + File.separator
-            val myAppDir = File(imgLocation)
-            if (!myAppDir.exists()) myAppDir.mkdir()
+        val imgLocation = requireActivity().filesDir.absolutePath + File.separator
+        val myAppDir = File(imgLocation)
+        if (!myAppDir.exists()) myAppDir.mkdir()
 
-            //creating child file
-            val fileName = "${System.currentTimeMillis()}.png"
-            val imageFile = File(myAppDir, fileName)
-            if (!imageFile.exists()) imageFile.createNewFile()
+        //creating child file
+        val fileName = "${System.currentTimeMillis()}.png"
+        val imageFile = File(myAppDir, fileName)
+        if (!imageFile.exists()) imageFile.createNewFile()
 
-            try {
-                val fo = FileOutputStream(imageFile)
-                fo.write(byte.toByteArray())
-                fo.close()
+        try {
+            val fo = FileOutputStream(imageFile)
+            fo.write(byte.toByteArray())
+            fo.close()
 
-                bird.imgLocation = imageFile.absolutePath
-                // Log.i(TAG, "saveBird: ")
-            } catch (E: Exception) {
-                //  Log.i(TAG, "saveBird: ${E.message}")
-            }
+            bird.imgLocation = imageFile.absolutePath
+        } catch (_: Exception) {
+        }
 
     }
-
 
     private val resultLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->

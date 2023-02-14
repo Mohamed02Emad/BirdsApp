@@ -51,12 +51,6 @@ class AllBirdsAdapter(
         holder.age.text = dataObject.age.toString()
         holder.gender.text = dataObject.gender
 
-        if (dataObject.isSelected){
-            holder.background.background= ContextCompat.getDrawable(MyApp.appContext, R.drawable.selected_bird_ripple)
-        }else{
-            holder.background.background= ContextCompat.getDrawable(MyApp.appContext, R.drawable.bird_ripple)
-        }
-
 
 
         GlobalScope.launch(Dispatchers.Main) {

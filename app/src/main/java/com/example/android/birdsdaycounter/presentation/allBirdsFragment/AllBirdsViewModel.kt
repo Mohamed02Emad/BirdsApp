@@ -10,104 +10,87 @@ import com.example.android.birdsdaycounter.data.repositories.BirdsRepository
 import com.example.android.birdsdaycounter.data.source.allBirdsRoom.AllBirdsDataBaseClass
 import com.example.android.birdsdaycounter.globalUse.MyApp
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 
 class AllBirdsViewModel : ViewModel() {
 
-    // should contain name and arrayList of Birds
     private var _listToDelete = MutableLiveData<ArrayList<Bird>?>()
     val listToDelete: LiveData<ArrayList<Bird>?> = _listToDelete
 
-    private var _BirdsLiveData = MutableLiveData<ArrayList<Bird>?>()
-    val BirdsLiveData: LiveData<ArrayList<Bird>?> = _BirdsLiveData
+    private var _birdsLiveData = MutableLiveData<ArrayList<Bird>?>()
+    val birdsLiveData: LiveData<ArrayList<Bird>?> = _birdsLiveData
 
-    var isReadyToShow = MutableLiveData<Boolean>(false)
-    var newBirdWasAdded = MutableLiveData<Boolean>(false)
-    var isSelectToDelete = MutableLiveData<Boolean>(false)
-
+    var isReadyToShow = MutableLiveData(false)
+    var newBirdWasAdded = MutableLiveData(false)
+    var isSelectToDelete = MutableLiveData(false)
 
     private val repository: BirdsRepository
 
     init {
-        _BirdsLiveData.value = ArrayList()
+        _birdsLiveData.value = ArrayList()
         _listToDelete.value = ArrayList()
 
         val dao = AllBirdsDataBaseClass.getInstance(MyApp.appContext).singleDao()
         repository = BirdsRepository(dao)
 
         viewModelScope.launch {
-            _BirdsLiveData.value = getAllDB()
+            _birdsLiveData.value = getAllDB()
             isReadyToShow.value = true
         }
-
     }
 
 
-    fun insertDB(bird: Bird) {
-        insertBirdToDB(bird)
-        viewModelScope.launch {
-            _BirdsLiveData.value = getAllDB()
-            isReadyToShow.value = true
-        }
+    fun birdListSize() = _birdsLiveData.value!!.size
 
-    }
-
-    fun insertBirdToDB(bird: Bird) =
-        viewModelScope.launch(Dispatchers.IO) { repository.insert(bird) }
-
-    //
-//    fun updateDB(bird: Bird) =
-//        viewModelScope.launch(Dispatchers.IO) { repository.update(bird) }
-//
-    private suspend fun deleteDB(bird: Bird) =
-        withContext(Dispatchers.IO) { repository.delete(bird) }
-//
-//    fun deleteByIdDB(id: Int) =
-//        viewModelScope.launch(Dispatchers.IO) { repository.deleteById(id) }
-
-    suspend fun clearDB() = withContext(Dispatchers.IO) { repository.deleteAll() }
-
-    private suspend fun getAllDB(): ArrayList<Bird> = withContext(Dispatchers.IO) {
-        repository.getAll() as ArrayList<Bird>
-    }
-
-
-    fun birdListSize() = _BirdsLiveData.value!!.size
-
-    fun clearSelectedToBeDeleted() {
-        _listToDelete.value!!.clear()
-        isSelectToDelete.value = false
-        _BirdsLiveData.value!!.forEach { it.isSelected = false }
-    }
-
-    fun checkToInsertToSelectedToBeDeleted(bird: Bird): Boolean {
+    fun checkIfBirdIsSelected(bird: Bird): Boolean {
         //if bird exists remove it from list and return false to deSelect it
         //else add it and return true
-        if (_listToDelete.value!!.any { it.id == bird.id }) {
-           _listToDelete.value!!.remove(bird)
-            return false
+        return if (_listToDelete.value!!.any { it.id == bird.id }) {
+            _listToDelete.value!!.remove(bird)
+            false
         } else {
             _listToDelete.value!!.add(bird)
-            Log.d("mohamed", "addToSelectedToBeDeleted:  " + _listToDelete.value!!.size)
-            return true
+            true
         }
     }
 
     fun deleteSelected() {
         viewModelScope.launch(Dispatchers.IO) {
             _listToDelete.value!!.forEach {
-                try {
-                    deleteDB(it)
-                } catch (E: Exception) {
-                    Log.d("mohamed", "deleteSelected: isnot available")
-                }
+                _birdsLiveData.value!!.remove(it)
+                deleteDB(it)
             }
             clearSelectedToBeDeleted()
         }
     }
 
+    fun clearSelectedToBeDeleted() {
+        viewModelScope.launch(Dispatchers.Main) {
+            _listToDelete.value!!.clear()
+            isSelectToDelete.value = false
+            _birdsLiveData.value!!.forEach { it.isSelected = false }
+        }
+    }
 
-    fun createFakeBuird(): Bird = Bird(birdListSize().toString(), "momo", "male", null)
+
+    internal suspend fun insertDB(bird: Bird) = withContext(Dispatchers.IO) {
+        repository.insert(bird)
+    }
+
+    private suspend fun deleteDB(bird: Bird) =
+        withContext(Dispatchers.IO) { repository.delete(bird) }
+
+    private suspend fun getAllDB(): ArrayList<Bird> =
+        withContext(Dispatchers.IO) { repository.getAll() as ArrayList<Bird> }
+
+    suspend fun getDataFromRoom() {
+            _birdsLiveData.value!!.clear()
+            _birdsLiveData.value!!.addAll(getAllDB())
+            Log.d(MyApp.TAG, "getDataFromRoom: " + _birdsLiveData.value!!.size)
+
+
+    }
 }

@@ -23,6 +23,7 @@ class MyApp : Application() {
 
     companion object {
         lateinit var appContext: Context
+        val TAG ="mohamed"
     }
 }
 
