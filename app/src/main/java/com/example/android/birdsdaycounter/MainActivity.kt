@@ -13,19 +13,20 @@ import android.view.WindowManager
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.NavigationUI
 import com.etebarian.meowbottomnavigation.MeowBottomNavigation
 import com.example.android.birdsdaycounter.databinding.ActivityMainBinding
 import com.example.android.birdsdaycounter.presentation.allBirdsFragment.AllBirdsFragment
 import com.example.android.birdsdaycounter.presentation.multiBirdsFragment.MultiBirdFragment
 import com.example.android.birdsdaycounter.presentation.scheduleFragment.HomeFragment
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 
 class MainActivity : AppCompatActivity() {
-
-    private val allBirds = AllBirdsFragment.newInstance()
-    private val home = HomeFragment.newInstance()
-    private val multiBirds = MultiBirdFragment.newInstance()
-
+    private lateinit var navHostFragment: NavHostFragment
+    private lateinit var bottomNavigationView: BottomNavigationView
+    private lateinit var binding: ActivityMainBinding
 
     private val pushNotificationPermissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestPermission()
@@ -39,69 +40,23 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         val view = binding.root
-        context = this
-        setStatusBarGradiant(this)
         setContentView(view)
-        setMeowNavigation()
+        setupNavigation()
+        setUpVisibilityOfBottomBar()
+        setStatusBarGradiant()
         requestNotificationPermission()
     }
 
-    private fun setMeowNavigation() {
-        val bottomNavigation = findViewById<MeowBottomNavigation>(R.id.bottom_nav)
-
-
-        bottomNavigation.add(MeowBottomNavigation.Model(1, R.drawable.bird))
-        bottomNavigation.add(MeowBottomNavigation.Model(2, R.drawable.schedule_icon))
-        bottomNavigation.add(MeowBottomNavigation.Model(3, R.drawable.heart))
-
-
-        supportFragmentManager.beginTransaction().apply {
-            add(R.id.frame_layout, allBirds,"allBirds").hide(allBirds)
-            add(R.id.frame_layout, home, "home")
-            add(R.id.frame_layout, multiBirds, "multiBirds").hide(multiBirds)
-        }.commit()
-
-
-        bottomNavigation.setOnClickMenuListener {
-            when (it.id) {
-                1 -> setFragmentToAttach(allBirdsState = true, homeState = false, multiBirdsState = false)
-                2 -> setFragmentToAttach(allBirdsState = false, homeState = true, multiBirdsState = false)
-                3 -> setFragmentToAttach(allBirdsState = false, homeState = false, multiBirdsState = true)
-            }
-        }
-
-        bottomNavigation.show(2)
+    private fun setupNavigation() {
+        navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+        bottomNavigationView = findViewById(R.id.bottom_nav)
+        NavigationUI.setupWithNavController(bottomNavigationView, navHostFragment.navController)
     }
 
-
-    fun setFragmentToAttach(allBirdsState:Boolean, homeState:Boolean, multiBirdsState:Boolean){
-        if (allBirdsState){
-            supportFragmentManager.beginTransaction()
-                .attach(allBirds).show(allBirds)
-                .hide(home)
-                .hide(multiBirds)
-                .commit()
-        }else if (homeState){
-            supportFragmentManager.beginTransaction()
-                .attach(home).show(home)
-                .hide(multiBirds)
-                .hide(allBirds)
-                .commit()
-        }else if (multiBirdsState){
-            supportFragmentManager.beginTransaction()
-                .attach(multiBirds).show(multiBirds)
-                .hide(allBirds)
-                .hide(home)
-                .commit()
-        }
-    }
-
-
-
-    private fun setStatusBarGradiant(activity: Activity) {
-            val window: Window = activity.window
+    private fun setStatusBarGradiant() {
+            val window: Window = this.window
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
-            window.navigationBarColor = ContextCompat.getColor(activity, android.R.color.transparent)
+            window.navigationBarColor = ContextCompat.getColor(this, android.R.color.transparent)
     }
 
     private fun requestNotificationPermission() {
@@ -110,34 +65,14 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    companion object {
-
-        @SuppressLint("StaticFieldLeak")
-        lateinit var binding: ActivityMainBinding
-        @SuppressLint("StaticFieldLeak")
-        lateinit var context: Context
-
-        fun hideBottomNav(hide: Boolean) {
-            if (hide) {
-                binding.bottomNav.visibility = View.GONE
-                setMargins(binding.frameLayout, 0, 0, 0, 0)
-
-            } else {
-                binding.bottomNav.visibility = View.VISIBLE
-                setMargins(binding.frameLayout, 0, 0, 0, 42)
+    private fun setUpVisibilityOfBottomBar() {
+        navHostFragment.navController.addOnDestinationChangedListener { controller, destination, arguments ->
+            when (destination.id) {
+                R.id.AllBirdsFragment, R.id.homeFragment2,R.id.multiBirdFragment2,
+                R.id.settings -> bottomNavigationView.visibility=View.VISIBLE
+                else -> bottomNavigationView.visibility=View.GONE
             }
         }
-
-        private fun setMargins(view: View, left: Int, top: Int, right: Int, bottom: Int) {
-            if (view.layoutParams is MarginLayoutParams) {
-                val p = view.layoutParams as MarginLayoutParams
-                p.setMargins(left.dp, top.dp, right.dp, bottom.dp)
-                view.requestLayout()
-            }
-        }
-
-        private val Int.dp: Int
-            get() = (this * Resources.getSystem().displayMetrics.density + 0.5f).toInt()
     }
 
 }

@@ -7,20 +7,24 @@
     tools:context=".presentation.birdFragment.BirdFragment">
 
 
-<!--    <com.google.android.material.imageview.ShapeableImageView-->
-<!--        android:id="@+id/save_btn"-->
-<!--        android:layout_width="40dp"-->
-<!--        android:layout_height="40dp"-->
-<!--        android:layout_marginLeft="16dp"-->
-<!--        android:layout_marginTop="8dp"-->
-<!--        android:paddingStart="6dp"-->
-<!--        android:paddingEnd="6dp"-->
-<!--        android:src="@drawable/ic_baseline_save_24"-->
-<!--        app:layout_constraintLeft_toRightOf="@id/back_btn"-->
-<!--        app:layout_constraintRight_toRightOf="parent"-->
-<!--        app:layout_constraintTop_toTopOf="parent"-->
-<!--        app:shapeAppearanceOverlay="@style/roundedImageViewRounded_Small"-->
-<!--         />-->
+    <TextView
+        android:id="@+id/uppertxt2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="18dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="18dp"
+        android:background="#252595"
+        android:gravity="center"
+        android:padding="4dp"
+        android:text="@string/enter_bird_data"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@id/back_btn"
+        app:layout_constraintEnd_toStartOf="@id/delete_btn"
+        app:layout_constraintStart_toEndOf="@id/back_btn"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/back_btn"
@@ -31,19 +35,18 @@
         android:src="@drawable/ic_baseline_arrow_back_24"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:shapeAppearanceOverlay="@style/roundedImageViewRounded"
-         />
+        app:shapeAppearanceOverlay="@style/roundedImageViewRounded" />
+
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/delete_btn"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:layout_marginRight="16dp"
         android:layout_marginTop="12dp"
+        android:layout_marginRight="16dp"
         android:src="@drawable/ic_baseline_delete_forever_24"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:shapeAppearanceOverlay="@style/roundedImageViewRounded"
-         />
+        app:shapeAppearanceOverlay="@style/roundedImageViewRounded" />
 
     <ScrollView
         android:id="@+id/scroll"
@@ -74,11 +77,11 @@
                 android:id="@+id/camera_icon"
                 android:layout_width="0dp"
                 android:layout_height="45dp"
-                android:background="#00777070"
-                android:text="Edit Photo"
-                android:layout_marginBottom="25dp"
                 android:layout_marginStart="18dp"
                 android:layout_marginEnd="18dp"
+                android:layout_marginBottom="25dp"
+                android:background="#00777070"
+                android:text="Edit Photo"
                 app:layout_constraintBottom_toTopOf="@+id/bird_name"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -104,14 +107,14 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="25dp"
                 android:layout_marginEnd="18dp"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
                 android:textColor="@color/black"
                 android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/name_not_tobe_edited"
                 app:layout_constraintTop_toBottomOf="@id/camera_icon"
-                tools:text="Botato"
-                android:focusable="true"
-                android:focusableInTouchMode="true"/>
+                tools:text="Botato" />
 
             <TextView
                 android:id="@+id/age_not_tobe_edited"
@@ -202,8 +205,8 @@
                 android:layout_width="0dp"
                 android:layout_height="60dp"
                 android:layout_marginStart="18dp"
-                android:layout_marginEnd="18dp"
                 android:layout_marginTop="25dp"
+                android:layout_marginEnd="18dp"
                 android:text="@string/save_btn"
                 android:textColor="@color/white"
                 android:textSize="25sp"

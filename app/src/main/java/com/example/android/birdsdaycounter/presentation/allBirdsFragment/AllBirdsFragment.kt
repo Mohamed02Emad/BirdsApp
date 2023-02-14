@@ -5,17 +5,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearSmoothScroller
 import androidx.recyclerview.widget.RecyclerView.LayoutManager
-import androidx.recyclerview.widget.RecyclerView.SmoothScroller
+import com.example.android.birdsdaycounter.R
 import com.example.android.birdsdaycounter.data.models.Bird
 import com.example.android.birdsdaycounter.databinding.FragmentAllBirdsBinding
-import com.example.android.birdsdaycounter.globalUse.MyApp
 import com.example.android.birdsdaycounter.globalUse.MyFragmentParentClass
 import com.example.android.birdsdaycounter.presentation.AddBirdDialog
-import com.example.android.birdsdaycounter.presentation.birdFragment.BirdFragment
 import com.example.android.birdsdaycounter.presentation.recyclerViews.recyclerViewAllBirds.AllBirdsAdapter
+import kotlinx.coroutines.launch
 
 
 class AllBirdsFragment : MyFragmentParentClass() {
@@ -26,20 +26,52 @@ class AllBirdsFragment : MyFragmentParentClass() {
     private lateinit var adapter: AllBirdsAdapter
     private var oldSize = 0
 
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        showToast("jhvjlvkb")
         binding = FragmentAllBirdsBinding.inflate(layoutInflater)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setupRV()
+        setObservers()
         setOnClickListeners()
+        setupRV()
+    }
+
+    private fun setObservers() {
+        viewModel.newBirdWasAdded.observe(viewLifecycleOwner) {
+            if (it) {
+                lifecycleScope.launch {
+                    viewModel.getDataFromRoom()
+                    resetRvAfterBirdInserted()
+                    viewModel.newBirdWasAdded.value = false
+                }
+            }
+        }
+
+        viewModel.isSelectToDelete.observe(viewLifecycleOwner) {
+            if (it) {
+                binding.addCollectionButton.setImageResource(R.drawable.ic_baseline_delete_forever_24)
+                binding.cancelDeleteSelected.visibility = View.VISIBLE
+                binding.numberSelected.visibility = View.VISIBLE
+            } else {
+                binding.addCollectionButton.setImageResource(R.drawable.add_icon)
+                binding.cancelDeleteSelected.visibility = View.GONE
+                binding.numberSelected.visibility = View.GONE
+
+            }
+        }
+    }
+
+    private fun resetRvAfterBirdInserted() {
+        val size = viewModel.birdListSize()
+        if (size > oldSize) {
+            adapter.notifyItemInserted(size - 1)
+            smoothScrollToPosition(size - 1)
+        }
     }
 
     private fun setupRV() {
@@ -47,93 +79,69 @@ class AllBirdsFragment : MyFragmentParentClass() {
             if (it) {
                 layoutManager =
                     GridLayoutManager(requireActivity(), 2, GridLayoutManager.VERTICAL, false)
-
-                adapter = AllBirdsAdapter(viewModel.collectionsLiveData.value,
-                    AllBirdsAdapter.OnAddClickListener { bird ->
-                        birdClicked(bird)
+                adapter = AllBirdsAdapter(viewModel.birdsLiveData.value,
+                    AllBirdsAdapter.OnAddClickListener { bird: Bird, position: Int ->
+                        if (viewModel.isSelectToDelete.value == false) {
+                            birdClicked(bird)
+                        } else {
+                            selectBirdLogic(bird, position)
+                            binding.numberSelected.text =
+                                viewModel.listToDelete.value!!.size.toString()
+                        }
                     },
-                    AllBirdsAdapter.OnRemoveClickListener { bird ->
-                        //does nothing
+                    AllBirdsAdapter.OnLongClickListener { bird: Bird, position: Int ->
+                        viewModel.isSelectToDelete.value = true
+                        selectBirdLogic(bird, position)
+                        binding.numberSelected.text = viewModel.listToDelete.value!!.size.toString()
+                        false
                     }
                 )
-
                 binding.collectionsRv.adapter = adapter
                 binding.collectionsRv.layoutManager = layoutManager
-
             }
-            oldSize = viewModel.birdListSize()
         }
+    }
 
+    private fun selectBirdLogic(bird: Bird, position: Int) {
+        // false deSelect ---- true select
+        val markBird = viewModel.checkIfBirdIsSelected(bird)
+        viewModel.markTheBird(markBird, position)
+        adapter.notifyItemChanged(position)
     }
 
     private fun birdClicked(bird: Bird) {
-        setFragment(this,BirdFragment.newInstance(bird))
-        hideBottomBave(true)
+        if (viewModel.isReadyToShow.value == true)
+            findNavController().navigate(
+                AllBirdsFragmentDirections.actionAllBirdsFragmentToBirdFragment(
+                    bird
+                )
+            )
     }
-
 
     private fun setOnClickListeners() {
-
-        viewModel.newBirdWasAdded.observe(viewLifecycleOwner) {
-            if (it) {
-                try {
-                    viewModel.resetArrayList()
-                    if (viewModel.isReadyToShow.value == true) {
-                        resetRV()
-                    }
-                } catch (E: Exception) {
-                }
-                viewModel.newBirdWasAdded.value = false
-            }
-        }
-
         binding.addCollectionButton.setOnClickListener {
-            val addBirdDialog = AddBirdDialog(viewModel)
-            addBirdDialog.show(childFragmentManager, "TAG")
+            if (viewModel.isSelectToDelete.value == true) {
 
-        }
-    }
+                viewModel.deleteSelected()
 
-    private fun resetRV() {
-        try {
-            val pos = viewModel.birdListSize()
-            if (pos != oldSize && pos != 0) {
-                adapter.notifyItemInserted(pos - 1)
-                smoothScrollToPosition(pos)
+                adapter.notifyDataSetChanged()
+
+            } else {
+                oldSize = viewModel.birdListSize()
+                val addBirdDialog = AddBirdDialog(viewModel)
+                addBirdDialog.show(childFragmentManager, "TAG")
             }
-        } catch (E: Exception) {
+        }
+
+        binding.cancelDeleteSelected.setOnClickListener {
+            viewModel.clearSelectedToBeDeleted()
             adapter.notifyDataSetChanged()
+
         }
     }
 
     private fun smoothScrollToPosition(pos: Int) {
-        //  layoutManager.scrollToPosition(pos)
-        val smoothScroller: SmoothScroller = object : LinearSmoothScroller(context) {
-            override fun getVerticalSnapPreference(): Int {
-                return SNAP_TO_START
-            }
-        }
-        smoothScroller.targetPosition = pos
-        layoutManager.startSmoothScroll(smoothScroller)
-
-        //binding.collectionsRv.smoothScrollToPosition()
-    }
-
-
-    companion object {
-        fun newInstance(): AllBirdsFragment {
-            return AllBirdsFragment()
-        }
-    }
-
-    override fun onResume() {
-        hideBottomBave(false)
-        if (viewModel.firstTimeOpen.value==true){
-            viewModel.firstTimeOpen.value=false
-        }else {
-            showFragment(this)
-        }
-        super.onResume()
+        binding.collectionsRv.smoothScrollToPosition(pos)
     }
 
 }

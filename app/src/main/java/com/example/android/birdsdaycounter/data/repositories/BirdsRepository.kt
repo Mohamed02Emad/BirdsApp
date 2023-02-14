@@ -9,7 +9,7 @@ class BirdsRepository(
     private val myDao: AllBirdsDao
 ) {
 
-    suspend fun getAll(): List<Bird> = withContext(Dispatchers.IO){
+    suspend fun getAll(): List<Bird> = withContext(Dispatchers.IO) {
         myDao.getAll()
     }
 

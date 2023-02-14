@@ -23,6 +23,9 @@
     android:background="@drawable/bird_ripple"
     >
 
+
+
+
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/bird_img"
         android:layout_width="match_parent"
@@ -49,8 +52,8 @@
         tools:text="bird bird"
         android:textStyle="bold"
         android:maxLength="11"
-        android:textColor="#252595"
-        android:textSize="15sp"
+        android:textColor="@color/white"
+        android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="@id/bird_img"
         app:layout_constraintStart_toStartOf="@id/bird_img"
         app:layout_constraintTop_toBottomOf="@id/bird_img" />
@@ -59,10 +62,9 @@
         android:id="@+id/bird_age"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:textColor="#252595"
+        android:textColor="@color/white"
         tools:text="4 m , 14 d"
-        android:textSize="15sp"
+        android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="@id/bird_img"
         app:layout_constraintStart_toStartOf="@id/bird_img"
         app:layout_constraintTop_toBottomOf="@id/bird_name" />
@@ -71,16 +73,28 @@
         android:id="@+id/bird_gender"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
         android:layout_marginBottom="4dp"
         tools:text="Male"
-        android:textSize="15sp"
-        android:textColor="#252595"
+        android:textSize="12sp"
+        android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="@id/bird_img"
         app:layout_constraintStart_toStartOf="@id/bird_img"
         app:layout_constraintTop_toBottomOf="@id/bird_age"
         app:layout_constraintBottom_toBottomOf="parent"/>
 
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:id="@+id/checked"
+        android:visibility="invisible"
+        app:shapeAppearanceOverlay="@style/roundedImageViewRounded_Small"
+        android:layout_margin="0dp"
+        android:background="@color/black"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:src="@drawable/checkbox_checked"
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 
