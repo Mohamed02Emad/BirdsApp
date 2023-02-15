@@ -1,6 +1,7 @@
 package com.example.android.birdsdaycounter.presentation.recyclerViews.recyclerViewAllBirds
 
 import android.net.Uri
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.android.birdsdaycounter.R
 import com.example.android.birdsdaycounter.data.models.Bird
+import com.example.android.birdsdaycounter.globalUse.MyApp
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
