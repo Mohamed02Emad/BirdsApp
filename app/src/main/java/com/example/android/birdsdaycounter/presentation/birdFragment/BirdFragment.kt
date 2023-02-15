@@ -2,16 +2,19 @@ package com.example.android.birdsdaycounter.presentation.birdFragment
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
 import android.graphics.Rect
 import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
+import android.widget.LinearLayout
 import android.widget.RadioButton
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.widget.doOnTextChanged
@@ -19,11 +22,14 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.example.android.birdsdaycounter.R
 import com.example.android.birdsdaycounter.databinding.FragmentBirdBinding
 import com.example.android.birdsdaycounter.globalUse.MyFragmentParentClass
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import kotlinx.coroutines.launch
 
 class BirdFragment : MyFragmentParentClass() {
+
 
     private lateinit var binding: FragmentBirdBinding
     private val viewModel: BirdViewModel by viewModels()
@@ -100,11 +106,7 @@ class BirdFragment : MyFragmentParentClass() {
 
         binding.cameraIcon.setOnClickListener {
 
-            val i = Intent().apply {
-                type = "image/*"
-                action = Intent.ACTION_GET_CONTENT
-            }
-            resultLauncher.launch(i)
+           showBottomSheet()
         }
 
         binding.backBtn.setOnClickListener {
@@ -174,7 +176,47 @@ class BirdFragment : MyFragmentParentClass() {
         }
     }
 
-    private val resultLauncher =
+    private fun showBottomSheet() {
+        val dialog = BottomSheetDialog(requireContext())
+        val view = layoutInflater.inflate(R.layout.chose_edit_image, null)
+        val btnCamera: LinearLayout = view.findViewById(R.id.camera_choice)
+        btnCamera.setOnClickListener {
+            startCameraIntent()
+            dialog.dismiss()
+        }
+        val btnGallery: LinearLayout = view.findViewById(R.id.gallery_choice)
+        btnGallery.setOnClickListener {
+            startGalleryIntent()
+            dialog.dismiss()
+        }
+        dialog.setCancelable(true)
+        dialog.setContentView(view)
+        dialog.show()
+    }
+
+    private fun startCameraIntent() {
+        val values = ContentValues()
+        values.put(MediaStore.Images.Media.TITLE, "New Picture")
+        values.put(MediaStore.Images.Media.DESCRIPTION, "From Camera")
+        viewModel.uri.value = requireContext().contentResolver.insert(
+            MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+            values
+        )
+        val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+        cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, viewModel.uri.value)
+
+        cameraResultLauncher.launch(cameraIntent)
+    }
+
+    private fun startGalleryIntent() {
+        val i = Intent().apply {
+            type = "image/*"
+            action = Intent.ACTION_GET_CONTENT
+        }
+        galleryResultLauncher.launch(i)
+    }
+
+    private val galleryResultLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
                 val data = result.data
@@ -182,5 +224,15 @@ class BirdFragment : MyFragmentParentClass() {
                 binding.birdImg.setImageURI(viewModel.uri.value)
             }
         }
+
+    private val cameraResultLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+
+            if (result.resultCode == Activity.RESULT_OK) {
+                if (viewModel.uri.value != null)
+                    binding.birdImg.setImageURI(viewModel.uri.value)
+            }
+        }
+
 
 }

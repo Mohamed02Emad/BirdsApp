@@ -18,6 +18,7 @@ import java.io.FileOutputStream
 
 class BirdViewModel : ViewModel() {
     var uri  = MutableLiveData<Uri?>()
+
     private var _birdLiveData = MutableLiveData<Bird>()
     val bird: LiveData<Bird> = _birdLiveData
 
@@ -47,7 +48,7 @@ class BirdViewModel : ViewModel() {
 
             val imgBitmap = img!!.toBitmap()
             val byte = ByteArrayOutputStream()
-            imgBitmap.compress(Bitmap.CompressFormat.PNG, 100, byte)
+            imgBitmap.compress(Bitmap.CompressFormat.JPEG, 60, byte)
 
             try {
                 val fo = FileOutputStream(ImageFile)
