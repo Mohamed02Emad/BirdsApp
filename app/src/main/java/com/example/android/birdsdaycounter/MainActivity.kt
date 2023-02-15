@@ -32,6 +32,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
+        checkCameraPermission()
         val view = binding.root
         setContentView(view)
         setupNavigation()
@@ -56,7 +57,6 @@ class MainActivity : AppCompatActivity() {
     private fun requestForPermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             pushPermissionLauncher.launch(android.Manifest.permission.POST_NOTIFICATIONS)
-            checkCameraPermission()
         }
     }
 

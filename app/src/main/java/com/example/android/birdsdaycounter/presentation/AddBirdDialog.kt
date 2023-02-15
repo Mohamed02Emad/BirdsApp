@@ -67,20 +67,20 @@ class AddBirdDialog(private val viewModel: AllBirdsViewModel) : DialogFragment()
         }
 
         binding.saveButton.setOnClickListener {
+             viewModel.viewModelScope.launch {
+                 val name = binding.birdNameET.text.toString()
+                 val age = binding.birdAgeET.text.toString()
+                 val id = binding.myRadioGroup.checkedRadioButtonId
+                 val gender = view.findViewById<RadioButton>(id).text.toString()
 
-                val name = binding.birdNameET.text.toString()
-                val age = binding.birdAgeET.text.toString()
-                val id = binding.myRadioGroup.checkedRadioButtonId
-                val gender = view.findViewById<RadioButton>(id).text.toString()
+                 val imgBitmap = binding.birdCreatImg.drawable.toBitmap()
+                 val bytes = ByteArrayOutputStream()
+                 imgBitmap.compress(Bitmap.CompressFormat.JPEG, 60, bytes)
 
-                val imgBitmap = binding.birdCreatImg.drawable.toBitmap()
-                val bytes = ByteArrayOutputStream()
-                imgBitmap.compress(Bitmap.CompressFormat.JPEG, 60, bytes)
+                 val bird = Bird(age, name, gender, null)
 
-                val bird = Bird(age, name, gender, null)
-
-                saveBird(bird, bytes)
-
+                 saveBird(bird, bytes)
+             }
             this.dismiss()
 
         }
