@@ -1,20 +1,17 @@
 package com.example.android.birdsdaycounter.presentation.allBirdsFragment
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView.LayoutManager
 import com.example.android.birdsdaycounter.R
 import com.example.android.birdsdaycounter.data.models.Bird
 import com.example.android.birdsdaycounter.databinding.FragmentAllBirdsBinding
-import com.example.android.birdsdaycounter.globalUse.MyApp
 import com.example.android.birdsdaycounter.globalUse.MyFragmentParentClass
 import com.example.android.birdsdaycounter.presentation.AddBirdDialog
 import com.example.android.birdsdaycounter.presentation.recyclerViews.recyclerViewAllBirds.AllBirdsAdapter

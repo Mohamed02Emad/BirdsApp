@@ -19,13 +19,11 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.example.android.birdsdaycounter.data.models.Bird
 import com.example.android.birdsdaycounter.databinding.FragmentBirdBinding
-import com.example.android.birdsdaycounter.globalUse.MyApp
 import com.example.android.birdsdaycounter.globalUse.MyFragmentParentClass
 import kotlinx.coroutines.launch
 
-class BirdFragment() : MyFragmentParentClass() {
+class BirdFragment : MyFragmentParentClass() {
 
     private lateinit var binding: FragmentBirdBinding
     private val viewModel: BirdViewModel by viewModels()

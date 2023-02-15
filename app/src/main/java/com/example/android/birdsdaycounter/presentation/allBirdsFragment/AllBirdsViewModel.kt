@@ -11,7 +11,9 @@ import com.example.android.birdsdaycounter.globalUse.MyApp
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.io.ByteArrayOutputStream
 import java.io.File
+import java.io.FileOutputStream
 
 
 class AllBirdsViewModel : ViewModel() {
@@ -99,5 +101,26 @@ class AllBirdsViewModel : ViewModel() {
     }
 
     private fun sortListToDelete() { _listToDelete.value!!.sortByDescending { it.second } }
+
+    fun saveBirdImage(bird: Bird, byte: ByteArrayOutputStream) {
+        val imgLocation =MyApp.appContext.filesDir.absolutePath + File.separator
+        val myAppDir = File(imgLocation)
+        if (!myAppDir.exists()) myAppDir.mkdir()
+
+        //creating child file
+        val fileName = "${System.currentTimeMillis()}.png"
+        val imageFile = File(myAppDir, fileName)
+        if (!imageFile.exists()) imageFile.createNewFile()
+
+        try {
+            val fo = FileOutputStream(imageFile)
+            fo.write(byte.toByteArray())
+            fo.close()
+
+            bird.imgLocation = imageFile.absolutePath
+        } catch (_: Exception) {
+        }
+
+    }
 
 }
