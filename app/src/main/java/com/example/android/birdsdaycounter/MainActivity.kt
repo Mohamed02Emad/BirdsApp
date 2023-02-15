@@ -1,13 +1,10 @@
 package com.example.android.birdsdaycounter
 
-import android.annotation.SuppressLint
-import android.app.Activity
-import android.content.Context
-import android.content.res.Resources
+import android.Manifest
+import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.view.View
-import android.view.ViewGroup.MarginLayoutParams
 import android.view.Window
 import android.view.WindowManager
 import androidx.activity.result.contract.ActivityResultContracts
@@ -15,11 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
-import com.etebarian.meowbottomnavigation.MeowBottomNavigation
 import com.example.android.birdsdaycounter.databinding.ActivityMainBinding
-import com.example.android.birdsdaycounter.presentation.allBirdsFragment.AllBirdsFragment
-import com.example.android.birdsdaycounter.presentation.multiBirdsFragment.MultiBirdFragment
-import com.example.android.birdsdaycounter.presentation.scheduleFragment.HomeFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 
@@ -28,7 +21,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var bottomNavigationView: BottomNavigationView
     private lateinit var binding: ActivityMainBinding
 
-    private val pushNotificationPermissionLauncher = registerForActivityResult(
+    private val pushPermissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestPermission()
     ) { granted ->
         if (granted) {
@@ -44,7 +37,8 @@ class MainActivity : AppCompatActivity() {
         setupNavigation()
         setUpVisibilityOfBottomBar()
         setStatusBarGradiant()
-        requestNotificationPermission()
+        requestForPermission()
+        //checkCameraPermission()
     }
 
     private fun setupNavigation() {
@@ -59,9 +53,10 @@ class MainActivity : AppCompatActivity() {
             window.navigationBarColor = ContextCompat.getColor(this, android.R.color.transparent)
     }
 
-    private fun requestNotificationPermission() {
+    private fun requestForPermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            pushNotificationPermissionLauncher.launch(android.Manifest.permission.POST_NOTIFICATIONS)
+            pushPermissionLauncher.launch(android.Manifest.permission.POST_NOTIFICATIONS)
+            checkCameraPermission()
         }
     }
 
@@ -71,6 +66,19 @@ class MainActivity : AppCompatActivity() {
                 R.id.AllBirdsFragment, R.id.homeFragment2,R.id.multiBirdFragment2,
                 R.id.settings -> bottomNavigationView.visibility=View.VISIBLE
                 else -> bottomNavigationView.visibility=View.GONE
+            }
+        }
+    }
+    private fun checkCameraPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (checkSelfPermission(Manifest.permission.CAMERA) == PackageManager.PERMISSION_DENIED || checkSelfPermission(
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE
+                )
+                == PackageManager.PERMISSION_DENIED
+            ) {
+                val permission =
+                    arrayOf(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                requestPermissions(permission, 112)
             }
         }
     }
