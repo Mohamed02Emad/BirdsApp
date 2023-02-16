@@ -1,6 +1,5 @@
 package com.example.android.birdsdaycounter.presentation.birdFragment
 
-import android.app.Application
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.net.Uri

@@ -7,6 +7,7 @@ import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,16 +15,18 @@ import android.view.WindowManager
 import android.widget.LinearLayout
 import android.widget.RadioButton
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.graphics.BitmapCompat
 import androidx.core.graphics.drawable.toBitmap
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.viewModelScope
 import com.example.android.birdsdaycounter.R
 import com.example.android.birdsdaycounter.data.models.Bird
 import com.example.android.birdsdaycounter.databinding.AddBirdDialogBinding
+import com.example.android.birdsdaycounter.globalUse.MyApp
 import com.example.android.birdsdaycounter.presentation.allBirdsFragment.AllBirdsViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 import java.io.ByteArrayOutputStream
 
@@ -71,27 +74,27 @@ class AddBirdDialog(private val viewModel: AllBirdsViewModel) : DialogFragment()
             val gender = view.findViewById<RadioButton>(id).text.toString()
             val imgBitmap = binding.birdCreatImg.drawable.toBitmap()
 
-                GlobalScope.launch {
-                    val bytes = ByteArrayOutputStream()
+            GlobalScope.launch(Dispatchers.IO) {
+                val bytes = ByteArrayOutputStream()
+                var bitmapByteCount = BitmapCompat.getAllocationByteCount(imgBitmap)
+                if (bitmapByteCount>11*1227664){
                     imgBitmap.compress(Bitmap.CompressFormat.JPEG, 60, bytes)
-
-                    val bird = Bird(age, name, gender, null)
-
-                    saveBird(bird, bytes)
-                    cancel()
+                }else {
+                    imgBitmap.compress(Bitmap.CompressFormat.PNG, 60, bytes)
                 }
+                val bird = Bird(age, name, gender, null)
+                saveBird(bird, bytes)
+            }
             this.dismiss()
         }
     }
 
     private fun saveBird(bird: Bird, byte: ByteArrayOutputStream) {
-
         viewModel.viewModelScope.launch {
             viewModel.saveBirdImage(bird, byte)
             viewModel.insertDB(bird)
             viewModel.newBirdWasAdded.value = true
         }
-
     }
 
     private fun showBottomSheet() {
@@ -145,12 +148,12 @@ class AddBirdDialog(private val viewModel: AllBirdsViewModel) : DialogFragment()
 
     private val cameraResultLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-
             if (result.resultCode == RESULT_OK) {
                 if (camUri != null)
                     binding.birdCreatImg.setImageURI(camUri)
             }
         }
+
 
     override fun onResume() {
         super.onResume()

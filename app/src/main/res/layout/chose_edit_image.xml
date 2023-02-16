@@ -3,22 +3,20 @@
     android:layout_width="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:background="@color/black"
+    android:background="@color/dark_blue"
     android:layout_height="wrap_content">
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="20dp"
-        />
-
-
-
 
     <LinearLayout
         android:id="@+id/camera_choice"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:clickable="true"
+        android:layout_marginTop="10dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:focusable="true"
+        android:background="?attr/selectableItemBackground"
         >
 
         <ImageView
@@ -41,14 +39,19 @@
             />
     </LinearLayout>
 
-
     <LinearLayout
         android:id="@+id/gallery_choice"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:layout_marginBottom="10dp"
         android:orientation="horizontal"
+        android:clickable="true"
+        android:focusable="true"
+        android:background="?attr/selectableItemBackground"
         >
+
         <ImageView
             android:layout_width="35dp"
             android:layout_height="35dp"
@@ -69,11 +72,6 @@
             android:gravity="center_vertical"
             />
     </LinearLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="20dp"
-        />
 
 
 </LinearLayout>
