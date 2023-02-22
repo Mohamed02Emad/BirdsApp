@@ -1,6 +1,5 @@
 package com.example.android.birdsdaycounter.presentation.allBirdsFragment
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -12,13 +11,15 @@ import com.example.android.birdsdaycounter.globalUse.MyApp
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.io.ByteArrayOutputStream
 import java.io.File
+import java.io.FileOutputStream
 
 
 class AllBirdsViewModel : ViewModel() {
 
-    private var _listToDelete = MutableLiveData<ArrayList<Bird>?>()
-    val listToDelete: LiveData<ArrayList<Bird>?> = _listToDelete
+    private var _listToDelete = MutableLiveData<ArrayList<Pair<Bird,Int>>?>()
+    val listToDelete: LiveData<ArrayList<Pair<Bird,Int>>?> = _listToDelete
 
     private var _birdsLiveData = MutableLiveData<ArrayList<Bird>?>()
     val birdsLiveData: LiveData<ArrayList<Bird>?> = _birdsLiveData
@@ -45,67 +46,81 @@ class AllBirdsViewModel : ViewModel() {
 
     fun birdListSize() = _birdsLiveData.value!!.size
 
-    fun checkIfBirdIsSelected(bird: Bird): Boolean {
+    fun checkIfBirdIsSelected(bird: Bird,pos: Int): Boolean {
         //if bird exists remove it from list and return false to deSelect it
         //else add it and return true
-        return if (_listToDelete.value!!.any { it.id == bird.id }) {
-            _listToDelete.value!!.remove(bird)
+        return if (_listToDelete.value!!.any { it.first.id == bird.id }) {
+            _listToDelete.value!!.remove(bird to pos)
             false
         } else {
-            _listToDelete.value!!.add(bird)
+            _listToDelete.value!!.add(bird to pos)
             true
         }
     }
 
-    fun deleteSelected() {
-        viewModelScope.launch(Dispatchers.IO) {
-            _listToDelete.value!!.forEach {
-                _birdsLiveData.value!!.remove(it)
-                deleteDB(it)
-            }
-            clearSelectedToBeDeleted()
-        }
-    }
 
-    fun clearSelectedToBeDeleted() {
-        viewModelScope.launch(Dispatchers.Main) {
-            _listToDelete.value!!.clear()
-            isSelectToDelete.value = false
-            _birdsLiveData.value!!.forEach { it.isSelected = false }
-        }
+    suspend fun deleteSelected() {
+            sortListToDelete()
+            listToDelete.value!!.forEach { deleteDB(it.first) }
+            birdsLiveData.value!!.clear()
+           birdsLiveData.value!!.addAll(getAllDB())
+           clearSelectedToBeDeleted()
     }
 
 
-    internal suspend fun insertDB(bird: Bird) = withContext(Dispatchers.IO) {
-        repository.insert(bird)
+    suspend fun clearSelectedToBeDeleted() {
+        _listToDelete.value!!.clear()
+        withContext(Dispatchers.Main){ isSelectToDelete.value = false }
+        _birdsLiveData.value!!.forEach { it.isSelected = false }
     }
+
+    internal suspend fun insertDB(bird: Bird) = withContext(Dispatchers.IO) { repository.insert(bird) }
 
     private suspend fun deleteDB(bird: Bird) =
         withContext(Dispatchers.IO) {
-            repository.delete(bird)
+            repository.deleteById(bird.id)
             deleteImage(bird.imgLocation)
         }
 
     private fun deleteImage(location: String?) {
         try {
-            val file = File(location)
+            val file = File(location!!)
             file.delete()
-        } catch (_: Exception) {
-        }
+        } catch (_: Exception) { }
     }
 
-    private suspend fun getAllDB(): ArrayList<Bird> =
-        withContext(Dispatchers.IO) { repository.getAll() as ArrayList<Bird> }
+    private suspend fun getAllDB(): ArrayList<Bird> = withContext(Dispatchers.IO) { repository.getAll() as ArrayList<Bird> }
 
     suspend fun getDataFromRoom() {
         _birdsLiveData.value!!.clear()
         _birdsLiveData.value!!.addAll(getAllDB())
-        Log.d(MyApp.TAG, "getDataFromRoom: " + _birdsLiveData.value!!.size)
-
-
     }
 
     fun markTheBird(markBird: Boolean, pos: Int) {
         _birdsLiveData.value!![pos].isSelected = markBird
     }
+
+    private fun sortListToDelete() { _listToDelete.value!!.sortByDescending { it.second } }
+
+    fun saveBirdImage(bird: Bird, byte: ByteArrayOutputStream) {
+        val imgLocation =MyApp.appContext.filesDir.absolutePath + File.separator
+        val myAppDir = File(imgLocation)
+        if (!myAppDir.exists()) myAppDir.mkdir()
+
+        //creating child file
+        val fileName = "${System.currentTimeMillis()}.png"
+        val imageFile = File(myAppDir, fileName)
+        if (!imageFile.exists()) imageFile.createNewFile()
+
+        try {
+            val fo = FileOutputStream(imageFile)
+            fo.write(byte.toByteArray())
+            fo.close()
+
+            bird.imgLocation = imageFile.absolutePath
+        } catch (_: Exception) {
+        }
+
+    }
+
 }

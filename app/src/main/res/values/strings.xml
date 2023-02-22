@@ -23,4 +23,6 @@
     <string name="add">Add</string>
     <string name="edit_photo">Edit Photo</string>
     <string name="Delete">delete</string>
+    <string name="camera">Camera</string>
+    <string name="gallery">Gallery</string>
 </resources>

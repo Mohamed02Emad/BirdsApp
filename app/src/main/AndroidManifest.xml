@@ -3,6 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+
 
     <application
         android:name="com.example.android.birdsdaycounter.globalUse.MyApp"
@@ -16,13 +19,7 @@
         android:theme="@style/Theme.BirdsDayCounter"
         tools:targetApi="31">
 
-        <activity
-            android:name=".globalUse.birdStuff.BirdInformation"
-            android:exported="false">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
+
         <activity
             android:name=".presentation.splash.SplashActivity"
             android:exported="true">

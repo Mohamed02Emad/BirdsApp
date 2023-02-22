@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.cardview.widget.CardView
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.android.birdsdaycounter.R
@@ -51,8 +50,8 @@ class AllBirdsAdapter(
         holder.age.text = dataObject.age.toString()
         holder.gender.text = dataObject.gender
 
-       if(dataObject.isSelected) holder.checked.visibility=View.VISIBLE
-        else holder.checked.visibility=View.INVISIBLE
+        if (dataObject.isSelected) holder.checked.visibility = View.VISIBLE
+        else holder.checked.visibility = View.INVISIBLE
 
         GlobalScope.launch(Dispatchers.Main) {
             holder.img.loadUrl(Uri.parse(dataObject.imgLocation))
@@ -82,11 +81,11 @@ class AllBirdsAdapter(
         fun onLongCollectionClick(bird: Bird, position: Int) = clickListener(bird, position)
     }
 
-    fun ImageView.loadUrl(uri: Uri) {
+    private fun ImageView.loadUrl(uri: Uri) {
         Glide.with(this.context)
-            .load(File(uri.path)) // Uri of the picture
+            .load(File(uri.path!!)) // Uri of the picture
             .centerCrop()
-            .into(this);
+            .into(this)
     }
 
 }

@@ -15,6 +15,7 @@ import com.example.android.birdsdaycounter.databinding.FragmentAllBirdsBinding
 import com.example.android.birdsdaycounter.globalUse.MyFragmentParentClass
 import com.example.android.birdsdaycounter.presentation.AddBirdDialog
 import com.example.android.birdsdaycounter.presentation.recyclerViews.recyclerViewAllBirds.AllBirdsAdapter
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 
@@ -61,7 +62,6 @@ class AllBirdsFragment : MyFragmentParentClass() {
                 binding.addCollectionButton.setImageResource(R.drawable.add_icon)
                 binding.cancelDeleteSelected.visibility = View.GONE
                 binding.numberSelected.visibility = View.GONE
-
             }
         }
     }
@@ -104,7 +104,7 @@ class AllBirdsFragment : MyFragmentParentClass() {
 
     private fun selectBirdLogic(bird: Bird, position: Int) {
         // false deSelect ---- true select
-        val markBird = viewModel.checkIfBirdIsSelected(bird)
+        val markBird = viewModel.checkIfBirdIsSelected(bird,position)
         viewModel.markTheBird(markBird, position)
         adapter.notifyItemChanged(position)
     }
@@ -121,11 +121,10 @@ class AllBirdsFragment : MyFragmentParentClass() {
     private fun setOnClickListeners() {
         binding.addCollectionButton.setOnClickListener {
             if (viewModel.isSelectToDelete.value == true) {
-
-                viewModel.deleteSelected()
-
-                adapter.notifyDataSetChanged()
-
+                lifecycleScope.launch(Dispatchers.IO) {
+                    viewModel.deleteSelected()
+                    adapter.notifyDataSetChanged()
+                }
             } else {
                 oldSize = viewModel.birdListSize()
                 val addBirdDialog = AddBirdDialog(viewModel)
@@ -134,9 +133,10 @@ class AllBirdsFragment : MyFragmentParentClass() {
         }
 
         binding.cancelDeleteSelected.setOnClickListener {
-            viewModel.clearSelectedToBeDeleted()
-            adapter.notifyDataSetChanged()
-
+            lifecycleScope.launch {
+                viewModel.clearSelectedToBeDeleted()
+                adapter.notifyDataSetChanged()
+            }
         }
     }
 

@@ -1,6 +1,5 @@
 package com.example.android.birdsdaycounter.presentation.birdFragment
 
-import android.app.Application
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.net.Uri
@@ -18,6 +17,7 @@ import java.io.FileOutputStream
 
 class BirdViewModel : ViewModel() {
     var uri  = MutableLiveData<Uri?>()
+
     private var _birdLiveData = MutableLiveData<Bird>()
     val bird: LiveData<Bird> = _birdLiveData
 
@@ -47,7 +47,7 @@ class BirdViewModel : ViewModel() {
 
             val imgBitmap = img!!.toBitmap()
             val byte = ByteArrayOutputStream()
-            imgBitmap.compress(Bitmap.CompressFormat.PNG, 100, byte)
+            imgBitmap.compress(Bitmap.CompressFormat.JPEG, 60, byte)
 
             try {
                 val fo = FileOutputStream(ImageFile)

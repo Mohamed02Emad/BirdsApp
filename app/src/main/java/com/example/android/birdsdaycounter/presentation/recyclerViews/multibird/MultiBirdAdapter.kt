@@ -82,7 +82,7 @@ class MultiBirdAdapter(
 
 
     class OnAddClickListener(val clickListener: (bird: Bird) -> Unit) {
-        fun onAddBirdClick(bird: Bird) = clickListener(bird)
+        fun onAddBirdClick(bird: Bird, position: Int) = clickListener(bird)
     }
 
     class OnRemoveClickListener(val clickListener: (bird: Bird) -> Unit) {
